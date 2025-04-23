@@ -2,9 +2,50 @@ package com.example.safarchin.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.safarchin.R
+
+val iranSans = FontFamily(
+    Font(R.font.iransans_light, FontWeight.Light),
+    Font(R.font.iransans_medium, FontWeight.Medium),
+    Font(R.font.iransans_bold, FontWeight.Bold)
+)
+
+val Typography = Typography(
+    displayLarge = TextStyle(
+        fontFamily = iranSans,
+        fontWeight = FontWeight.Bold,
+        fontSize = 57.sp,
+    ),
+    titleLarge = TextStyle(
+        fontFamily = iranSans,
+        fontWeight = FontWeight.Medium,
+        fontSize = 22.sp,
+    ),
+    bodyLarge = TextStyle(
+        fontFamily = iranSans,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+    ),
+    labelSmall = TextStyle(
+        fontFamily = iranSans,
+        fontWeight = FontWeight.Light,
+        fontSize = 11.sp,
+    )
+    // می‌تونی هر استایل دیگه‌ای که خواستی هم به همین شکل اضافه کنی
+)
+
+/*package com.example.safarchin.ui.theme
+
+import androidx.compose.material3.Typography
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+//import com.example.safarchin.R
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -14,7 +55,7 @@ val Typography = Typography(
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
-    )
+    )*/
     /* Other default text styles to override
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
@@ -31,4 +72,4 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     )
     */
-)
+//)
