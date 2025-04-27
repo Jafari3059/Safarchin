@@ -3,45 +3,119 @@ package com.example.safarchin
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.LaunchedEffect
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.safarchin.ui.theme.Advertisement_logopage.AdvertisementScreen
+import com.example.safarchin.ui.theme.Advertisement_logopage.logopage
+import com.example.safarchin.ui.theme.login.login
+import com.example.safarchin.ui.theme.login.codeLogin
 import com.example.safarchin.ui.theme.SafarchinTheme
+import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             SafarchinTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                AppNavigation()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun AppNavigation() {
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = "firstLogo") {
+
+        // صفحه لوگو اول
+        composable("firstLogo") {
+            FirstLogoPage(
+                onNavigate = {
+                    navController.navigate("advertisement1") {
+                        popUpTo("firstLogo") { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        // تبلیغ اول
+        composable("advertisement1") {
+            AdvertisementScreenPage(
+                imageResId = R.drawable.gift,
+                title = "سفر فقط رفتن نیست... یه تجربه ست!",
+                description = "با برنامه ریزی هوشمند، لحظه هات رو خاص کن.",
+                indicatorState = listOf(true, false, false),
+                onNext = { navController.navigate("advertisement2") },
+                onSkip = { navController.navigate("login") }
+            )
+        }
+
+        // تبلیغ دوم
+        composable("advertisement2") {
+            AdvertisementScreenPage(
+                imageResId = R.drawable.gift,
+                title = "برنامه ریزی ساده، سفر آسوده",
+                description = "از انتخاب مقصد تا جاذبه‌های دیدنی، همراهتم!",
+                indicatorState = listOf(false, true, false),
+                onNext = { navController.navigate("advertisement3") },
+                onSkip = { navController.navigate("login") }
+            )
+        }
+
+        // تبلیغ سوم
+        composable("advertisement3") {
+            AdvertisementScreenPage(
+                imageResId = R.drawable.gift,
+                title = "سفرتو همینجا شروع کن!",
+                description = "مقصدتو انتخاب کن، بقیش با ما!",
+                indicatorState = listOf(false, false, true),
+                onNext = { navController.navigate("login") },
+                onSkip = { navController.navigate("login") }
+            )
+        }
+
+        // صفحه لاگین
+        composable("login") {
+            login(navController = navController)
+        }
+
+        // صفحه کد ورود
+        composable("codelogin") {
+            codeLogin()
+        }
+    }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    SafarchinTheme {
-        Greeting("Android")
+fun FirstLogoPage(onNavigate: () -> Unit) {
+    LaunchedEffect(Unit) {
+        delay(5000L)
+        onNavigate()
     }
+
+    logopage(onNavigateToLogin = { onNavigate() })
+}
+
+@Composable
+fun AdvertisementScreenPage(
+    imageResId: Int,
+    title: String,
+    description: String,
+    indicatorState: List<Boolean>,
+    onNext: () -> Unit,
+    onSkip: () -> Unit
+) {
+    AdvertisementScreen(
+        imageResId = imageResId,
+        title = title,
+        description = description,
+        indicatorState = indicatorState,
+        onNext = onNext,
+        onSkip = onSkip
+    )
 }

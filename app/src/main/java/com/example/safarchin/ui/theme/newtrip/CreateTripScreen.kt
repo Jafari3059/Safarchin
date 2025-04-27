@@ -276,7 +276,7 @@ fun EsfahanCard(
                         .clip(RoundedCornerShape(15.dp))
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.imagesquareemam),
+                        painter = painterResource(id = R.drawable.map),
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds, // به جای Crop یا Fit
                         modifier = Modifier
