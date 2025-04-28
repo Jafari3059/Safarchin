@@ -15,8 +15,10 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.safarchin.R
@@ -25,12 +27,16 @@ import com.example.safarchin.ui.theme.iranSans
 @Composable
 fun SearchBar(
     value: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    placeholderText: String = "جستجو کنید...",
+    cornerRadius: Dp = 16.dp,
+    iconOnLeft: Boolean = false
 ) {
-    val shape = RoundedCornerShape(16.dp)
+    val shape = RoundedCornerShape(cornerRadius)
 
-    Box( // لایه خارجی برای سایه
-        modifier = Modifier
+    Box(
+        modifier = modifier
             .padding(10.dp)
             .fillMaxWidth()
             .wrapContentHeight()
@@ -40,7 +46,7 @@ fun SearchBar(
                 clip = false
             )
     ) {
-        Box( // لایه اصلی سرچ‌بار
+        Box(
             modifier = Modifier
                 .background(Color.White, shape)
                 .width(343.dp)
@@ -54,7 +60,8 @@ fun SearchBar(
                 singleLine = true,
                 textStyle = TextStyle(
                     fontFamily = iranSans,
-                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Light,
+                    fontSize = 12.sp,
                     color = Color.Black,
                     textAlign = TextAlign.Right
                 ),
@@ -64,42 +71,53 @@ fun SearchBar(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
+                        if (iconOnLeft) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.search),
+                                contentDescription = "جستجو",
+                                tint = Color(0xFFFF8000),
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+
                         Box(
                             modifier = Modifier
                                 .weight(1f)
-                                .padding(end = 8.dp)
+                                .padding(horizontal = 8.dp)
                         ) {
                             if (value.isEmpty()) {
                                 Text(
-                                    "اصفهان",
+                                    placeholderText,
                                     fontFamily = iranSans,
                                     fontSize = 14.sp,
-                                    color = Color.Gray,
+                                    color = Color(0xFFBEBAB3),
                                     textAlign = TextAlign.Right,
                                     modifier = Modifier.fillMaxWidth()
                                 )
                             }
                             innerTextField()
                         }
-                        Icon(
-                            painter = painterResource(id = R.drawable.search),
-                            contentDescription = "جستجو",
-                            tint = Color(0xFFFF8000),
-                            modifier = Modifier.size(20.dp)
-                        )
+
+                        if (!iconOnLeft) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.search),
+                                contentDescription = "جستجو",
+                                tint = Color(0xFFFF8000),
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
                     }
                 }
             )
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun SearchBarPreview() {
-    // مقدار تستی برای سرچ‌بار
     var searchText = remember { mutableStateOf("") }
 
-    // پس‌زمینه‌ای با رنگ خنثی که سایه بهتر دیده بشه
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -109,7 +127,11 @@ fun SearchBarPreview() {
     ) {
         SearchBar(
             value = searchText.value,
-            onValueChange = { searchText.value = it }
+            onValueChange = { searchText.value = it },
+            placeholderText = "...جستجو در سفرها",
+            cornerRadius = 24.dp,
+            iconOnLeft = true
         )
     }
 }
+
