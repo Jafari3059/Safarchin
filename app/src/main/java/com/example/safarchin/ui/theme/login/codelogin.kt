@@ -22,12 +22,13 @@ import com.example.safarchin.R
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 //import androidx.navigation.NavController
 import com.example.safarchin.ui.theme.iranSans
 import kotlinx.coroutines.delay
 
 @Composable
-fun codeLogin() {
+fun codeLogin(navController: NavController) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
@@ -155,7 +156,7 @@ fun codeLogin() {
 
                     Button(
                         onClick = {
-                            // تایید کد کاربر
+                            navController.navigate("home")
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFB26B)),
                         modifier = Modifier
@@ -177,9 +178,9 @@ fun codeLogin() {
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun LoginbPreview() {
-//    val navController = rememberNavController()
-    codeLogin()
-}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun LoginbPreview() {
+////    val navController = rememberNavController()
+//    codeLogin()
+//}

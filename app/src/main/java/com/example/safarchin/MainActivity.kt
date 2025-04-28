@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.safarchin.ui.theme.Advertisement_logopage.AdvertisementScreen
 import com.example.safarchin.ui.theme.Advertisement_logopage.logopage
+import com.example.safarchin.ui.theme.FourPageAsli.HomeScreen
 import com.example.safarchin.ui.theme.login.login
 import com.example.safarchin.ui.theme.login.codeLogin
 import com.example.safarchin.ui.theme.SafarchinTheme
@@ -86,8 +87,13 @@ fun AppNavigation() {
 
         // صفحه کد ورود
         composable("codelogin") {
-            codeLogin()
+            codeLogin(navController = navController)
         }
+
+        composable("home") {
+            HomeScreen(navController = navController)
+        }
+
     }
 }
 

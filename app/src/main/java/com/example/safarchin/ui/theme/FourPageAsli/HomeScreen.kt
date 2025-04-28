@@ -1,0 +1,136 @@
+package com.example.safarchin.ui.theme.FourPageAsli
+
+import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.zIndex
+import androidx.navigation.NavController
+import com.example.safarchin.ui.theme.FourPageAsli.BottomNavigationBar
+import com.example.safarchin.ui.theme.FourPageAsli.Eshterak.EshterakP
+import com.example.safarchin.ui.theme.FourPageAsli.HeaderSection
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.HomeP
+import com.example.safarchin.ui.theme.FourPageAsli.Profile.profileP
+import com.example.safarchin.ui.theme.FourPageAsli.planing.planingP
+import com.example.safarchin.ui.theme.components.SearchBar
+import com.example.safarchin.ui.theme.login.codeLogin
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+fun HomeScreen(navController: NavController) {
+    var selectedIndex by remember { mutableStateOf(3) }
+    var showDialog by remember { mutableStateOf(false) } // ✅ اینجا کنترل پاپ‌آپ
+
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+    val screenHeight = configuration.screenHeightDp.dp
+
+    var isDrawerOpen by remember { mutableStateOf(false) }
+
+
+    Box(modifier = Modifier.
+    fillMaxSize()
+        .background(Color(0xFFF6F4F4))) {
+        Scaffold(
+            bottomBar = {
+                BottomNavigationBar(selectedIndex) { index ->
+                    selectedIndex = index
+                }
+            }
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = screenHeight * 0.1f)
+            ) {
+                Spacer(modifier = Modifier.height(30.dp))
+
+                // ✅ فراخوانی هدر
+//                HeaderSection(
+//                    onNotificationClick = {
+//                        // اینجا کاری که میخوای وقتی روی آیکون نوتیفیکیشن زد انجام بشه
+//                        // مثلاً navController.navigate("notifications")
+//                    },
+//                    onHelpClick = {
+//                        // اینجا هم کاری که وقتی روی علامت سوال زد
+//                        // مثلا navController.navigate("help")
+//                    }
+//                )
+
+//                Spacer(modifier = Modifier.height(8.dp))
+//                SearchBar()
+//
+                // ⬇ صفحه‌ها
+                when (selectedIndex) {
+                    0 -> HomeP()
+                    1 -> planingP()
+                    2 -> EshterakP()
+                    3 -> profileP()
+                }
+            }
+        }
+
+        // ⬇ لایه‌ی محو و دیالوگ در بالاترین سطح
+        if (showDialog) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.4f))
+                    .clickable(enabled = true, onClick = {}) // جلوگیری از کلیک زیر
+                    .zIndex(1f),
+                contentAlignment = Alignment.Center
+            ) {
+//                UnavailableDialog(onDismiss = { showDialog = false })
+            }
+        }
+
+        // ✅ لایه‌ی طوسی محو و بستن با کلیک
+        if (isDrawerOpen) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.4f))
+                    .clickable { isDrawerOpen = false }
+                    .zIndex(1f)
+            )
+        }
+
+        // ✅ Drawer از سمت راست با انیمیشن
+        AnimatedVisibility(
+            visible = isDrawerOpen,
+            enter = slideInHorizontally(initialOffsetX = { fullWidth -> fullWidth }),
+            exit = slideOutHorizontally(targetOffsetX = { fullWidth -> fullWidth }),
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(260.dp)
+                .align(Alignment.TopEnd)
+                .zIndex(2f)
+        ) {
+//            DrawerContent(
+////                navController = navController,
+//                onClose = { isDrawerOpen = false }
+//            )
+        }
+    }
+}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun LoginbPreview() {
+////    val navController = rememberNavController()
+//    HomeScreen()
+//}
