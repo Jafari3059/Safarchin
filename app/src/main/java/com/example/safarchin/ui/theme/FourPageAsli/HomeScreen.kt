@@ -58,7 +58,6 @@ fun HomeScreen(navController: NavController) {
                     .fillMaxSize()
                     .padding(bottom = screenHeight * 0.1f)
             ) {
-                Spacer(modifier = Modifier.height(30.dp))
 
                 // ✅ فراخوانی هدر
 //                HeaderSection(
@@ -77,10 +76,10 @@ fun HomeScreen(navController: NavController) {
 //
                 // ⬇ صفحه‌ها
                 when (selectedIndex) {
-                    0 -> HomeP()
+                    0 -> profileP()
                     1 -> planingP()
                     2 -> EshterakP()
-                    3 -> profileP()
+                    3 -> HomeP()
                 }
             }
         }

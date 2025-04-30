@@ -33,7 +33,7 @@ fun SearchBar(
     cornerRadius: Dp = 16.dp,
     iconOnLeft: Boolean = false
 ) {
-    val shape = RoundedCornerShape(cornerRadius)
+    val shape = RoundedCornerShape(50.dp)
 
     Box(
         modifier = modifier

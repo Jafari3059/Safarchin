@@ -11,32 +11,43 @@ import com.example.safarchin.R
 val iranSans = FontFamily(
     Font(R.font.iransans_light, FontWeight.Light),
     Font(R.font.iransans_medium, FontWeight.Medium),
-    Font(R.font.iransans_bold, FontWeight.Bold)
+    Font(R.font.iransans_bold, FontWeight.Bold),
+)
+val irgitiFont = FontFamily(
+    Font(R.font.irgiti, FontWeight.Normal)
 )
 
+// تعریف Typography با استفاده از فونت‌ها
 val Typography = Typography(
     displayLarge = TextStyle(
         fontFamily = iranSans,
         fontWeight = FontWeight.Bold,
-        fontSize = 57.sp,
+        fontSize = 57.sp
     ),
     titleLarge = TextStyle(
         fontFamily = iranSans,
         fontWeight = FontWeight.Medium,
-        fontSize = 22.sp,
+        fontSize = 22.sp
     ),
     bodyLarge = TextStyle(
         fontFamily = iranSans,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
+        fontSize = 16.sp
     ),
     labelSmall = TextStyle(
         fontFamily = iranSans,
         fontWeight = FontWeight.Light,
-        fontSize = 11.sp,
+        fontSize = 11.sp
+    ),
+    // مثال استفاده از فونت irgiti
+    labelMedium = TextStyle(
+        fontFamily = irgitiFont,
+        fontWeight = FontWeight.Normal,
+        fontSize = 13.sp
     )
-    // می‌تونی هر استایل دیگه‌ای که خواستی هم به همین شکل اضافه کنی
 )
+
+
 
 /*package com.example.safarchin.ui.theme
 

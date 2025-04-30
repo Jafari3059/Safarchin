@@ -56,7 +56,7 @@ fun MyTripScreen() {
             ) {
                 // آیکون
                 Image(
-                    painter = painterResource(id = R.drawable.vector1),
+                    painter = painterResource(id = R.drawable.home),
                     contentDescription = "تصویر سفر",
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
@@ -169,7 +169,7 @@ fun TripCard(
     ) {
         Box {
             Image(
-                painter = painterResource(id = R.drawable.khajobridge),
+                painter = painterResource(id = R.drawable.khajo),
                 contentDescription = "عکس سفر",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()

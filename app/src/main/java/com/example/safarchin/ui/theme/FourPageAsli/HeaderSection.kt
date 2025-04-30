@@ -30,7 +30,7 @@ fun HeaderSection(onNotificationClick: () -> Unit, onHelpClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = screenWidth * 0.06f, vertical = screenHeight * 0.02f),
+            .padding(horizontal = screenWidth * 0.06f, vertical = screenHeight * 0.055f),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
