@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.newtrip
+package com.example.safarchin.ui.theme.FourPageAsli.planing
 
 import com.example.safarchin.ui.theme.FourPageAsli.SearchBar
 import androidx.compose.foundation.Image
