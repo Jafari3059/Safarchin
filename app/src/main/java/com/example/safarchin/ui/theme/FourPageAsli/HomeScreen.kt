@@ -18,17 +18,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
-import com.example.safarchin.ui.theme.FourPageAsli.BottomNavigationBar
 import com.example.safarchin.ui.theme.FourPageAsli.Eshterak.EshterakP
-import com.example.safarchin.ui.theme.FourPageAsli.HeaderSection
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.HomeP
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.profileP
 import com.example.safarchin.ui.theme.FourPageAsli.planing.planingP
-import com.example.safarchin.ui.theme.components.SearchBar
-import com.example.safarchin.ui.theme.login.codeLogin
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -77,8 +72,8 @@ fun HomeScreen(navController: NavController) {
                 // ⬇ صفحه‌ها
                 when (selectedIndex) {
                     0 -> profileP()
-                    1 -> planingP()
-                    2 -> EshterakP()
+                    1 -> EshterakP()
+                    2 -> planingP(navController)
                     3 -> HomeP()
                 }
             }

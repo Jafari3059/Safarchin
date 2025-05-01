@@ -1,6 +1,6 @@
 package com.example.safarchin.ui.theme.newtrip
 
-import com.example.safarchin.ui.theme.components.SearchBar
+import com.example.safarchin.ui.theme.FourPageAsli.SearchBar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

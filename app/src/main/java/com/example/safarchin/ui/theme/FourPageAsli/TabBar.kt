@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.components
+package com.example.safarchin.ui.theme.FourPageAsli
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,13 +18,13 @@ import com.example.safarchin.ui.theme.iranSans
 fun TabBar(
     tabs: List<String>,
     selectedTab: String,
-    onTabSelected: (String) -> Unit
+    onTabSelected: (String) -> Unit,
+    modifier: Modifier = Modifier // ✅ اضافه شده برای کنترل موقعیت از بیرون
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.End, // شروع از سمت راست صفحه
+        modifier = modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically
     ) {
         tabs.forEach { tab ->
@@ -40,13 +40,12 @@ fun TabBar(
             ) {
                 Text(
                     text = tab,
-                    fontSize = 10.sp, // سایز متن را کم کرده‌ایم
+                    fontSize = 10.sp,
                     color = if (isSelected) Color.White else Color(0xFFABB7C2),
-                    fontFamily = iranSans,
-                    modifier = Modifier.align(Alignment.Center)
+                    fontFamily = iranSans
                 )
             }
-            Spacer(modifier = Modifier.width(4.dp)) // فاصله بین تب‌ها
+            Spacer(modifier = Modifier.width(4.dp))
         }
     }
 }

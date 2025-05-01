@@ -2,6 +2,7 @@ package com.example.safarchin.ui.theme.FourPageAsli.planing
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -20,17 +21,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.safarchin.R
-import com.example.safarchin.ui.theme.FourPageAsli.SearchBar
-import com.example.safarchin.ui.theme.components .TabBar
+import com.example.safarchin.ui.theme.FourPageAsli.TabBar
 import com.example.safarchin.ui.theme.iranSans
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.safarchin.ui.theme.FourPageAsli.BottomNavigationBar
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.ui.unit.Dp
+import com.example.safarchin.ui.theme.FourPageAsli.SearchBar
+
+// داده‌ها
 
 data class Trip(
     val id: Int,
@@ -42,6 +44,7 @@ data class Trip(
 
 @Composable
 fun planingP(navController: NavController) {
+
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
@@ -67,7 +70,9 @@ fun planingP(navController: NavController) {
             FloatingActionButton(
                 onClick = { /* TODO */ },
                 shape = CircleShape,
-                modifier = Modifier.size(56.dp)
+                modifier = Modifier
+                    .size(56.dp)
+                    .offset(x = (-14).dp)
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.add),
@@ -76,12 +81,6 @@ fun planingP(navController: NavController) {
                 )
             }
         },
-        bottomBar = {
-            BottomNavigationBar(
-                selectedIndex = selectedNavIndex,
-                onItemSelected = { selectedNavIndex = it }
-            )
-        },
         containerColor = Color(0xFFF7F7F7)
     ) { padding ->
         Column(
@@ -89,94 +88,114 @@ fun planingP(navController: NavController) {
                 .padding(padding)
                 .fillMaxSize()
                 .background(Color(0xFFF7F7F7))
+                .offset(y = (-screenHeight * 0.001f)), // 👈 اضافه کن این خط رو
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
         ) {
-            Box(
+            // متن عنوان - جای مناسب فعلی
+            Text(
+                text = "سفرهای من",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(screenHeight * 0.15f)
+                    .offset(y = (screenHeight * 0.07f)) // ⬅️ حرکت به بالا
+                    .padding(end = screenWidth * 0.06f),
+                fontSize = (screenWidth.value * 0.045f).sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = iranSans,
+                color = Color.Black,
+                textAlign = TextAlign.Right
+            )
+//            Text(
+//                text = "سفرهای من",
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(
+//                        top = screenHeight * 0.098f,
+//                        end = screenWidth * 0.04f
+//                    ),
+//                fontSize = (screenWidth.value * 0.045f).sp,
+//                fontWeight = FontWeight.Bold,
+//                fontFamily = iranSans,
+//                color = Color.Black,
+//                textAlign = TextAlign.Right
+//            )
+
+            // لوگو
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = screenWidth * 0.15f),
+                horizontalArrangement = Arrangement.Start
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.search),
-                    contentDescription = "تصویر سفر",
+                    painter = painterResource(id = R.drawable.vec1),
+                    contentDescription = "لوگوی سفرچین",
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
-                        .size(screenWidth * 0.25f)
-                        .align(Alignment.TopStart)
-                        .offset(x = 30.dp, y = 40.dp)
-                )
-
-                Text(
-                    text = "سفرهای من",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = iranSans,
-                    color = Color.Black,
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .offset(x = (-40).dp, y = 62.dp)
+                        .offset(y = (screenHeight * 0.012f))
+                        .width(screenWidth * 0.20f)
+                        .height(screenHeight * 0.12f) // 🔽 کمی کوچک‌تر برای بالا رفتن
                 )
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
 
-            Column(
+            //  Spacer(modifier = Modifier.height(screenHeight * 0.005f)) // 🔽 خیلی کمتر شده
+            // نوار جستجو
+            SearchBar(
+                value = searchText,
+                onValueChange = { searchText = it },
+                placeholderText = "جستجو در سفرهای شما...",
+                cornerRadius = 30.dp,
+                iconOnLeft = true,
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
                     .fillMaxWidth()
-            ) {
-//                SearchBar(
-//                    value = searchText,
-//                    onValueChange = { searchText = it },
-//                    placeholderText = "کجا میخوای بری؟",
-//                    cornerRadius = 30.dp,
-//                    iconOnLeft = true,
-//                    modifier = Modifier.width(screenWidth - 32.dp)
-//                )
+                    .padding(horizontal = 40.dp)
+            )
+            Spacer(modifier = Modifier.height(screenHeight * 0.015f)) // 🔽 کمتر از قبل
 
-                Spacer(modifier = Modifier.height(10.dp))
+            // تب‌ها
+            val tabs = listOf("در حال برنامه‌ریزی", "به اتمام رسیده‌ها", "همه")
+            TabBar(
+                tabs = tabs,
+                selectedTab = selectedTab,
+                onTabSelected = {
+                    selectedTab = it
+                    selectedCardId = null
+                },
+                modifier = Modifier.padding(horizontal = screenWidth * 0.06f)
+            )
 
-                val tabs = listOf("در حال برنامه‌ریزی", "به اتمام رسیده‌ها", "همه")
+            Spacer(modifier = Modifier.height(screenHeight * 0.02f))
 
-                TabBar(
-                    tabs = tabs,
-                    selectedTab = selectedTab,
-                    onTabSelected = {
-                        selectedTab = it
-                        selectedCardId = null
-                    },
-//                    modifier = Modifier.width(screenWidth - 32.dp)
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                TripCardsSection(
-                    trips = filteredTrips,
-                    selectedCardId = selectedCardId,
-                    onCardMoreClick = { clickedId ->
-                        selectedCardId = if (selectedCardId == clickedId) null else clickedId
-                    },
-                    screenWidth = screenWidth
-                )
-            }
+            // کارت‌های سفر
+            TripCardsSection(
+                trips = filteredTrips,
+                selectedCardId = selectedCardId,
+                onCardMoreClick = { clickedId ->
+                    selectedCardId = if (selectedCardId == clickedId) null else clickedId
+                },
+                screenWidth = screenWidth,
+                screenHeight = screenHeight
+            )
         }
     }
 }
-
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun TripCardsSection(
     trips: List<Trip>,
     selectedCardId: Int?,
     onCardMoreClick: (Int) -> Unit,
-    screenWidth: Dp
+    screenWidth: Dp,
+    screenHeight: Dp
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         FlowRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+                .padding(horizontal = screenWidth * 0.077f),
+            horizontalArrangement = Arrangement.spacedBy(screenWidth * 0.042f),
+            verticalArrangement = Arrangement.spacedBy(screenHeight * 0.02f),
             maxItemsInEachRow = 2
         ) {
             trips.forEach { trip ->
@@ -198,12 +217,12 @@ fun TripCard(
     onMoreIconClick: () -> Unit,
     screenWidth: Dp
 ) {
-    val cardWidth = screenWidth * 0.44f
+    val cardWidth = screenWidth * 0.40f
 
     Card(
         modifier = Modifier
             .width(cardWidth)
-            .height(170.dp),
+            .aspectRatio(0.95f),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(4.dp)
@@ -222,7 +241,7 @@ fun TripCard(
             )
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 12.dp, vertical = 10.dp)
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.End
@@ -231,16 +250,16 @@ fun TripCard(
                     text = trip.title,
                     fontFamily = iranSans,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
+                    fontSize = 14.sp,
                     color = Color.Black,
                     textAlign = TextAlign.Right,
                     modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = trip.date,
                     fontFamily = iranSans,
-                    fontSize = 12.sp,
+                    fontSize = 11.sp,
                     color = Color.Black,
                     textAlign = TextAlign.Right,
                     modifier = Modifier.fillMaxWidth()
@@ -249,12 +268,12 @@ fun TripCard(
                 Text(
                     text = trip.description,
                     fontFamily = iranSans,
-                    fontSize = 12.sp,
+                    fontSize = 11.sp,
                     color = Color.Black,
                     textAlign = TextAlign.Right,
                     modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.height(22.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth(),
@@ -265,14 +284,14 @@ fun TripCard(
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7B54)),
                         shape = RoundedCornerShape(6.dp),
                         modifier = Modifier
-                            .width(cardWidth * 0.65f)
+                            .width(cardWidth * 0.6f)
                             .height(24.dp),
                         contentPadding = PaddingValues(horizontal = 8.dp)
                     ) {
                         Text(
                             text = "شروع برنامه",
                             fontFamily = iranSans,
-                            fontSize = 12.sp,
+                            fontSize = 11.sp,
                             color = Color.White
                         )
                     }
@@ -290,10 +309,18 @@ fun TripCard(
                         if (isDeleteBoxVisible) {
                             Box(
                                 modifier = Modifier
-                                    .offset(y = (-40).dp, x = (-10).dp)
-                                    .background(Color.Black, shape = RoundedCornerShape(6.dp))
-                                    .clickable { /* اینجا کد حذف واقعی اضافه میشه */ }
-                                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                                    .offset(y = (-16).dp, x = (-6).dp)
+                                    .background(
+                                        color = Color(0xFFFFB26B),
+                                        shape = RoundedCornerShape(12.dp) // گردی بیشتر برای مستطیل خوش‌فرم
+                                    )
+                                    .border(
+                                        width = 1.dp,
+                                        color = Color(0xFFFF7B54),
+                                        shape = RoundedCornerShape(12.dp)
+                                    )
+                                    .clickable { }
+                                    .padding(horizontal = 10.dp, vertical = 6.dp) // عرض بیشتر نسبت به ارتفاع
                             ) {
                                 Text(
                                     text = "حذف",

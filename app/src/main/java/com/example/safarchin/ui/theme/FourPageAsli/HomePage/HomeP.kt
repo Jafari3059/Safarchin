@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HeaderSection
-import com.example.safarchin.ui.theme.components.SearchBar
+import com.example.safarchin.ui.theme.FourPageAsli.SearchBar
 import com.example.safarchin.ui.theme.iranSans
 import kotlinx.coroutines.delay
 
