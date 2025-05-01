@@ -28,13 +28,12 @@ import com.example.safarchin.R
 import com.example.safarchin.ui.theme.iranSans
 import com.example.safarchin.ui.theme.irgitiFont
 
-data class City(val name: String, val description: String, val imageRes: Int)
 
 @Composable
-fun CityCard(city: City) {
+fun Nearest_cities(city: City) {
     Box(
         modifier = Modifier
-            .height(175.dp)
+            .height(165.dp)
             .width(130.dp)
             .padding(4.dp)
             .shadow(8.dp, RoundedCornerShape(12.dp)) // سایه از همه طرف
@@ -50,7 +49,7 @@ fun CityCard(city: City) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(115.dp)
+                    .height(80.dp)
                     .clip(RoundedCornerShape(11))
             ) {
                 Image(
@@ -104,12 +103,13 @@ fun CityCard(city: City) {
     }
 }
 
+
 @Composable
-fun CityCardList() {
+fun CityCarddList() {
     val cityList = listOf(
-        City("شیراز", "شهر زیبای شیراز در ۲۰ کیلومتری فارس واقع شده است.", R.drawable.shiraz),
-        City("اصفهان", "شهر تاریخی اصفهان با معماری بی‌نظیر.", R.drawable.shiraz),
-        City("تبریز", "شهر اولین‌ها در شمال‌غرب ایران.", R.drawable.shiraz)
+        City("شیراز", "۱۲۰ کیلومتر دورتر", R.drawable.shiraz),
+        City("اصفهان", "۸۰ کیلومتر دورتر", R.drawable.shiraz),
+        City("تبریز", "۱۰۰ کیلومتر دورتر", R.drawable.shiraz)
     )
 
     LazyRow(
@@ -122,9 +122,8 @@ fun CityCardList() {
         }
     }
 }
-
 @Preview(showBackground = true)
 @Composable
-fun PreviewCityCards() {
-    CityCardList()
+fun PreviewCitsdvyCards() {
+    CityCarddList()
 }
