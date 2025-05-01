@@ -1,9 +1,6 @@
 package com.example.safarchin.ui.theme.FourPageAsli
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,17 +15,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
-import com.example.safarchin.ui.theme.FourPageAsli.BottomNavigationBar
 import com.example.safarchin.ui.theme.FourPageAsli.Eshterak.EshterakP
-import com.example.safarchin.ui.theme.FourPageAsli.HeaderSection
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.HomeP
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.profileP
 import com.example.safarchin.ui.theme.FourPageAsli.planing.planingP
-import com.example.safarchin.ui.theme.components.SearchBar
-import com.example.safarchin.ui.theme.login.codeLogin
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -56,29 +49,13 @@ fun HomeScreen(navController: NavController) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = screenHeight * 0.1f)
             ) {
 
-                // ✅ فراخوانی هدر
-//                HeaderSection(
-//                    onNotificationClick = {
-//                        // اینجا کاری که میخوای وقتی روی آیکون نوتیفیکیشن زد انجام بشه
-//                        // مثلاً navController.navigate("notifications")
-//                    },
-//                    onHelpClick = {
-//                        // اینجا هم کاری که وقتی روی علامت سوال زد
-//                        // مثلا navController.navigate("help")
-//                    }
-//                )
-
-//                Spacer(modifier = Modifier.height(8.dp))
-//                SearchBar()
-//
                 // ⬇ صفحه‌ها
                 when (selectedIndex) {
                     0 -> profileP()
-                    1 -> planingP()
-                    2 -> EshterakP()
+                    1 -> EshterakP()
+                    2 -> planingP(navController)
                     3 -> HomeP()
                 }
             }
@@ -98,33 +75,7 @@ fun HomeScreen(navController: NavController) {
             }
         }
 
-        // ✅ لایه‌ی طوسی محو و بستن با کلیک
-        if (isDrawerOpen) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.4f))
-                    .clickable { isDrawerOpen = false }
-                    .zIndex(1f)
-            )
-        }
 
-        // ✅ Drawer از سمت راست با انیمیشن
-        AnimatedVisibility(
-            visible = isDrawerOpen,
-            enter = slideInHorizontally(initialOffsetX = { fullWidth -> fullWidth }),
-            exit = slideOutHorizontally(targetOffsetX = { fullWidth -> fullWidth }),
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(260.dp)
-                .align(Alignment.TopEnd)
-                .zIndex(2f)
-        ) {
-//            DrawerContent(
-////                navController = navController,
-//                onClose = { isDrawerOpen = false }
-//            )
-        }
     }
 }
 //@Preview(showBackground = true, showSystemUi = true)

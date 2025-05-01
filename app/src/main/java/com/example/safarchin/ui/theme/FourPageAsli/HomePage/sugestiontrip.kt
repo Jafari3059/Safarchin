@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,7 +26,7 @@ import com.example.safarchin.ui.theme.iranSans
 import com.example.safarchin.ui.theme.irgitiFont
 
 @Composable
-fun ActiveTripSection() {
+fun sugestiontrip() {
     Box(
         modifier = Modifier
             .height(180.dp)
@@ -67,7 +68,7 @@ fun ActiveTripSection() {
 
                 // سمت راست (سفر فعال)
                 Text(
-                    text = "سفر فعال",
+                    text = "سفر پیشنهادی سفرچین",
                     fontFamily = iranSans,
                     fontWeight = FontWeight.Medium,
                     fontSize = 12.sp,
@@ -110,21 +111,18 @@ fun ActiveTripSection() {
                         )
                     }
 
-                    Row(
+                    Box(
                         modifier = Modifier
-
                             .fillMaxWidth()
-                            .fillMaxHeight()
+                            .height(180.dp) // ارتفاع کلی کارت
                             .clip(RoundedCornerShape(16.dp))
-                            ,
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
                     ) {
+                        // باکس عکس
                         Box(
                             modifier = Modifier
-                                .weight(1f)
+                                .width(150.dp)
                                 .fillMaxHeight()
-                                .padding(1.8.dp , 1.8.dp , 0.dp, 1.8.dp)
+//                                .clip(RoundedCornerShape(16.dp))
                                 .background(Color.White)
                         ) {
                             Image(
@@ -132,10 +130,10 @@ fun ActiveTripSection() {
                                 contentDescription = "Background Image",
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier.fillMaxSize()
-                                    .clip(RoundedCornerShape(11,0,0,11)),
+//                                    .clip(RoundedCornerShape(16.dp))
+                            )
 
-                                )
-
+                            // افکت گرادیانت روی عکس
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
@@ -148,49 +146,76 @@ fun ActiveTripSection() {
                             )
                         }
 
+                        // باکس متن که روی عکس قرار می‌گیرد (و فراتر می‌رود)
                         Box(
                             modifier = Modifier
-                                .weight(1f)
+                                .fillMaxWidth()
                                 .fillMaxHeight()
-                                .padding(0.dp , 1.8.dp , 1.8.dp, 1.8.dp)
-                                .background(Color.White)
-
-
-
+                                .padding(start = 120.dp) // اینجا شروع متن از نزدیک عکس
+//                                .background(Color.White, shape = RoundedCornerShape(16.dp))
+                                .align(Alignment.CenterEnd) // باکس رو در سمت راست و وسط چین می‌کنه
                         ) {
                             Column(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .padding(12.dp, 0.dp),
+                                    .padding(end = 16.dp),
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.End
                             ) {
                                 Text(
-                                    text = "شیراز",
+                                    text = "آرامش در زراس(سوییس ایران)",
                                     fontFamily = irgitiFont,
                                     fontWeight = FontWeight.Bold,
-                                    fontSize = 28.sp,
-                                    color = Color.Black
+                                    fontSize = 20.sp,
+                                    color = Color.Black,
+                                    textAlign = TextAlign.Right,
+                                    modifier = Modifier.fillMaxWidth()
+
                                 )
 
-                                Spacer(modifier = Modifier.height(4.dp))
 
                                 Text(
-                                    text = "۲۸ مرداد تا ۳ شهریور",
+                                    text = "\uD83D\uDCCD مقصد: روستای زِرّاس، اندیمشک، خوزستان",
                                     fontFamily = iranSans,
                                     fontWeight = FontWeight.Medium,
-                                    fontSize = 10.sp,
-                                    color = Color.Gray
+                                    fontSize = 8.sp,
+                                    color = Color.Black,
+                                    textAlign = TextAlign.Right,
+                                    modifier = Modifier.fillMaxWidth()
+
                                 )
 
-                                Spacer(modifier = Modifier.height(4.dp))
-
                                 Text(
-                                    text = "۲.۵ میلیون از ۵ میلیون باقیمانده",
+                                    text = "\uD83D\uDCC6 مدت سفر: ۳ روز – ۲ شب\u2028",
                                     fontFamily = iranSans,
                                     fontWeight = FontWeight.Medium,
-                                    fontSize = 10.sp,
-                                    color = Color.Gray
+                                    fontSize = 8.sp,
+                                    color = Color.Black,
+                                    textAlign = TextAlign.Right,
+                                    modifier = Modifier.fillMaxWidth()
+
+                                )
+
+                                Text(
+                                    text = "\uD83D\uDCB0 بودجه : ۲.۵ میلیون تومان",
+                                    fontFamily = iranSans,
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 8.sp,
+                                    color = Color.Black,
+                                    textAlign = TextAlign.Right,
+                                    modifier = Modifier.fillMaxWidth()
+
+                                )
+
+                                Text(
+                                    text = "\uD83C\uDFAF سبک سفر: طبیعت\u200Cگردی، آرامش، کمپینگ سبک",
+                                    fontFamily = iranSans,
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 8.sp,
+                                    color = Color.Black,
+                                    textAlign = TextAlign.Right,
+                                    modifier = Modifier.fillMaxWidth()
+
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -222,6 +247,6 @@ fun ActiveTripSection() {
 
 @Preview(showBackground = true)
 @Composable
-fun ActiveTripSectionPreview() {
-    ActiveTripSection()
+fun sugestiontripPreview() {
+    sugestiontrip()
 }

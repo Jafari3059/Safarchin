@@ -10,19 +10,27 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,6 +38,7 @@ import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HeaderSection
 import com.example.safarchin.ui.theme.components.SearchBar
 import com.example.safarchin.ui.theme.iranSans
+import com.example.safarchin.ui.theme.irgitiFont
 import kotlinx.coroutines.delay
 
 @Composable
@@ -61,10 +70,13 @@ fun HomeP() {
         )
     }
 
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = Modifier.fillMaxSize()
             .background(Color(0xFFF6F4F4))
+            .verticalScroll(scrollState) // ✅ اسکرول‌پذیر کردن کل صفحه
+
     ) {
         Box(
             modifier = Modifier
@@ -149,7 +161,7 @@ fun HomeP() {
         Box(
             modifier = Modifier
                 .height(200.dp)
-//            .width(340.dp)
+//            .width(440.dp)
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp)
         ) {
@@ -162,7 +174,7 @@ fun HomeP() {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                        .padding( vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -187,7 +199,7 @@ fun HomeP() {
 
                     // سمت راست (سفر فعال)
                     Text(
-                        text = "سفر فعال",
+                        text = "سفرهای محبوب",
                         fontFamily = iranSans,
                         fontWeight = FontWeight.Medium,
                         fontSize = 12.sp,
@@ -203,11 +215,11 @@ fun HomeP() {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(16.dp))
+                        .height(200.dp)
                 ) {
                     LazyRow(
                         reverseLayout = true,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         items(cityList) { city ->
                             CityCard(city)
@@ -215,9 +227,162 @@ fun HomeP() {
                     }
                 }
 
+
             }
         }
 
+        Spacer(modifier = Modifier.height(10.dp))
+
+
+
+        Box(
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .fillMaxWidth()
+                .height(100.dp)
+                .clip(RoundedCornerShape(16.dp))
+
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(130.dp)
+                    .height(115.dp)
+                    .clip(RoundedCornerShape(16))
+                    .align(alignment = Alignment.CenterEnd)
+
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.khajo),
+                    contentDescription = "Background Image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.matchParentSize()
+                )
+
+                Column(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "۸",
+                        fontFamily = iranSans,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp,
+                        color = Color.White,
+                        maxLines = 1,
+                        style = TextStyle(
+                            lineHeight = 24.sp, // کنترل ارتفاع خط
+                            shadow = Shadow(Color.Black, Offset(0f, 0f), 8f)
+                        ),
+                        modifier = Modifier
+                    )
+
+                    val subtitle = "روز مانده به سفر اصفهان"
+                    val calculatedFontSize = when {
+                        subtitle.length < 20 -> 18.sp
+                        subtitle.length < 30 -> 16.sp
+                        else -> 14.sp
+                    }
+
+                    Text(
+                        text = subtitle,
+                        fontFamily = iranSans,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = calculatedFontSize,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        style = TextStyle(
+                            shadow = Shadow(Color.Black, Offset(0f, 0f), 10f)
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth())
+                }
+
+
+
+            }
+
+
+            WeatherCard()
+        }
+        sugestiontrip()
+
+        Box(
+            modifier = Modifier
+                .height(200.dp)
+//            .width(440.dp)
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp), // بیشتر کردم که هم هدر هم Row دومی جا بش
+                verticalArrangement = Arrangement.Top
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding( vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    // سمت چپ (بیشتر + آیکون)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.next_icon),
+                            contentDescription = "Next Icon",
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "بیشتر",
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 12.sp,
+                            color = Color.Black
+                        )
+                    }
+
+                    // سمت راست (سفر فعال)
+                    Text(
+                        text = "نزدیک ترین مقاصد",
+                        fontFamily = iranSans,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 12.sp,
+                        color = Color.Black
+                    )
+                }
+                val cityList = listOf(
+                    City("شیراز", "۱۲۰ کیلومتر دورتر", R.drawable.shiraz),
+                    City("اصفهان", "۱۶۵ کیلومتر دورتر", R.drawable.khajo),
+                    City("تبریز", "۱۸۰ کیلومتر دورتر", R.drawable.meydan_emam)
+                )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                ) {
+                    LazyRow(
+                        reverseLayout = true,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        items(cityList) { city ->
+                            CityCard(city)
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+
+        Spacer(modifier = Modifier.height(90.dp)) // 👈 این کمک می‌کنه بنر کامل دیده بشه
 
     }
 }
