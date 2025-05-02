@@ -57,7 +57,7 @@ fun SearchBar(
         ) {
             BasicTextField(
                 value = value,
-                onValueChange = onValueChange,
+                onValueChange = onValueChange, // ارسال مقدار جدید
                 singleLine = true,
                 textStyle = TextStyle(
                     fontFamily = iranSans,
