@@ -36,7 +36,7 @@ fun TabBar(
                         shape = RoundedCornerShape(20.dp)
                     )
                     .clickable { onTabSelected(tab) }
-                    .padding(horizontal = 14.dp, vertical = 6.dp)
+                    .padding(horizontal = 14.dp, vertical = 4.dp)
             ) {
                 Text(
                     text = tab,

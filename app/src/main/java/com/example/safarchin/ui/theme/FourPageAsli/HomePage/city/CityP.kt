@@ -244,7 +244,11 @@ fun CityP(navController: NavController) {
                             fontFamily = iranSans,
                             fontWeight = FontWeight.Normal,
                             fontSize = fontSizeMore,
-                            color = Color.Black
+                            color = Color.Black,
+                            modifier = Modifier
+                                .clickable {
+                                    navController.navigate("tourDetails")
+                                },
                         )
                     }
 
