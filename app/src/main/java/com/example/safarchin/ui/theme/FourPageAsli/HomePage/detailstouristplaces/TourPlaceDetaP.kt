@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.HomePage.Detailsـofـtouristـplaces
+package com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailstouristplaces
 
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -43,7 +43,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+//import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -51,7 +51,7 @@ import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlace
 import com.example.safarchin.ui.theme.FourPageAsli.TabBar
 import com.example.safarchin.ui.theme.iranSans
-import com.example.safarchin.ui.theme.irgitiFont
+//import com.example.safarchin.ui.theme.irgitiFont
 import kotlinx.coroutines.delay
 
 @Composable

@@ -41,6 +41,7 @@ import com.example.safarchin.ui.theme.FourPageAsli.SearchBar
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.text.style.TextDirection
+import com.example.safarchin.ui.theme.FourPageAsli.BottomNavigationBar
 
 
 // داده‌ها
@@ -86,9 +87,11 @@ fun planingP(navController: NavController) {
                     FloatingActionButton(
                         onClick = { showCreateDialog = true },
                         shape = CircleShape,
+                        containerColor = Color.Red,
                         modifier = Modifier
                             .size(56.dp)
-                            .offset(x = (-14).dp)
+                            .offset(x = (-10).dp, y = (-32).dp)
+                            .zIndex(1f)
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.add),
@@ -98,9 +101,16 @@ fun planingP(navController: NavController) {
                     }
                 }
             },
+            bottomBar = {
+                BottomNavigationBar(
+                    selectedIndex = 2, // یا selectedTab اگه بخوای انتخابی باشه
+                    onItemSelected = { /* هندل تب */ }
+                )
+            },
             containerColor = Color(0xFFF7F7F7),
-            contentWindowInsets = WindowInsets(0.dp) // حذف padding پیش‌فرض (حل مشکل فضای سفید پایین)
-        ) { padding ->
+            contentWindowInsets = WindowInsets(0.dp)
+        )
+        { padding ->
 
             Column(
                 modifier = Modifier
@@ -196,7 +206,7 @@ fun planingP(navController: NavController) {
         }
     }
 }
-
+//فرم سفر
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun TripCardsSection(
@@ -226,7 +236,7 @@ fun TripCardsSection(
         }
     }
 }
-
+// فرم سفر
 @Composable
 fun TripCard(
     trip: Trip,
@@ -369,9 +379,8 @@ fun CreateTripDialog(onDismiss: () -> Unit) {
 
     var showCityDialog by remember { mutableStateOf(false) }
     var showBudgetDialog by remember { mutableStateOf(false) }
-
-    var showDatePicker by remember { mutableStateOf(false) }
-    var isStartDate by remember { mutableStateOf(true) }
+    var showCalendarDialog by remember { mutableStateOf(false) }
+    var isSelectingStartDate by remember { mutableStateOf(true) }
 
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -388,7 +397,7 @@ fun CreateTripDialog(onDismiss: () -> Unit) {
     ) {
         Box(modifier = Modifier.zIndex(1f)) {
             Card(
-                modifier = Modifier.size(350.dp, 577.dp),
+                modifier = Modifier.size(380.dp, 580.dp),
                 colors = CardDefaults.cardColors(containerColor = Color(0xFFF6F4F4)),
                 shape = RoundedCornerShape(20.dp)
             ) {
@@ -410,11 +419,7 @@ fun CreateTripDialog(onDismiss: () -> Unit) {
                         )
 
                         Text("کجا می‌خوای بری؟", fontSize = 12.sp)
-                        Box(
-                            modifier = Modifier
-                                .width(296.dp)
-                                .wrapContentHeight()
-                        ) {
+                        Box(modifier = Modifier.width(296.dp)) {
                             CustomDropdownField(
                                 value = selectedCity,
                                 onClick = { showCityDialog = true },
@@ -423,56 +428,55 @@ fun CreateTripDialog(onDismiss: () -> Unit) {
                             )
                         }
 
+                        // تاریخ پایان
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             Column(horizontalAlignment = Alignment.End) {
                                 Text("تاریخ پایان", fontSize = 12.sp)
                                 CustomTextField(
                                     value = endDate,
                                     onValueChange = {},
-                                    width = 91.dp,
-                                    height = 33.dp,
-                                    placeholder = "مثلاً ۱۴۰۳/۰۲/۱۵",
+                                    width = 100.dp,
+                                    height = 45.dp,
+                                    placeholder = "تاریخ پایان",
                                     readOnly = true,
                                     onClick = {
-                                        isStartDate = false
-                                        showDatePicker = true
+                                        isSelectingStartDate = false
+                                        showCalendarDialog = true
                                     }
                                 )
                             }
+
                             Column(horizontalAlignment = Alignment.End) {
                                 Text("تاریخ شروع", fontSize = 12.sp)
                                 CustomTextField(
                                     value = startDate,
                                     onValueChange = {},
-                                    width = 91.dp,
-                                    height = 33.dp,
-                                    placeholder = "مثلاً ۱۴۰۳/۰۲/۱۰",
+                                    width = 100.dp,
+                                    height = 45.dp,
+                                    placeholder = "تاریخ شروع",
                                     readOnly = true,
                                     onClick = {
-                                        isStartDate = true
-                                        showDatePicker = true
+                                        isSelectingStartDate = true
+                                        showCalendarDialog = true
                                     }
                                 )
                             }
                         }
+
 
                         Column(horizontalAlignment = Alignment.End) {
                             Text("تعداد همسفران", fontSize = 12.sp)
                             CustomTextField(
                                 value = travelers,
                                 onValueChange = { travelers = it },
-                                width = 91.dp,
-                                height = 33.dp,
+                                width = 100.dp,
+                                height = 45.dp,
                                 placeholder = ""
                             )
                         }
 
                         Text("میزان بودجه؟", fontSize = 12.sp)
-                        Box(
-                            modifier = Modifier
-                                .width(296.dp)
-                                .wrapContentHeight()
-                        ) {
+                        Box(modifier = Modifier.width(296.dp)) {
                             CustomDropdownField(
                                 value = selectedBudget,
                                 onClick = { showBudgetDialog = true },
@@ -534,6 +538,29 @@ fun CreateTripDialog(onDismiss: () -> Unit) {
                 }
             }
 
+            // تقویم بازه‌ای
+            if (showCalendarDialog) {
+                PersianCalendarDialog(
+                    onDismiss = { showCalendarDialog = false },
+                    onSave = { selectedStart, selectedEnd ->
+                        startDate = selectedStart ?: startDate
+                        endDate = selectedEnd ?: endDate
+                        showCalendarDialog = false
+                    }
+//                    onSave = { selectedStart, selectedEnd ->
+//                        if (isSelectingStartDate) {
+//                            startDate = selectedStart ?: ""
+//                        } else {
+//                            endDate = selectedEnd ?: ""
+//                        }
+//                        showCalendarDialog = false
+//                    }
+                )
+
+            }
+
+
+            // منو انتخاب شهر
             if (showCityDialog) {
                 Box(
                     modifier = Modifier
@@ -553,10 +580,11 @@ fun CreateTripDialog(onDismiss: () -> Unit) {
                 }
             }
 
+            // منو بودجه
             if (showBudgetDialog) {
                 Box(
                     modifier = Modifier
-                        .offset(x = (-248).dp, y = 397.dp) // جدا از منوی شهر
+                        .offset(x = (-248).dp, y = 397.dp)
                         .zIndex(2f)
                         .align(Alignment.TopEnd)
                 ) {
@@ -575,6 +603,7 @@ fun CreateTripDialog(onDismiss: () -> Unit) {
     }
 }
 
+// فیلدهای بدون پاپ دراور
 @Composable
 fun CustomTextField(
     value: String,
@@ -631,7 +660,7 @@ fun CustomTextField(
         )
     }
 }
-
+//شهر و بودجه
 @Composable
 fun CustomDropdownField(
     value: String,
@@ -675,7 +704,7 @@ fun CustomDropdownField(
         }
     }
 }
-
+//شهر
 @Composable
 fun CityDropdownMenu(
     modifier: Modifier = Modifier,
@@ -687,13 +716,13 @@ fun CityDropdownMenu(
 
     Box(
         modifier = modifier
-            .width(57.dp)
+            .width(45.dp)
             .heightIn(max = 153.dp) // قابل اسکرول
             .zIndex(1f)
     ) {
         Column(
             modifier = Modifier
-                .clip(RoundedCornerShape(10.dp))
+                .clip(RoundedCornerShape(2.dp))
                 .background(Color.White)
                 .verticalScroll(scrollState)
         ) {
@@ -723,7 +752,7 @@ fun CityDropdownMenu(
         }
     }
 }
-
+// بودجه
 @Composable
 fun BudgetDropdownMenu(
     modifier: Modifier = Modifier,
@@ -735,13 +764,13 @@ fun BudgetDropdownMenu(
 
     Box(
         modifier = modifier
-            .width(57.dp)
+            .width(45.dp)
             .heightIn(max = 153.dp)
             .zIndex(1f)
     ) {
         Column(
             modifier = Modifier
-                .clip(RoundedCornerShape(10.dp))
+                .clip(RoundedCornerShape(2.dp))
                 .background(Color.White)
                 .verticalScroll(scrollState)
         ) {
@@ -771,7 +800,7 @@ fun BudgetDropdownMenu(
         }
     }
 }
-
+// بودجه
 @Composable
 fun BudgetRadioButton(
     selected: Boolean,
@@ -792,6 +821,120 @@ fun BudgetRadioButton(
         )
         Spacer(modifier = Modifier.width(6.dp))
         Text(text = text, fontSize = 12.sp)
+    }
+}
+// تقویم
+@Composable
+fun CalendarDialog(
+    onDismissRequest: () -> Unit,
+    onSaveClick: () -> Unit,
+    content: @Composable () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFBCBCBC).copy(alpha = 0.63f))
+            .clickable(onClick = onDismissRequest),     // برای بستن با کلیک بیرون
+        contentAlignment = Alignment.Center
+    ) {
+        Box(
+            modifier = Modifier
+                .width(320.dp)
+                .wrapContentHeight()
+                .clip(RoundedCornerShape(16.dp))
+                .background(Color.White)
+                .clickable(enabled = false) {} // جلوگیری از کلیک روی خود باکس
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                content()
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = onSaveClick,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFFF7043) // رنگ دکمه ذخیره
+                    )
+                ) {
+                    Text("ذخیره", color = Color.White)
+                }
+            }
+        }
+    }
+}
+//تقویم
+@Composable
+fun PersianCalendarDialog(
+    onDismiss: () -> Unit,
+    onSave: (start: String, end: String?) -> Unit
+) {
+    // سایه‌ی پشت تقویم
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFBCBCBC).copy(alpha = 0.63f))
+            .clickable(onClick = onDismiss),
+        contentAlignment = Alignment.Center
+    ) {
+        PersianCalendarContent(
+            onSave = { start, end -> onSave(start, end) },
+            onDismiss = onDismiss
+        )
+    }
+}
+// تقویم
+@Composable
+fun PersianCalendarContent(
+    onSave: (start: String, end: String?) -> Unit,
+    onDismiss: () -> Unit
+) {
+    // فرضی: بعدا با دیتای واقعی جایگزین کن
+    var selectedStartDate by remember { mutableStateOf("۱۴۰۳/۰۲/۱۲") }
+    var selectedEndDate by remember { mutableStateOf("۱۴۰۳/۰۲/۲۰") }
+
+    Box(
+        modifier = Modifier
+            .size(width = 319.dp, height = 343.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(Color.White)
+            .clickable(enabled = false) {}, // نذاره کلیک از بین بره
+        contentAlignment = Alignment.TopCenter
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize().padding(16.dp)
+        ) {
+            Text("انتخاب تاریخ", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            Spacer(Modifier.height(16.dp))
+
+            // اینجا بعدا تقویم واقعی رو جایگزین کن
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .background(Color(0xFFF2F2F2)),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("نمایش تقویم شمسی")
+            }
+
+            Spacer(Modifier.height(24.dp))
+
+            Button(
+                onClick = { onSave(selectedStartDate, selectedEndDate) },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0066FF)),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .width(126.dp)
+                    .height(51.dp)
+            ) {
+                Text("ذخیره", color = Color.White, fontSize = 16.sp)
+            }
+        }
     }
 }
 
