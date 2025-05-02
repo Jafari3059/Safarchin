@@ -4,6 +4,7 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,13 +42,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.iranSans
 import com.example.safarchin.ui.theme.irgitiFont
 import kotlinx.coroutines.delay
 
 @Composable
-fun CityP() {
+fun CityP(navController: NavController) {
+
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
@@ -137,6 +141,18 @@ fun CityP() {
                     )
                 }
             }
+            Icon(
+                painter = painterResource(id = R.drawable.back), // آیکون برگشت خودت
+                contentDescription = "بازگشت",
+                modifier = Modifier
+                    .align(Alignment.TopStart) // یا .TopEnd برای سمت راست
+                    .padding(start = 24.dp, top = 42.dp)
+                    .size(20.dp)
+                    .clickable {
+                        navController.popBackStack() // رفتن به عقب
+                    },
+                tint = Color.Black
+            )
         }
         Text(
             modifier = Modifier
@@ -419,8 +435,8 @@ fun CityP() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun cityPreview() {
-    CityP()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun cityPreview() {
+//    CityP(navController)
+//}

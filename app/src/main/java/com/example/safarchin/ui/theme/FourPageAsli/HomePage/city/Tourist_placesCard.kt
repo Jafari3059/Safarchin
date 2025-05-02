@@ -105,7 +105,7 @@ fun TourCardList() {
     val cityList = listOf(
         TourPlace(
             name = "باغ ارم",
-            description = "شهر زیبای شیراز در ۲۰ کیلومتری فارس واقع شده است.",
+            description = "شهر زیبای شیراز در ۲۰ کیلشهر تاریخی اصفهان با معماریومتری فارس واقع شده است.",
             imageRes = R.drawable.khajo,
             Visit_duration = "۱ ساعت",
             Visit_price = "۲۰٬۰۰۰ تومان",
@@ -115,7 +115,7 @@ fun TourCardList() {
         ),
         TourPlace(
             name = "مسجد نصیرالملک",
-            description = "معماری بی‌نظیر با پنجره‌های رنگی جذاب.",
+            description = "معماری بی‌نظیر شهر تاریخی اصفهان با معماریبا پنجره‌های رنگی جذاب.",
             imageRes = R.drawable.shiraz,
             Visit_duration = "۴۵ دقیقه",
             Visit_price = "۱۵٬۰۰۰ تومان",
@@ -125,7 +125,7 @@ fun TourCardList() {
         ),
         TourPlace(
             name = "تبریز",
-            description = "شهر اولین‌ها در شمال‌غرب ایران.",
+            description = "شهر اولین‌ها دشهر تاریخی اصفهان با معماریشهر تاریخی اصفهان با معماریر شمال‌غرب ایران.",
             imageRes = R.drawable.khajo,
             Visit_duration = "۲ ساعت",
             Visit_price = "رایگان",

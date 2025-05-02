@@ -5,8 +5,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
@@ -27,22 +25,20 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HeaderSection
 import com.example.safarchin.ui.theme.FourPageAsli.SearchBar
 import com.example.safarchin.ui.theme.iranSans
-import com.example.safarchin.ui.theme.irgitiFont
 import kotlinx.coroutines.delay
 
 @Composable
-fun HomeP() {
+fun HomeP(navController: NavController) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
@@ -158,76 +154,65 @@ fun HomeP() {
 
         ActiveTripSection()
 
+        val config = LocalConfiguration.current
+        val screenWidth = config.screenWidthDp.dp
+        val screenHeight = config.screenHeightDp.dp
+        val screenWidthPx = LocalConfiguration.current.screenWidthDp
+        val iconSize = (screenWidthPx * 0.045).dp
+        // نسبت‌های تطبیقی
+        val horizontalPadding = (screenWidth.value * 0.06).dp  // حدود 24dp روی گوشی 400dp
+        val fontSizeTitle = (screenWidth.value * 0.035).sp     // حدود 14sp روی گوشی 400dp
+        val fontSizeMore = (screenWidth.value * 0.03).sp
+
+
         Box(
             modifier = Modifier
-                .height(200.dp)
-//            .width(440.dp)
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp)
+                .wrapContentHeight()
+                .padding(horizontal = horizontalPadding)
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp), // بیشتر کردم که هم هدر هم Row دومی جا بش
+                    .wrapContentHeight(),
                 verticalArrangement = Arrangement.Top
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding( vertical = 8.dp),
+                        .padding(vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     // سمت چپ (بیشتر + آیکون)
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
                             painter = painterResource(id = R.drawable.next_icon),
                             contentDescription = "Next Icon",
-                            modifier = Modifier.size(18.dp)
+                            modifier = Modifier.size((screenWidth.value * 0.045).dp) // حدود 18dp
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = "بیشتر",
                             fontFamily = iranSans,
                             fontWeight = FontWeight.Normal,
-                            fontSize = 12.sp,
+                            fontSize = fontSizeMore,
                             color = Color.Black
                         )
                     }
 
-                    // سمت راست (سفر فعال)
+                    // سمت راست (عنوان بخش)
                     Text(
                         text = "سفرهای محبوب",
                         fontFamily = iranSans,
                         fontWeight = FontWeight.Medium,
-                        fontSize = 12.sp,
+                        fontSize = fontSizeTitle,
                         color = Color.Black
                     )
                 }
-                val cityList = listOf(
-                    City("شیراز", "شهر زیبای شیراز در ۲۰ کیلومتری فارس واقع شده است.", R.drawable.shiraz),
-                    City("اصفهان", "شهر تاریخی اصفهان با معماری بی‌نظیر.", R.drawable.khajo),
-                    City("تبریز", "شهر اولین‌ها در شمال‌غرب ایران.", R.drawable.meydan_emam)
-                )
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                ) {
-                    LazyRow(
-                        reverseLayout = true,
-                        horizontalArrangement = Arrangement.spacedBy(6.dp)
-                    ) {
-                        items(cityList) { city ->
-                            CityCard(city)
-                        }
-                    }
-                }
-
-
+                // ✅ لیست کارت‌ها
+                CityCardList(navToCityScreen = { navController.navigate("cityDetail") })
             }
         }
 
@@ -310,73 +295,52 @@ fun HomeP() {
 
         Box(
             modifier = Modifier
-                .height(200.dp)
-//            .width(440.dp)
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp)
+                .wrapContentHeight()
+                .padding(horizontal = horizontalPadding)
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp), // بیشتر کردم که هم هدر هم Row دومی جا بش
+                    .wrapContentHeight(),
                 verticalArrangement = Arrangement.Top
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding( vertical = 8.dp),
+                        .padding(vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     // سمت چپ (بیشتر + آیکون)
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
                             painter = painterResource(id = R.drawable.next_icon),
                             contentDescription = "Next Icon",
-                            modifier = Modifier.size(18.dp)
+                            modifier = Modifier.size((screenWidth.value * 0.045).dp) // حدود 18dp
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = "بیشتر",
                             fontFamily = iranSans,
                             fontWeight = FontWeight.Normal,
-                            fontSize = 12.sp,
+                            fontSize = fontSizeMore,
                             color = Color.Black
                         )
                     }
 
-                    // سمت راست (سفر فعال)
+                    // سمت راست (عنوان بخش)
                     Text(
-                        text = "نزدیک ترین مقاصد",
+                        text = "نزدیکترین مقاصد",
                         fontFamily = iranSans,
                         fontWeight = FontWeight.Medium,
-                        fontSize = 12.sp,
+                        fontSize = fontSizeTitle,
                         color = Color.Black
                     )
                 }
-                val cityList = listOf(
-                    City("شیراز", "۱۲۰ کیلومتر دورتر", R.drawable.shiraz),
-                    City("اصفهان", "۱۶۵ کیلومتر دورتر", R.drawable.khajo),
-                    City("تبریز", "۱۸۰ کیلومتر دورتر", R.drawable.meydan_emam)
-                )
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                ) {
-                    LazyRow(
-                        reverseLayout = true,
-                        horizontalArrangement = Arrangement.spacedBy(6.dp)
-                    ) {
-                        items(cityList) { city ->
-                            CityCard(city)
-                        }
-                    }
-                }
-
+                // ✅ لیست کارت‌ها
+                Nearest_citiesCard()
 
             }
         }
@@ -386,9 +350,9 @@ fun HomeP() {
 
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    HomeP()
-}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun HomeScreenPreview() {
+//    HomeP()
+//}

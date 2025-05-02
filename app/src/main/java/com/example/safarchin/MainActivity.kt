@@ -10,6 +10,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.safarchin.ui.theme.Advertisement_logopage.AdvertisementScreen
 import com.example.safarchin.ui.theme.Advertisement_logopage.logopage
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.CityCardList
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.CityP
 import com.example.safarchin.ui.theme.FourPageAsli.HomeScreen
 import com.example.safarchin.ui.theme.login.login
 import com.example.safarchin.ui.theme.login.codeLogin
@@ -94,6 +96,9 @@ fun AppNavigation() {
             HomeScreen(navController = navController)
         }
 
+        composable("cityDetail") {
+            CityP(navController = navController) // یا CityP(cityViewModel.selectedCity.value) اگر ViewModel داری
+        }
     }
 }
 
