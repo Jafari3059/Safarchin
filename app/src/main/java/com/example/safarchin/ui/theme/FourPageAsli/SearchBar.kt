@@ -85,7 +85,9 @@ fun SearchBar(
                         Box(
                             modifier = Modifier
                                 .weight(1f)
-                                .padding(horizontal = 8.dp)
+                                .padding(horizontal = 8.dp),
+                            contentAlignment = Alignment.CenterEnd // مهم برای راست‌چین بودن کرسر
+
                         ) {
                             if (value.isEmpty()) {
                                 Text(

@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -28,29 +29,35 @@ import com.example.safarchin.R
 import com.example.safarchin.ui.theme.iranSans
 import com.example.safarchin.ui.theme.irgitiFont
 
-
 @Composable
 fun Nearest_cities(city: City) {
+    val screenWidth = LocalConfiguration.current.screenWidthDp
+    val cardWidth = (screenWidth * 0.33).dp
+    val imageHeight = (screenWidth * 0.3).dp
+    val titleFontSize = (screenWidth * 0.03).sp
+    val distanceFontSize = (screenWidth * 0.022).sp
+    val overlayTitleFontSize = (screenWidth * 0.06).sp
+    val paddingInside = (screenWidth * 0.015).dp
+
     Box(
         modifier = Modifier
-            .height(165.dp)
-            .width(130.dp)
-            .padding(4.dp)
-            .shadow(8.dp, RoundedCornerShape(12.dp)) // سایه از همه طرف
+            .width(cardWidth)
+            .wrapContentHeight()
+            .shadow(8.dp, RoundedCornerShape(12.dp))
             .background(Color.White)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 6.dp, vertical = 6.dp),
+                .padding(horizontal = paddingInside, vertical = paddingInside),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.End
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(80.dp)
-                    .clip(RoundedCornerShape(11))
+                    .height(imageHeight)
+                    .clip(RoundedCornerShape(11.dp))
             ) {
                 Image(
                     painter = painterResource(id = city.imageRes),
@@ -63,7 +70,7 @@ fun Nearest_cities(city: City) {
                     text = city.name,
                     fontFamily = irgitiFont,
                     fontWeight = FontWeight.Medium,
-                    fontSize = 24.sp,
+                    fontSize = overlayTitleFontSize,
                     color = Color.White,
                     style = TextStyle(
                         shadow = Shadow(
@@ -74,7 +81,7 @@ fun Nearest_cities(city: City) {
                     ),
                     modifier = Modifier
                         .align(Alignment.TopCenter)
-                        .padding(top = 15.dp)
+                        .padding(top = paddingInside)
                 )
             }
 
@@ -84,17 +91,17 @@ fun Nearest_cities(city: City) {
                 text = city.name,
                 fontFamily = iranSans,
                 fontWeight = FontWeight.Bold,
-                fontSize = 10.sp,
+                fontSize = titleFontSize,
                 color = Color.Black,
                 textAlign = TextAlign.Right,
                 modifier = Modifier.fillMaxWidth()
             )
 
             Text(
-                text = city.description,
+                text = "${city.location} کیلومتر دورتر",
                 fontFamily = iranSans,
                 fontWeight = FontWeight.Light,
-                fontSize = 6.sp,
+                fontSize = distanceFontSize,
                 color = Color.Gray,
                 textAlign = TextAlign.Right,
                 modifier = Modifier.fillMaxWidth()
@@ -103,27 +110,53 @@ fun Nearest_cities(city: City) {
     }
 }
 
-
 @Composable
-fun CityCarddList() {
+fun Nearest_citiesCard() {
     val cityList = listOf(
-        City("شیراز", "۱۲۰ کیلومتر دورتر", R.drawable.shiraz),
-        City("اصفهان", "۸۰ کیلومتر دورتر", R.drawable.shiraz),
-        City("تبریز", "۱۰۰ کیلومتر دورتر", R.drawable.shiraz)
+        City(
+            name = "شیراز",
+            description = "شهر زیبای شیراز در ۲۰ کیلومتری فارس واقع شده است.",
+            imageRes = R.drawable.shiraz,
+            location = 1,
+            touristPlaces = emptyList(),
+            shoppingCenters = emptyList(),
+            souvenirs = emptyList(),
+            restaurants = emptyList()
+        ),
+        City(
+            name = "اصفهان",
+            description = "شهر تاریخی اصفهان با معماری بی‌نظیر.",
+            imageRes = R.drawable.shiraz,
+            location = 2,
+            touristPlaces = emptyList(),
+            shoppingCenters = emptyList(),
+            souvenirs = emptyList(),
+            restaurants = emptyList()
+        ),
+        City(
+            name = "تبریز",
+            description = "شهر اولین‌ها در شمال‌غرب ایران.",
+            imageRes = R.drawable.shiraz,
+            location = 3,
+            touristPlaces = emptyList(),
+            shoppingCenters = emptyList(),
+            souvenirs = emptyList(),
+            restaurants = emptyList()
+        )
     )
 
     LazyRow(
         reverseLayout = true,
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(cityList) { city ->
-            CityCard(city)
+            Nearest_cities(city)
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewCitsdvyCards() {
-    CityCarddList()
+    Nearest_citiesCard()
 }

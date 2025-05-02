@@ -51,7 +51,6 @@ fun HomeScreen(navController: NavController) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = screenHeight * 0.1f)
             ) {
 
                 // ✅ فراخوانی هدر
@@ -74,7 +73,7 @@ fun HomeScreen(navController: NavController) {
                     0 -> profileP()
                     1 -> EshterakP()
                     2 -> planingP(navController)
-                    3 -> HomeP()
+                    3 -> HomeP(navController)
                 }
             }
         }
