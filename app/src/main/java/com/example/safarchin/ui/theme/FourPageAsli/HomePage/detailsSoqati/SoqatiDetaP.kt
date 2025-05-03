@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailstouristplaces
+package com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsResturantCaffe
 
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -48,14 +48,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.safarchin.R
-import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlace
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.shopCenter
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsShopCenter.shopcenterCard
 import com.example.safarchin.ui.theme.FourPageAsli.TabBar
 import com.example.safarchin.ui.theme.iranSans
 //import com.example.safarchin.ui.theme.irgitiFont
 import kotlinx.coroutines.delay
 
 @Composable
-fun TourPlaceDetaP(navController: NavController) {
+fun ShopCenterDetaP(navController: NavController) {
 
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -166,7 +167,7 @@ fun TourPlaceDetaP(navController: NavController) {
                     .width(220.dp)
                     .align(alignment = Alignment.BottomEnd)
                     .padding(horizontal = 24.dp, vertical = 34.dp),
-                text = "مکان\u200Cهای دیدنی و جاذبه \u200Cهای گردشگری  در اصفهان",
+                text = "مراکز خرید اصفهان",
                 fontFamily = iranSans,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
@@ -188,15 +189,14 @@ fun TourPlaceDetaP(navController: NavController) {
                     clip = false // خیلی مهم برای دیده شدن سایه بیرون از Box
                 )
                 .background(color = Color(0xFFFFFFFF), RoundedCornerShape(8.dp))
+
         ) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(12.dp),
-                text = " اصفهان؛ تلفیق تاریخ، زندگی و قصه\u200C در کوچه\u200Cپس\u200Cکوچه\u200Cهای خیال\u200Cانگیز\n" +
-                        "سفر به اصفهان یعنی غرق شدن در زیبایی\u200Cهای بی\u200Cانتها؛ جایی که هر گوشه\u200Cاش داستانی برای گفتن داره. از شکوه میدان نقش جهان و عظمت کاخ چهلستون گرفته تا سکوت روح\u200Cنواز کلیسای وانک و زیبایی بی\u200Cتکرار سی\u200Cوسه\u200Cپل، این شهر فقط مقصد نیست؛ یه تجربه\u200Cی تمام\u200Cعیاره.\n" +
-                        "اما اصفهان فقط به بناهای تاریخی محدود نمی\u200Cشه. کوچه\u200Cهای سنگ\u200Cفرش\u200Cشده\u200Cی محله\u200Cی جلفا، کافه\u200Cهای دنج و فضای دل\u200Cنشین محله\u200Cهای قدیمی مثل دردشت و عباسیان، همه و همه بخشی از اون چیزی هستن که به این شهر روح می\u200Cدن. اینجا جاییه که گذشته و حال کنار هم زندگی می\u200Cکنن.\n" +
-                        "ما برای معرفی این فضاها، به منابع معتبری مثل The Culture Trip، Lonely Planet، و تجربه\u200Cنویسی\u200Cهای مسافران واقعی در سایت\u200Cهایی مثل Tripadvisor و وبلاگ\u200Cهای فارسی سر زدیم. هدفمون این بود که مکان\u200Cهایی رو معرفی کنیم که هم مورد توجه گردشگرا بودن، هم حس واقعی اصفهان رو منتقل کنن.",
+                text = " اگه مثل ما عاشق امتحان کردن طعم\u200Cهای جدید باشی، سفر به اصفهان بدون سر زدن به رستوران\u200Cها و غذاخوری\u200Cهای معروفش کامل نیست. از رستوران\u200Cهای سنتی مثل شهرزاد و جارچی باشی گرفته تا انتخاب\u200Cهای متنوعی مثل مجتمع غذایی ترنج، این شهر برای هر سلیقه\u200Cای یه پیشنهاد خوشمزه داره.\n" +
+                        "ما برای انتخاب این لیست، از تجربه کاربران و پیشنهادهای معتبر در سایت\u200Cهایی مثل The Culture Trip و Travital.com کمک گرفتیم تا مطمئن شیم جاهایی رو معرفی می\u200Cکنیم که حسابی محبوب و امتحان\u200Cپس\u200Cداده\u200Cان.",
                 fontFamily = iranSans,
                 fontWeight = FontWeight.Light,
                 fontSize = 8.sp,
@@ -213,7 +213,7 @@ fun TourPlaceDetaP(navController: NavController) {
         var selectedTab by remember { mutableStateOf("همه") }
 
         // تب‌ها
-        val tabs = listOf("محبوب ترین","فضای بسته","فضای باز", "رایگان", "همه")
+        val tabs = listOf("اقتصادی","ارزانترین", "محبوب ترین", "همه")
         TabBar(
             tabs = tabs,
             selectedTab = selectedTab,
@@ -233,41 +233,35 @@ fun TourPlaceDetaP(navController: NavController) {
 //                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            TourPlaceCard(
-                TourPlace(
-                    name = "باغ ارم",
-                    description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است. در این میدان بسیاری دیگر از بناهای تاریخی و باستانی نیز قرار گرفته است. \u2028میدان نقش جهان اصفهان، ثبت سازمان یونسکو شده است به همین دلیل شهرت و شکوه بین المللی دارد همچنین میدان نقش جهان گنجینه شهر اصفهان است که سالانه  ",
+            shopcenterCard(
+                shopCenter(
+                    name = "مرکز خرید ستارتمعی با برندهای معتبر داخلی و خارجیه فارس",
+                    description = "یکی از بزرگ‌ترین مراکز خرید شیراز با فروشگاه‌های متنوع.",
                     imageRes = R.drawable.khajo,
-                    Visit_duration = "۱ ساعت",
-                    Visit_price = "۲۰٬۰۰۰ تومان",
-                    address = "شیراز، خیابان ارم",
-                    telephone = 12345678,
-                    WorkingHours = "۸ صبح تا ۸ شب"
+                    address = "شیراز، بلوار تمعی با برندهای معتبر داخلی و خارجیمطهری",
+                    telephone = "12345678",
+                    WorkingHours = "۱۰ صبح تا ۱۰تمعی با برندهای معتبر داخلی و خارجی شب"
                 ),
             )
-            TourPlaceCard(
-                TourPlace(
-                    name = "مسجد نصیرالملک",
-                    description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است. در این میدان بسیاری دیگر از بناهای تاریخی و باستانی نیز قرار گرفته است. \u2028میدان نقش جهان اصفهان، ثبت سازمان یونسکو شده است به همین دلیل شهرت و شکوه بین المللی دارد همچنین میدان نقش جهان گنجینه شهر اصفهان است که سالانه  ",
+            shopcenterCard(
+                shopCenter(
+                    name = "مجتمع تجاری زیتون",
+                    description = "مجتمعی با برندهای معتبر داخلی و خارجی.",
                     imageRes = R.drawable.shiraz,
-                    Visit_duration = "۴۵ دقیقه",
-                    Visit_price = "۱۵٬۰۰۰ تومان",
-                    address = "شیراز، خیابان لطفعلی‌خان زند",
-                    telephone = 87654321,
-                    WorkingHours = "۹ صبح تا ۵ عصر"
+                    address = "شیراز، خیابان کریم‌خان",
+                    telephone = "87654321",
+                    WorkingHours = "۹ صبح تا ۱۱ شب"
                 ),
             )
-            TourPlaceCard(
-                TourPlace(
-                    name = "تبریز",
-                    description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است. در این میدان بسیاری دیگر از بناهای تاریخی و باستانی نیز قرار گرفته است. \u2028میدان نقش جهان اصفهان، ثبت سازمان یونسکو شده است به همین دلیل شهرت و شکوه بین المللی دارد همچنین میدان نقش جهان گنجینه شهر اصفهان است که سالانه  ",
-                    imageRes = R.drawable.khajo,
-                    Visit_duration = "۲ ساعت",
-                    Visit_price = "رایگان",
-                    address = "تبریز، مرکز شهر",
-                    telephone = 11223344,
-                    WorkingHours = "۲۴ ساعته"
-                )
+            shopcenterCard(
+                shopCenter(
+                    name = "مجتمع تجاری زیتون",
+                    description = "مجتمعی با برندهای معتبر داخلی و خارجی.",
+                    imageRes = R.drawable.shiraz,
+                    address = "شیراز، خیابان کریم‌خان",
+                    telephone = "87654321",
+                    WorkingHours = "۹ صبح تا ۱۱ شب"
+                ),
             )
 
             Spacer(modifier = Modifier.height(16.dp))

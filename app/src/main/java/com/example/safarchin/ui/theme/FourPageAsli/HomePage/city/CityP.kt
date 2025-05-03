@@ -39,7 +39,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -50,9 +49,6 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun CityP(navController: NavController) {
-
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
 
     val images = listOf(
         R.drawable.khajo,
@@ -78,7 +74,6 @@ fun CityP(navController: NavController) {
         )
     }
     val scrollState = rememberScrollState()
-
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -203,7 +198,6 @@ fun CityP(navController: NavController) {
 
         val config = LocalConfiguration.current
         val screenWidth = config.screenWidthDp.dp
-        val screenHeight = config.screenHeightDp.dp
         val screenWidthPx = LocalConfiguration.current.screenWidthDp
         val iconSize = (screenWidthPx * 0.045).dp
         // نسبت‌های تطبیقی
@@ -232,7 +226,13 @@ fun CityP(navController: NavController) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     // سمت چپ (بیشتر + آیکون)
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .clickable {
+                                navController.navigate("tourDetails")
+                            },
+                        ) {
                         Image(
                             painter = painterResource(id = R.drawable.next_icon),
                             contentDescription = "Next Icon",
@@ -245,10 +245,7 @@ fun CityP(navController: NavController) {
                             fontWeight = FontWeight.Normal,
                             fontSize = fontSizeMore,
                             color = Color.Black,
-                            modifier = Modifier
-                                .clickable {
-                                    navController.navigate("tourDetails")
-                                },
+
                         )
                     }
 
@@ -292,7 +289,11 @@ fun CityP(navController: NavController) {
                 ) {
                     // سمت چپ (بیشتر + آیکون)
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .clickable {
+                                navController.navigate("RestDetails")
+                            },
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.next_icon),
@@ -306,10 +307,7 @@ fun CityP(navController: NavController) {
                             fontWeight = FontWeight.Normal,
                             fontSize = fontSizeMore,
                             color = Color.Black,
-                            modifier = Modifier
-                                .clickable {
-                                    navController.navigate("RestDetails")
-                                },
+
                         )
                     }
 
@@ -352,8 +350,13 @@ fun CityP(navController: NavController) {
                 ) {
                     // سمت چپ (بیشتر + آیکون)
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .clickable {
+                                navController.navigate("shopDetails")
+                            },
+
+                        ) {
                         Image(
                             painter = painterResource(id = R.drawable.next_icon),
                             contentDescription = "Next Icon",
@@ -366,10 +369,6 @@ fun CityP(navController: NavController) {
                             fontWeight = FontWeight.Normal,
                             fontSize = fontSizeMore,
                             color = Color.Black,
-                            modifier = Modifier
-                                .clickable {
-                                    navController.navigate("shopDetails")
-                                },
 
                         )
                     }
@@ -412,8 +411,13 @@ fun CityP(navController: NavController) {
                 ) {
                     // سمت چپ (بیشتر + آیکون)
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .clickable {
+                                navController.navigate("soqatiDetails")
+                            },
+
+                        ) {
                         Image(
                             painter = painterResource(id = R.drawable.next_icon),
                             contentDescription = "Next Icon",
@@ -425,7 +429,9 @@ fun CityP(navController: NavController) {
                             fontFamily = iranSans,
                             fontWeight = FontWeight.Normal,
                             fontSize = fontSizeMore,
-                            color = Color.Black
+                            color = Color.Black,
+
+
                         )
                     }
 

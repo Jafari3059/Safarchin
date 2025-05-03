@@ -44,7 +44,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.safarchin.R
-import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.rest_kafe
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.shopCenter
 //import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlcCard
 import com.example.safarchin.ui.theme.iranSans

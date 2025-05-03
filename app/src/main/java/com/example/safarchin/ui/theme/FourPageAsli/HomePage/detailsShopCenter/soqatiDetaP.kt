@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsResturantCaffe
+package com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsSoqati
 
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -43,11 +43,13 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 //import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.safarchin.R
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.Soqati
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.rest_kafe
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.shopCenter
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsShopCenter.shopcenterCard
@@ -57,7 +59,7 @@ import com.example.safarchin.ui.theme.iranSans
 import kotlinx.coroutines.delay
 
 @Composable
-fun ShopCenterDetaP(navController: NavController) {
+fun SoqatiDetaP(navController: NavController) {
 
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -112,7 +114,11 @@ fun ShopCenterDetaP(navController: NavController) {
                     contentDescription = "Background Image",
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(RoundedCornerShape(0.dp)),
+                        .clip(RoundedCornerShape(0.dp))
+                        .clickable {
+                            navController.popBackStack() // رفتن به عقب
+                        },
+
                     contentScale = ContentScale.Crop,
                     alpha = 0.9f // ✅ شفافیت تصویر
                 )
@@ -157,10 +163,10 @@ fun ShopCenterDetaP(navController: NavController) {
                 modifier = Modifier
                     .align(Alignment.TopStart) // یا .TopEnd برای سمت راست
                     .padding(start = 24.dp, top = 42.dp)
-                    .size(20.dp)
-                    .clickable {
-                        navController.popBackStack() // رفتن به عقب
-                    },
+                    .size(20.dp),
+//                    .clickable {
+//                        navController.popBackStack() // رفتن به عقب
+//                    },
                 tint = Color.Black
             )
             Text(
@@ -168,7 +174,7 @@ fun ShopCenterDetaP(navController: NavController) {
                     .width(220.dp)
                     .align(alignment = Alignment.BottomEnd)
                     .padding(horizontal = 24.dp, vertical = 34.dp),
-                text = "مراکز خرید اصفهان",
+                text = "سوغاتی های اصفهان",
                 fontFamily = iranSans,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
@@ -214,7 +220,7 @@ fun ShopCenterDetaP(navController: NavController) {
         var selectedTab by remember { mutableStateOf("همه") }
 
         // تب‌ها
-        val tabs = listOf("اقتصادی","ارزانترین", "محبوب ترین", "همه")
+        val tabs = listOf("هنرهای سنتی","پوشاک", "خوردنی ها", "همه")
         TabBar(
             tabs = tabs,
             selectedTab = selectedTab,
@@ -227,55 +233,48 @@ fun ShopCenterDetaP(navController: NavController) {
         Spacer(modifier = Modifier.height(screenHeight * 0.015f)) // 🔽 کمتر از قبل
 
 
+        val soqatiSamples = listOf(
+            Soqati("سوهان عسلی", "شیرینی سنتی و مقوی با طعم عسل و مغزهایرینی سنتی و مقوی با طعم عسل و مغزهایرینی سنتی و مقوی با طعم عسل و مغزها", R.drawable.khajo),
+            Soqati("سوهان عسلی", "شیرینی سنتی و مقوی با یرینی سنتی و مقوی با طعم عسل و مغزهاطعم عسل و مغزها", R.drawable.khajo),
+            Soqati("گز اصفهان", "یکی از معروف‌ترین سوغاتی‌های اییرینی سنتی و مقوی با طعم عسل و مغیرینی سنتی و مقوی با طعم عسل و مغزهازهاران از اصفهان", R.drawable.shiraz),
+            Soqati("پولکی", "شیرینی نازک و خوش‌طعیرینی سنتی و مقوی با طعم عسل و مغزهامی با طعم‌های متنوع", R.drawable.shiraz),
+            Soqati("گز اصفهان", "یکی از معروف‌ترین سوغاتی‌های ایرینی سنتی و مقوی با طعم عسل و مغزهایران از اصفهان", R.drawable.shiraz),
+            Soqati("پولکی", "شیرینی نازک و خوش‌طیرینی سنتی و مقوی با طعم عسل و مغزهاعمی با طعم‌های متنوع", R.drawable.shiraz)
+        )
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFFF7F7F7)),
-//                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            shopcenterCard(
-                shopCenter(
-                    name = "مرکز خرید ستارتمعی با برندهای معتبر داخلی و خارجیه فارس",
-                    description = "یکی از بزرگ‌ترین مراکز خرید شیراز با فروشگاه‌های متنوع.",
-                    imageRes = R.drawable.khajo,
-                    address = "شیراز، بلوار تمعی با برندهای معتبر داخلی و خارجیمطهری",
-                    telephone = "12345678",
-                    WorkingHours = "۱۰ صبح تا ۱۰تمعی با برندهای معتبر داخلی و خارجی شب"
-                ),
-            )
-            shopcenterCard(
-                shopCenter(
-                    name = "مجتمع تجاری زیتون",
-                    description = "مجتمعی با برندهای معتبر داخلی و خارجی.",
-                    imageRes = R.drawable.shiraz,
-                    address = "شیراز، خیابان کریم‌خان",
-                    telephone = "87654321",
-                    WorkingHours = "۹ صبح تا ۱۱ شب"
-                ),
-            )
-            shopcenterCard(
-                shopCenter(
-                    name = "مجتمع تجاری زیتون",
-                    description = "مجتمعی با برندهای معتبر داخلی و خارجی.",
-                    imageRes = R.drawable.shiraz,
-                    address = "شیراز، خیابان کریم‌خان",
-                    telephone = "87654321",
-                    WorkingHours = "۹ صبح تا ۱۱ شب"
-                ),
-            )
 
+            soqatiSamples.chunked(2).forEach { rowItems ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    rowItems.forEach { item ->
+                        SoqatiCard(soqati = item)
+                    }
+                    // اگر فقط یک کارت در ردیف بود، فاصله‌ی خالی برای کارت دوم
+                    if (rowItems.size == 1) {
+                        Spacer(modifier = Modifier.width(160.dp))
+                    }
+                }
+            }
             Spacer(modifier = Modifier.height(16.dp))
-
         }
-
 
 
     }
 }
 
+//
 //@Preview(showBackground = true)
 //@Composable
-//fun TourPlacePreview() {
-//    TourPlaceDetaP()
+//fun TourPlsPreview() {
+//    SoqatiDetaP()
 //}
