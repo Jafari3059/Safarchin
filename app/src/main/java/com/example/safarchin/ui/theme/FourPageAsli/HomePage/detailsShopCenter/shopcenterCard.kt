@@ -1,7 +1,6 @@
-package com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailstouristplaces
+package com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsShopCenter
 
 
-import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlace
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -45,13 +44,15 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.safarchin.R
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.rest_kafe
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.shopCenter
 //import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlcCard
 import com.example.safarchin.ui.theme.iranSans
 
 
 
 @Composable
-fun TourPlaceCard(place: TourPlace) {
+fun shopcenterCard(place: shopCenter) {
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val screenHeight = LocalConfiguration.current.screenHeightDp
 
@@ -63,7 +64,7 @@ fun TourPlaceCard(place: TourPlace) {
     val iconSaveSize = (screenWidth * 0.055).dp
 
     val paddingSize = (screenWidth * 0.025).dp
-    val minDescriptionHeight = (descFontSize.value * 1.2f * 7).dp
+    val minDescriptionHeight = (descFontSize.value * 1.4f * 7).dp
 
     Box(
         modifier = Modifier
@@ -103,30 +104,29 @@ fun TourPlaceCard(place: TourPlace) {
                     fontWeight = FontWeight.Bold,
                     fontSize = titleFontSize,
                     color = Color.Black,
-                    textAlign = TextAlign.Right
-                )
+                    textAlign = TextAlign.Right,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    )
 
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
                     Text(
                         text = place.description,
                         fontFamily = iranSans,
-                        fontWeight = FontWeight.Light,
                         fontSize = descFontSize,
-                        color = Color.Black,
+                        color = Color.DarkGray,
                         textAlign = TextAlign.Justify,
                         lineHeight = descFontSize * 1.4,
-                        maxLines = 5,
+                        maxLines = 7,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .fillMaxWidth()
                             .heightIn(min = minDescriptionHeight) // ✅ ارتفاع حداقل
                     )
                 }
-//                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
-                InfoRow(icon = R.drawable.clock2, text = "مدت بازدید: ${place.Visit_duration}", iconSize)
-                InfoRow(icon = R.drawable.money2, text = "هزینه بازدید: ${place.Visit_price}", iconSize)
-                InfoRow(icon = R.drawable.location, text = "آدرس: ${place.address}", iconSize)
+               InfoRow(icon = R.drawable.location, text = "آدرس: ${place.address}", iconSize)
                 InfoRow(icon = R.drawable.clock, text = "ساعت کاری: ${place.WorkingHours}", iconSize)
                 InfoRow(icon = R.drawable.phone, text = "تماس: ${place.telephone}", iconSize)
 
@@ -193,39 +193,35 @@ fun InfoRow(icon: Int, text: String, iconSize: Dp) {
 }
 
 
+
 @Composable
-fun TourPlaceList() {
-    val cityList = listOf(
-        TourPlace(
-            name = "باغ ارم",
-            description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است. در این میدان بسیاری دیگر از بناهای تاریخی و باستانی نیز قرار گرفته است. \u2028میدان نقش جهان اصفهان، ثبت سازمان یونسکو شده است به همین دلیل شهرت و شکوه بین المللی دارد همچنین میدان نقش جهان گنجینه شهر اصفهان است که سالانه  ",
+fun shopcenterList() {
+    val restList = listOf(
+        shopCenter(
+            name = "مرکز خرید ستارتمعی با برندهای معتبر داخلی و خارجیه فارس",
+            description = "یکی از بزرگ‌ترین مراکز خرید شیراز با فروشگاه‌های متنوع.",
             imageRes = R.drawable.khajo,
-            Visit_duration = "۱ ساعت",
-            Visit_price = "۲۰٬۰۰۰ تومان",
-            address = "شیراز، خیابان ارم",
-            telephone = 12345678,
-            WorkingHours = "۸ صبح تا ۸ شب"
+            address = "شیراز، بلوار تمعی با برندهای معتبر داخلی و خارجیمطهری",
+            telephone = "12345678",
+            WorkingHours = "۱۰ صبح تا ۱۰تمعی با برندهای معتبر داخلی و خارجی شب"
         ),
-        TourPlace(
-            name = "مسجد نصیرالملک",
-            description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است. در این میدان بسیاری دیگر از بناهای تاریخی و باستانی نیز قرار گرفته است. \u2028میدان نقش جهان اصفهان، ثبت سازمان یونسکو شده است به همین دلیل شهرت و شکوه بین المللی دارد همچنین میدان نقش جهان گنجینه شهر اصفهان است که سالانه  ",
+        shopCenter(
+            name = "مجتمع تجاری زیتون",
+            description = "مجتمعی با برندهای معتبر داخلی و خارجی.",
             imageRes = R.drawable.shiraz,
-            Visit_duration = "۴۵ دقیقه",
-            Visit_price = "۱۵٬۰۰۰ تومان",
-            address = "شیراز، خیابان لطفعلی‌خان زند",
-            telephone = 87654321,
-            WorkingHours = "۹ صبح تا ۵ عصر"
+            address = "شیراز، خیابان کریم‌خان",
+            telephone = "87654321",
+            WorkingHours = "۹ صبح تا ۱۱ شب"
         ),
-        TourPlace(
-            name = "تبریز",
-            description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است. در این میدان بسیاری دیگر از بناهای تاریخی و باستانی نیز قرار گرفته است. \u2028میدان نقش جهان اصفهان، ثبت سازمان یونسکو شده است به همین دلیل شهرت و شکوه بین المللی دارد همچنین میدان نقش جهان گنجینه شهر اصفهان است که سالانه  ",
-            imageRes = R.drawable.khajo,
-            Visit_duration = "۲ ساعت",
-            Visit_price = "رایگان",
-            address = "تبریز، مرکز شهر",
-            telephone = 11223344,
-            WorkingHours = "۲۴ ساعته"
-        )
+        shopCenter(
+            name = "مجتمع تجاری زیتون",
+            description = "مجتمعی با برندهای معتبر داخلی و خارجی.",
+            imageRes = R.drawable.shiraz,
+            address = "شیراز، خیابان کریم‌خان",
+            telephone = "87654321",
+            WorkingHours = "۹ صبح تا ۱۱ شب"
+        ),
+
     )
 
     LazyColumn(
@@ -233,14 +229,14 @@ fun TourPlaceList() {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        items(cityList) { place ->
-            TourPlaceCard(place = place)
+        items(restList) { place ->
+            shopcenterCard(place = place)
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewsdfvSoqatiCards() {
-    TourPlaceList()
+fun PrevfvSoqatiCards() {
+    shopcenterList()
 }

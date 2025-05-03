@@ -1,7 +1,6 @@
-package com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailstouristplaces
+package com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsResturantCaffe
 
 
-import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlace
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -45,13 +44,14 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.safarchin.R
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.rest_kafe
 //import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlcCard
 import com.example.safarchin.ui.theme.iranSans
 
 
 
 @Composable
-fun TourPlaceCard(place: TourPlace) {
+fun RestCaffeCard(place: rest_kafe) {
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val screenHeight = LocalConfiguration.current.screenHeightDp
 
@@ -63,7 +63,7 @@ fun TourPlaceCard(place: TourPlace) {
     val iconSaveSize = (screenWidth * 0.055).dp
 
     val paddingSize = (screenWidth * 0.025).dp
-    val minDescriptionHeight = (descFontSize.value * 1.2f * 7).dp
+    val minDescriptionHeight = (descFontSize.value * 1.3f * 6).dp
 
     Box(
         modifier = Modifier
@@ -80,8 +80,8 @@ fun TourPlaceCard(place: TourPlace) {
                 .fillMaxSize()
         ) {
             Image(
-                painter = painterResource(id = place.imageRes),
-                contentDescription = place.name,
+                painter = painterResource(id = place.imageResId),
+                contentDescription = place.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .width(imageWidth)
@@ -98,7 +98,7 @@ fun TourPlaceCard(place: TourPlace) {
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = place.name,
+                    text = place.title,
                     fontFamily = iranSans,
                     fontWeight = FontWeight.Bold,
                     fontSize = titleFontSize,
@@ -115,18 +115,30 @@ fun TourPlaceCard(place: TourPlace) {
                         color = Color.Black,
                         textAlign = TextAlign.Justify,
                         lineHeight = descFontSize * 1.4,
-                        maxLines = 5,
+                        maxLines = 6,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .fillMaxWidth()
                             .heightIn(min = minDescriptionHeight) // ✅ ارتفاع حداقل
                     )
                 }
-//                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(6.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    repeat(place.rating) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.fullstar),
+                            contentDescription = null,
+                            tint = Color(0xFFFFC107),
+                            modifier = Modifier.size(iconSize)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(6.dp))
 
-                InfoRow(icon = R.drawable.clock2, text = "مدت بازدید: ${place.Visit_duration}", iconSize)
-                InfoRow(icon = R.drawable.money2, text = "هزینه بازدید: ${place.Visit_price}", iconSize)
-                InfoRow(icon = R.drawable.location, text = "آدرس: ${place.address}", iconSize)
+               InfoRow(icon = R.drawable.location, text = "آدرس: ${place.address}", iconSize)
                 InfoRow(icon = R.drawable.clock, text = "ساعت کاری: ${place.WorkingHours}", iconSize)
                 InfoRow(icon = R.drawable.phone, text = "تماس: ${place.telephone}", iconSize)
 
@@ -194,37 +206,37 @@ fun InfoRow(icon: Int, text: String, iconSize: Dp) {
 
 
 @Composable
-fun TourPlaceList() {
-    val cityList = listOf(
-        TourPlace(
-            name = "باغ ارم",
-            description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است. در این میدان بسیاری دیگر از بناهای تاریخی و باستانی نیز قرار گرفته است. \u2028میدان نقش جهان اصفهان، ثبت سازمان یونسکو شده است به همین دلیل شهرت و شکوه بین المللی دارد همچنین میدان نقش جهان گنجینه شهر اصفهان است که سالانه  ",
-            imageRes = R.drawable.khajo,
-            Visit_duration = "۱ ساعت",
-            Visit_price = "۲۰٬۰۰۰ تومان",
+fun RestCaffeList() {
+    val restList = listOf(
+        rest_kafe(
+            title = "کافه زاویه",
+            description = "یکی از ماگه دنبال یه تجربه\u200Cی اصیل ایرانی وسط حال\u200Cو\u200Cهوای سنتی اصفهان هستی، رستوران شهرزاد یه انتخاب فوق\u200Cالعاده\u200Cست. فضای رستوران با آیینه\u200Cکاری\u200Cها و نقاشی\u200Cهای سنتی، حس و حال خونه\u200Cهای قدیمی ایرانی رو برات زنده می\u200Cکنه.\n" +
+                    "منوی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالی\u200Cپلو با ماهیچه گرفته تا فسنجون و زرشک\u200Cپلو با مرغ که همه با کیفیت بالا سرو می\u200Cشن. ",
+            rating = 5,
+            imageResId = R.drawable.khajo,
             address = "شیراز، خیابان ارم",
             telephone = 12345678,
             WorkingHours = "۸ صبح تا ۸ شب"
         ),
-        TourPlace(
-            name = "مسجد نصیرالملک",
-            description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است. در این میدان بسیاری دیگر از بناهای تاریخی و باستانی نیز قرار گرفته است. \u2028میدان نقش جهان اصفهان، ثبت سازمان یونسکو شده است به همین دلیل شهرت و شکوه بین المللی دارد همچنین میدان نقش جهان گنجینه شهر اصفهان است که سالانه  ",
-            imageRes = R.drawable.shiraz,
-            Visit_duration = "۴۵ دقیقه",
-            Visit_price = "۱۵٬۰۰۰ تومان",
+        rest_kafe(
+            title = "رستوران هفت خوان",
+            description = "مسجد معروف با شیشاگه دنبال یه تجربه\u200Cی اصیل ایرانی وسط حال\u200Cو\u200Cهوای سنتی اصفهان هستی، رستوران شهرزاد یه انتخاب فوق\u200Cالعاده\u200Cست. فضای رستوران با آیینه\u200Cکاری\u200Cها و نقاشی\u200Cهای سنتی، حس و حال خونه\u200Cهای قدیمی ایرانی رو برات زنده می\u200Cکنه.\n" +
+                    "منوی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالی\u200Cپلو با ماهیچه گرفته تا فسنجون و زرشک\u200Cپلو با مرغ که همه با کیفیت بالا سرو می\u200Cشن. ",
+            rating = 4,
+            imageResId = R.drawable.shiraz,
             address = "شیراز، خیابان لطفعلی‌خان زند",
             telephone = 87654321,
             WorkingHours = "۹ صبح تا ۵ عصر"
         ),
-        TourPlace(
-            name = "تبریز",
-            description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است. در این میدان بسیاری دیگر از بناهای تاریخی و باستانی نیز قرار گرفته است. \u2028میدان نقش جهان اصفهان، ثبت سازمان یونسکو شده است به همین دلیل شهرت و شکوه بین المللی دارد همچنین میدان نقش جهان گنجینه شهر اصفهان است که سالانه  ",
-            imageRes = R.drawable.khajo,
-            Visit_duration = "۲ ساعت",
-            Visit_price = "رایگان",
+        rest_kafe(
+            title = "کافه بازار",
+            description = "فضایی سنتی برای نوشیدن چای و تجربه حال واگه دنبال یه تجربه\u200Cی اصیل ایرانی وسط حال\u200Cو\u200Cهوای سنتی اصفهان هستی، رستوران شهرزاد یه انتخاب فوق\u200Cالعاده\u200Cست. فضای رستوران با آیینه\u200Cکاری\u200Cها و نقاشی\u200Cهای سنتی، حس و حال خونه\u200Cهای قدیمی ایرانی رو برات زنده می\u200Cکنه.\n" +
+                    "منوی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالی\u200Cپلو با ماهیچه گرفته تا فسنجون و زرشک\u200Cپلو با مرغ که همه با کیفیت بالا سرو می\u200Cشن.  هوای قدیمی.",
+            rating = 4,
+            imageResId = R.drawable.khajo,
             address = "تبریز، مرکز شهر",
             telephone = 11223344,
-            WorkingHours = "۲۴ ساعته"
+            WorkingHours = "۱۰ صبح تا ۱۰ شب"
         )
     )
 
@@ -233,8 +245,8 @@ fun TourPlaceList() {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        items(cityList) { place ->
-            TourPlaceCard(place = place)
+        items(restList) { place ->
+            RestCaffeCard(place = place)
         }
     }
 }
@@ -242,5 +254,5 @@ fun TourPlaceList() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewsdfvSoqatiCards() {
-    TourPlaceList()
+    RestCaffeList()
 }

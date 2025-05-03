@@ -12,6 +12,8 @@ import com.example.safarchin.ui.theme.Advertisement_logopage.AdvertisementScreen
 import com.example.safarchin.ui.theme.Advertisement_logopage.logopage
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailstouristplaces.TourPlaceDetaP
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.CityP
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsResturantCaffe.RestCaffeDetaP
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsResturantCaffe.ShopCenterDetaP
 import com.example.safarchin.ui.theme.FourPageAsli.HomeScreen
 import com.example.safarchin.ui.theme.login.login
 import com.example.safarchin.ui.theme.login.codeLogin
@@ -101,6 +103,12 @@ fun AppNavigation() {
         }
         composable("tourDetails") {
             TourPlaceDetaP(navController = navController)
+        }
+        composable("RestDetails") {
+            RestCaffeDetaP(navController = navController)
+        }
+        composable("shopDetails") {
+            ShopCenterDetaP(navController = navController)
         }
 
     }
