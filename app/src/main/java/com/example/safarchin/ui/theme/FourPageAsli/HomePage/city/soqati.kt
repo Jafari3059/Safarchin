@@ -25,10 +25,11 @@ import androidx.compose.ui.unit.sp
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.iranSans
 
+// ✅ تغییر: استفاده از لیست برای نگهداری چند تصویر
 data class Soqati(
     val name: String,
     val description: String,
-    val imageRes: Int
+    val imageResList: List<Int> // لیست از آیدی‌های عکس
 )
 
 @Composable
@@ -60,7 +61,7 @@ fun SoqatiCard(soqati: Soqati) {
                     .clip(RoundedCornerShape(11.dp))
             ) {
                 Image(
-                    painter = painterResource(id = soqati.imageRes),
+                    painter = painterResource(id = soqati.imageResList.firstOrNull() ?: R.drawable.meydan_emam),
                     contentDescription = "Soqati Image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.matchParentSize()
@@ -97,9 +98,21 @@ fun SoqatiCard(soqati: Soqati) {
 @Composable
 fun SoqatiList() {
     val soqatiItems = listOf(
-        Soqati("کلوچه مسقطی", "یکی از سوغاتی‌های معروف و خوشمزه شیراز.دسر سنتی با طعمی به\u200Cیادماندنی.", R.drawable.shiraz),
-        Soqati("عرقیات گیاهی", "محصولات طبیعی با عطر بی‌نظیر.دسر سنتی با طعمی به\u200Cیادماندنی.", R.drawable.shiraz),
-        Soqati("فالوده شیرازی", "دسر سنتی با طعمی به‌یادماندنی.دسر سنتی با طعمی به\u200Cیادماندنی.", R.drawable.shiraz)
+        Soqati(
+            "کلوچه مسقطی",
+            "یکی از سوغاتی‌های معروف و خوشمزه شیراز.",
+            imageResList = listOf(R.drawable.shiraz, R.drawable.khajo, R.drawable.meydan_emam)
+        ),
+        Soqati(
+            "عرقیات گیاهی",
+            "محصولات طبیعی با عطر بی‌نظیر.",
+            imageResList = listOf(R.drawable.shiraz, R.drawable.meydan_emam)
+        ),
+        Soqati(
+            "فالوده شیرازی",
+            "دسر سنتی خنک و محبوب مخصوص شیراز.",
+            imageResList = listOf(R.drawable.shiraz)
+        )
     )
 
     LazyRow(

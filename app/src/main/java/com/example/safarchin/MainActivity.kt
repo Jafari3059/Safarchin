@@ -12,9 +12,10 @@ import com.example.safarchin.ui.theme.Advertisement_logopage.AdvertisementScreen
 import com.example.safarchin.ui.theme.Advertisement_logopage.logopage
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailstouristplaces.TourPlaceDetaP
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.CityP
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsCentershop.ShopCenterDetaP
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsResturantCaffe.RestCaffeDetaP
-import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsResturantCaffe.ShopCenterDetaP
-import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsSoqati.SoqatiDetaP
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsCentershop.SoqatiDetaP
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.spqati.Souvenir.SouvenirDetailScreen
 import com.example.safarchin.ui.theme.FourPageAsli.HomeScreen
 import com.example.safarchin.ui.theme.login.login
 import com.example.safarchin.ui.theme.login.codeLogin
@@ -114,6 +115,25 @@ fun AppNavigation() {
         composable("soqatiDetails") {
             SoqatiDetaP(navController = navController)
         }
+
+        composable(
+            "SouvenirDetailScreen/{name}/{description}/{images}"
+        ) { backStackEntry ->
+
+            val name = backStackEntry.arguments?.getString("name") ?: ""
+            val description = backStackEntry.arguments?.getString("description") ?: ""
+            val imageParam = backStackEntry.arguments?.getString("images") ?: ""
+            val imageResList = imageParam.split(",").mapNotNull { it.toIntOrNull() }
+
+            SouvenirDetailScreen(
+                navController = navController,
+                name = name,
+                description = description,
+                imageResList = imageResList
+            )
+        }
+
+
 
     }
 }

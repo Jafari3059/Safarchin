@@ -1,18 +1,10 @@
-package com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsSoqati
+package com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsCentershop
 
-
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,14 +24,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.Soqati
 import com.example.safarchin.ui.theme.iranSans
 
-
 @Composable
-fun SoqatiCard(soqati: Soqati, modifier: Modifier = Modifier) {
-    val cornerRadius = 12.dp
+fun SoqatiCard(soqati: Soqati, navController: NavController, modifier: Modifier = Modifier) {
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val imageHeight = (screenWidth * 0.35).dp
 
@@ -49,6 +40,15 @@ fun SoqatiCard(soqati: Soqati, modifier: Modifier = Modifier) {
             .height(210.dp)
             .shadow(8.dp, RoundedCornerShape(12.dp))
             .background(Color.White)
+            .clickable {
+                val imageParam = soqati.imageResList.joinToString(",")
+                navController.navigate(
+                    "SouvenirDetailScreen/" +
+                            Uri.encode(soqati.name) + "/" +
+                            Uri.encode(soqati.description) + "/" +
+                            imageParam
+                )
+            }
     ) {
         Column(
             modifier = Modifier
@@ -56,7 +56,7 @@ fun SoqatiCard(soqati: Soqati, modifier: Modifier = Modifier) {
                 .padding(horizontal = 6.dp, vertical = 6.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.End
-        )  {
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -64,7 +64,7 @@ fun SoqatiCard(soqati: Soqati, modifier: Modifier = Modifier) {
                     .clip(RoundedCornerShape(11.dp))
             ) {
                 Image(
-                    painter = painterResource(id = soqati.imageRes),
+                    painter = painterResource(id = soqati.imageResList.firstOrNull() ?: R.drawable.shiraz),
                     contentDescription = "Soqati Image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.matchParentSize()
@@ -101,27 +101,34 @@ fun SoqatiCard(soqati: Soqati, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SoqatiGrid() {
+fun SoqatiGrid(navController: NavController) {
     val soqatiItems = listOf(
-        Soqati("پوکّه", "پوکّه یا نان پوکه نوعی شیرینی سنتی شیراز است که خیلی خووووووووووشمزه است", R.drawable.khajo),
-        Soqati("پوکّه", "پوکّه یا نان پوکه نوعی شیرینی سنتی شیراز است که...", R.drawable.shiraz)
+        Soqati(
+            "پوکّه",
+            "پوکّه یا نان پوکه نوعی شیرینی سنتی شیراز است که خیلی خووووووووووشمزه است",
+            listOf(R.drawable.khajo, R.drawable.shiraz)
+        ),
+        Soqati(
+            "فالوده شیرازی",
+            "دسر سنتی با طعمی خنک و شیرین که با لیمو ترش سرو می‌شود.",
+            listOf(R.drawable.shiraz, R.drawable.meydan_emam)
+        )
     )
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier
-            .fillMaxSize()
-//            .padding(horizontal = 16.dp, vertical = 12.dp)
+        modifier = Modifier.fillMaxSize()
     ) {
         items(soqatiItems.chunked(2)) { rowItems ->
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
             ) {
-                for (item in rowItems) {
-                    SoqatiCard(soqati = item)
+                rowItems.forEach { item ->
+                    SoqatiCard(soqati = item, navController = navController)
                 }
-                // برای جای خالی در ردیف ناقص
                 if (rowItems.size < 2) {
                     Spacer(modifier = Modifier.width(160.dp))
                 }
@@ -130,8 +137,9 @@ fun SoqatiGrid() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewSoqatiGrid() {
-    SoqatiGrid()
-}
+
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewSoqatiGrid() {
+//    SoqatiGrid()
+//}

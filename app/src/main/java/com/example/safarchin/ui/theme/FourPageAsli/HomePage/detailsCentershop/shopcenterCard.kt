@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsShopCenter
+package com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsCentershop
 
 
 import androidx.compose.foundation.Image
