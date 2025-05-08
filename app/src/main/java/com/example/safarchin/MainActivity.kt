@@ -17,6 +17,7 @@ import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsResturantCaff
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsCentershop.SoqatiDetaP
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.spqati.Souvenir.SouvenirDetailScreen
 import com.example.safarchin.ui.theme.FourPageAsli.HomeScreen
+import com.example.safarchin.ui.theme.FourPageAsli.planing.OverviewScreen
 import com.example.safarchin.ui.theme.login.login
 import com.example.safarchin.ui.theme.login.codeLogin
 import com.example.safarchin.ui.theme.SafarchinTheme
@@ -115,6 +116,10 @@ fun AppNavigation() {
         composable("soqatiDetails") {
             SoqatiDetaP(navController = navController)
         }
+        composable("overview") {
+            OverviewScreen()
+        }
+
 
         composable(
             "SouvenirDetailScreen/{name}/{description}/{images}"

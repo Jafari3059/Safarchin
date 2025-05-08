@@ -201,7 +201,8 @@ fun planingP(navController: NavController) {
                     },
                 contentAlignment = Alignment.Center
             ) {
-                CreateTripDialog(onDismiss = { showCreateDialog = false })
+                CreateTripDialog(onDismiss = { showCreateDialog = false }, navController = navController)
+
             }
         }
     }
@@ -365,7 +366,8 @@ fun TripCard(
 }
 
 @Composable
-fun CreateTripDialog(onDismiss: () -> Unit) {
+fun CreateTripDialog(onDismiss: () -> Unit, navController: NavController)
+{
     var tripName by remember { mutableStateOf("") }
     var selectedCity by remember { mutableStateOf("انتخاب شهر") }
     var startDate by remember { mutableStateOf("") }
@@ -382,19 +384,14 @@ fun CreateTripDialog(onDismiss: () -> Unit) {
     var showCalendarDialog by remember { mutableStateOf(false) }
     var isSelectingStartDate by remember { mutableStateOf(true) }
 
-    val interactionSource = remember { MutableInteractionSource() }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFBCBCBC).copy(alpha = 0.63f))
-            .clickable(
-                indication = null,
-                interactionSource = interactionSource,
-                onClick = { onDismiss() }
-            ),
+            .clickable(enabled = false) {}, // جلوگیری از دریافت کلیک
         contentAlignment = Alignment.Center
-    ) {
+    )
+    {
         Box(modifier = Modifier.zIndex(1f)) {
             Card(
                 modifier = Modifier.size(380.dp, 580.dp),
@@ -428,7 +425,6 @@ fun CreateTripDialog(onDismiss: () -> Unit) {
                             )
                         }
 
-                        // تاریخ پایان
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             Column(horizontalAlignment = Alignment.End) {
                                 Text("تاریخ پایان", fontSize = 12.sp)
@@ -462,7 +458,6 @@ fun CreateTripDialog(onDismiss: () -> Unit) {
                                 )
                             }
                         }
-
 
                         Column(horizontalAlignment = Alignment.End) {
                             Text("تعداد همسفران", fontSize = 12.sp)
@@ -511,7 +506,8 @@ fun CreateTripDialog(onDismiss: () -> Unit) {
 
                         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                             Button(
-                                onClick = { /* ذخیره‌سازی */ },
+                                onClick = { onDismiss() // بستن دیالوگ
+                                    navController.navigate("overview")  },
                                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7B54)),
                                 modifier = Modifier
                                     .width(131.dp)
@@ -538,7 +534,6 @@ fun CreateTripDialog(onDismiss: () -> Unit) {
                 }
             }
 
-            // تقویم بازه‌ای
             if (showCalendarDialog) {
                 PersianCalendarDialog(
                     onDismiss = { showCalendarDialog = false },
@@ -547,20 +542,9 @@ fun CreateTripDialog(onDismiss: () -> Unit) {
                         endDate = selectedEnd ?: endDate
                         showCalendarDialog = false
                     }
-//                    onSave = { selectedStart, selectedEnd ->
-//                        if (isSelectingStartDate) {
-//                            startDate = selectedStart ?: ""
-//                        } else {
-//                            endDate = selectedEnd ?: ""
-//                        }
-//                        showCalendarDialog = false
-//                    }
                 )
-
             }
 
-
-            // منو انتخاب شهر
             if (showCityDialog) {
                 Box(
                     modifier = Modifier
@@ -580,7 +564,6 @@ fun CreateTripDialog(onDismiss: () -> Unit) {
                 }
             }
 
-            // منو بودجه
             if (showBudgetDialog) {
                 Box(
                     modifier = Modifier
