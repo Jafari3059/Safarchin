@@ -2,6 +2,8 @@
 
 package com.example.safarchin.ui.theme.FourPageAsli.planing.overviewP
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,6 +35,12 @@ fun OverviewScreen(navController: NavController) {
     val config = LocalConfiguration.current
     val screenWidth = config.screenWidthDp.dp
     val screenHeight = config.screenHeightDp.dp
+    val context = LocalContext.current
+
+    val sharedPreferences: SharedPreferences = context.getSharedPreferences("guide_prefs", Context.MODE_PRIVATE)
+    val initialGuideCount = sharedPreferences.getInt("guide_shown_count", 0)
+    var guideCount by remember { mutableStateOf(initialGuideCount) }
+    var showGuide by remember { mutableStateOf(guideCount < 3) }
 
     val topBoxHeight = screenHeight * 0.35f
     val dateBoxSize = screenWidth * 0.14f
@@ -78,7 +87,6 @@ fun OverviewScreen(navController: NavController) {
                         )
                     }
                 }
-
 
                 Row(
                     modifier = Modifier
@@ -131,7 +139,7 @@ fun OverviewScreen(navController: NavController) {
                     selectedTab = selectedTabIndex,
                     onTabSelected = { selectedTabIndex = it },
                     modifier = Modifier
-                        .padding(start = 6.dp, end = 6.dp, bottom = 0.dp, top = 22.dp)
+                        .padding(start = 6.dp, end = 6.dp, bottom = 0.dp, top = 26.dp)
                         .align(Alignment.CenterEnd)
                 )
             }
@@ -154,8 +162,17 @@ fun OverviewScreen(navController: NavController) {
                 Text("+ مکان جدید", color = Color.White, fontSize = tabFontSize * 0.8f)
             }
         }
+
+        if (showGuide) {
+            GuidePopup(onDismiss = {
+                guideCount++
+                sharedPreferences.edit().putInt("guide_shown_count", guideCount).apply()
+                showGuide = false
+            })
+        }
     }
 }
+
 
 
 @Composable

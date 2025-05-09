@@ -62,7 +62,7 @@ fun DreamTripCard(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(2.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
             Column(
                 modifier = Modifier.fillMaxWidth(),
