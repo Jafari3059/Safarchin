@@ -55,6 +55,7 @@ import com.example.safarchin.ui.theme.iranSans
 //import com.example.safarchin.ui.theme.irgitiFont
 import kotlinx.coroutines.delay
 
+
 @Composable
 fun SoqatiDetaP(navController: NavController) {
 
@@ -160,10 +161,10 @@ fun SoqatiDetaP(navController: NavController) {
                 modifier = Modifier
                     .align(Alignment.TopStart) // یا .TopEnd برای سمت راست
                     .padding(start = 24.dp, top = 42.dp)
-                    .size(20.dp),
-//                    .clickable {
-//                        navController.popBackStack() // رفتن به عقب
-//                    },
+                    .size(20.dp)
+                    .clickable {
+                        navController.popBackStack() // رفتن به عقب
+                    },
                 tint = Color.Black
             )
             Text(
@@ -231,9 +232,10 @@ fun SoqatiDetaP(navController: NavController) {
 
 
         val soqatiSamples = listOf(
-            Soqati("سوهان عسلی", "شیرینی سنتی با مغز و عسل", listOf(R.drawable.khajo, R.drawable.shiraz)),
+            Soqati("هیچی", "شیرینی سنتی با مغز و عسل", listOf()),
+            Soqati("یکی", "شیرینی سنتی با مغز و عسل", listOf(R.drawable.khajo)),
             Soqati("گز اصفهان", "سوغات معروف با مغز پسته", listOf(R.drawable.shiraz, R.drawable.meydan_emam)),
-            Soqati("پولکی", "نبات نازک و شیرین", listOf(R.drawable.meydan_emam)),
+            Soqati("پولکی", "نبات نازک و شیرین", listOf(R.drawable.meydan_emam, R.drawable.khajo , R.drawable.shiraz, R.drawable.shiraz)),
         )
 
         Column(

@@ -46,6 +46,8 @@ import com.example.safarchin.R
 import com.example.safarchin.ui.theme.iranSans
 import com.example.safarchin.ui.theme.irgitiFont
 import kotlinx.coroutines.delay
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.Soqati
+
 
 @Composable
 fun CityP(navController: NavController) {
@@ -452,6 +454,15 @@ fun CityP(navController: NavController) {
         }
 
     }
+}
+fun getSoqatiList(): List<Soqati> {
+    return listOf(
+        Soqati("کلوچه مسقطی", "یکی از سوغاتی‌های معروف شیراز.", listOf(R.drawable.shiraz, R.drawable.khajo)),
+        Soqati("فالوده", "دسر خنک مخصوص شیراز.", listOf()),
+        Soqati("کلوچه ddddمسقطی", "یکی از سوغاتی‌های معروف شیراز.", listOf(R.drawable.shiraz, R.drawable.khajo , R.drawable.meydan_emam)),
+        Soqati("کلوچهssss مسقطی", "یکی از سوغاتی‌های معروف شیراز.", listOf(R.drawable.shiraz, R.drawable.khajo)),
+
+        )
 }
 
 //@Preview(showBackground = true)
