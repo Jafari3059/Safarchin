@@ -28,6 +28,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -44,6 +46,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourCardList
 import com.example.safarchin.ui.theme.FourPageAsli.planing.Trip
@@ -59,10 +65,13 @@ fun profileP() {
         Trip(3, "تبریز", "۱۴۰۳/۰۳/۰۵", "تور کندوان", R.drawable.profile_image)
     )
     val scrollState = rememberScrollState()
-    val configuration = LocalConfiguration.current
     val density = LocalDensity.current
-    val screenHeight = with(density) { configuration.screenHeightDp.dp }
-    val screenWidth = with(density) { configuration.screenWidthDp.dp }
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+    val screenHeight = configuration.screenHeightDp.dp
+
+
+    var isPopupVisible = remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -172,7 +181,10 @@ fun profileP() {
                             modifier = Modifier
                                 .align(Alignment.BottomEnd)
                                 .padding(2.dp)
-                                .size(screenWidth * 0.05f),
+                                .size(screenWidth * 0.05f)
+                                .clickable {
+                                    isPopupVisible.value = true // 👈 اینجا
+                                },
                             tint = Color(0xFF939B62)
                         )
                     }
@@ -380,6 +392,24 @@ fun profileP() {
 
         Spacer(modifier = Modifier.height(100.dp))
     }
+
+
+    if (isPopupVisible.value) {
+        Dialog(
+            onDismissRequest = { isPopupVisible.value = false },
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false, // 👈 اجازه عرض دلخواه
+                dismissOnClickOutside = true
+            )
+        ) {
+            popupSettting()
+        }
+    }
+
+
+
+
+
 }
 
 @Composable
