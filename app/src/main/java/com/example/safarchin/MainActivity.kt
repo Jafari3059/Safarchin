@@ -17,11 +17,17 @@ import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsResturantCaff
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsCentershop.SoqatiDetaP
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.spqati.Souvenir.SouvenirDetailScreen
 import com.example.safarchin.ui.theme.FourPageAsli.HomeScreen
-import com.example.safarchin.ui.theme.FourPageAsli.planing.overviewP.OverviewScreen
+import com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.OverviewScreen
+import com.example.safarchin.ui.theme.FourPageAsli.Plannig.planingP
 import com.example.safarchin.ui.theme.login.login
 import com.example.safarchin.ui.theme.login.codeLogin
 import com.example.safarchin.ui.theme.SafarchinTheme
 import kotlinx.coroutines.delay
+import androidx.compose.material3.Text // یا material3 بسته به استفاده‌ت
+import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.unit.dp
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,8 +122,11 @@ fun AppNavigation() {
         composable("soqatiDetails") {
             SoqatiDetaP(navController = navController)
         }
+        composable("planing") {
+            planingP(navController = navController)
+        }
         composable("overview") {
-            OverviewScreen(navController = navController) // ✅ این مهمه
+            OverviewScreen(navController = navController)
         }
 
 

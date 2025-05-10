@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.planing.overviewP
+package com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -24,9 +24,9 @@ fun DreamTripCard(modifier: Modifier = Modifier) {
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
 
-    val boxHeight = screenHeight * 0.24f
-    val imageHeight = screenHeight * 0.12f
-    val iconSize = screenWidth * 0.04f
+    val boxHeight = screenHeight * 0.22f
+    val imageHeight = screenHeight * 0.11f
+    val iconSize = screenWidth * 0.03f
     val titleFontSize = screenWidth.value.times(0.03).sp
     val subTextFontSize = screenWidth.value.times(0.028).sp
 
@@ -39,7 +39,7 @@ fun DreamTripCard(modifier: Modifier = Modifier) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(12.dp)
+                .padding(10.dp)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.meydan_emam),
@@ -81,7 +81,7 @@ fun DreamTripCard(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(start = 14.dp, bottom = 16.dp)
-                .size(iconSize),
+                .size(28.dp),
             tint = Color.Gray
         )
     }

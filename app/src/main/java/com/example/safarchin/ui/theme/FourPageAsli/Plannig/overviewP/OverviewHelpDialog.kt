@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.planing.overviewP
+package com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,31 +20,38 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.iranSans
+
 
 @Composable
 fun GuidePopup(
     onDismiss: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFBCBCBC).copy(alpha = 0.63f))
-            .clickable(enabled = false) {},
-        contentAlignment = Alignment.Center
-    ) {
+    navController: NavController,
+   // modifier: Modifier = Modifier
+)
+{
+//    Box(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .background(Color(0xFFBCBCBC).copy(alpha = 0.63f))
+//            .clickable(enabled = false) {},
+//        contentAlignment = Alignment.Center
+//    )
+
         Box(
             modifier = Modifier
                 .width(300.dp)
-                .height(260.dp)
+//                .height(260.dp)
+                .wrapContentHeight()
                 .clip(RoundedCornerShape(12.dp))
                 .background(Color.White)
                 .padding(16.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -76,7 +83,7 @@ fun GuidePopup(
                         contentScale = ContentScale.Fit
                     )
                 }
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(14.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(18.dp, Alignment.CenterHorizontally) // فاصله بین دکمه‌ها
@@ -85,7 +92,7 @@ fun GuidePopup(
                         onClick = { onDismiss() },
                         modifier = Modifier
                             .width(110.dp)
-                            .height(36.dp),
+                            .height(46.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFB26B)),
                         shape = RoundedCornerShape(10.dp)
                     ) {
@@ -98,10 +105,13 @@ fun GuidePopup(
                         )
                     }
                     Button(
-                        onClick = { onDismiss() },
+                        onClick = {
+                            onDismiss()
+                            navController.navigate("cityDetail")
+                        },
                         modifier = Modifier
                             .width(110.dp)
-                            .height(36.dp),
+                            .height(46.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7F54)),
                         shape = RoundedCornerShape(10.dp)
                     ) {
@@ -116,14 +126,20 @@ fun GuidePopup(
 
 
 
+
                 }
             }
         }
     }
-}
+
 
 @Preview(showBackground = true, locale = "fa")
 @Composable
 fun PreviewGuidePopup() {
-    GuidePopup(onDismiss = {})
+    val fakeNavController = rememberNavController()
+
+    GuidePopup(
+        onDismiss = {},
+        navController = fakeNavController
+    )
 }

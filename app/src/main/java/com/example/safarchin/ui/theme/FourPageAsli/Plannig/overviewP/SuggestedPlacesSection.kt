@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.planing.overviewP
+package com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP
 // SuggestedPlacesSection.kt
 
 import androidx.compose.foundation.*

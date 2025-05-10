@@ -1,20 +1,22 @@
-package com.example.safarchin.ui.theme.FourPageAsli.planing.overviewP
+package com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.*
-//import com.example.safarchin.ui.theme.iranSans
+import androidx.compose.ui.unit.dp
+import com.example.safarchin.R
+import com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.Saved.SavedPlace
+import com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.Saved.SavedPlacesBox
+import com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.Saved.SavedPlacesViewModel
 
 @Composable
-fun OverviewTabContent() {
+fun OverviewTabContent(savedPlacesViewModel: SavedPlacesViewModel) {
     val config = LocalConfiguration.current
     val screenWidth = config.screenWidthDp
     val screenHeight = config.screenHeightDp
@@ -35,8 +37,7 @@ fun OverviewTabContent() {
                 end = screenWidthDp * 0.05f,
                 top = screenHeightDp * 0.01f,
                 bottom = screenHeightDp * 0.12f
-            )
-        ,
+            ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OverviewInputField(
@@ -60,25 +61,47 @@ fun OverviewTabContent() {
         )
         Spacer(modifier = Modifier.height(spacerHeight))
 
-        SavedPlacesBox()
+        SavedPlacesBox(viewModel = savedPlacesViewModel)
 
         Spacer(modifier = Modifier.height(spacerHeight))
 
         SuggestedPlacesSection()
+
+        // ✅ دکمه تستی برای افزودن کارت ذخیره شده موقت
+//        Button(
+//            onClick = {
+//                savedPlacesViewModel.addPlace(
+//                    SavedPlace(
+//                        id = 1,
+//                        name = "مسجد نصیرالملک",
+//                        imageRes = R.drawable.shiraz
+//                    )
+//                )
+//            },
+//            modifier = Modifier.padding(12.dp)
+//        )
+//        {
+////            Text("+ افزودن تستی")
+//        }
+
+
     }
 }
-
 
 @Preview(showBackground = true, locale = "fa")
 @Composable
 fun PreviewOverviewTabContent() {
+    val fakeViewModel = SavedPlacesViewModel().apply {
+        addPlace(SavedPlace(1, "مسجد نصیرالملک", R.drawable.shiraz))
+    }
+
     MaterialTheme {
         Surface(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFFF6F4F4))
         ) {
-            OverviewTabContent()
+            OverviewTabContent(savedPlacesViewModel = fakeViewModel)
         }
     }
 }
