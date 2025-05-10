@@ -114,10 +114,6 @@ fun HomeScreen(navController: NavController) {
                 .align(Alignment.TopEnd)
                 .zIndex(2f)
         ) {
-//            DrawerContent(
-////                navController = navController,
-//                onClose = { isDrawerOpen = false }
-//            )
         }
     }
 }
