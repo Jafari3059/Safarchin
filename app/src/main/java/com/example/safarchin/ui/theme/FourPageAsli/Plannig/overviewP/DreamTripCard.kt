@@ -76,7 +76,7 @@ fun DreamTripCard(modifier: Modifier = Modifier) {
         }
 
         Icon(
-            painter = painterResource(id = R.drawable.edit2),
+            painter = painterResource(id = R.drawable.editproficon),
             contentDescription = null,
             modifier = Modifier
                 .align(Alignment.BottomStart)

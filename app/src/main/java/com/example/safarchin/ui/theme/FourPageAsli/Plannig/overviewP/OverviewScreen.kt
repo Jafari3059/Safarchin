@@ -58,11 +58,13 @@ fun OverviewScreen(navController: NavController) {
     var selectedTabIndex by remember { mutableStateOf(3) }
 
     val savedPlacesViewModel: SavedPlacesViewModel = viewModel()
+    val selectedPlacesViewModel: SelectedPlacesViewModel = viewModel()
 
     val fabSize = screenWidth * 0.16f
     val fabPaddingEnd = screenWidth * 0.06f
     val fabPaddingBottom = screenHeight * 0.04f
     val iconSize = screenWidth * 0.18f
+
 
     Box(modifier = Modifier.fillMaxSize().background(Color(0xFFF6F4F4))) {
 
@@ -135,7 +137,11 @@ fun OverviewScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(spacerHeight))
 
             if (selectedTabIndex == 3) {
-                OverviewTabContent(savedPlacesViewModel = savedPlacesViewModel)
+               // OverviewTabContent(savedPlacesViewModel = savedPlacesViewModel)
+                OverviewTabContent(
+                    savedPlacesViewModel = savedPlacesViewModel,
+                    selectedPlacesViewModel = selectedPlacesViewModel
+                )
             }
         }
 
@@ -187,7 +193,7 @@ fun DateBox(label: String, value: String, size: Dp, fontSize: TextUnit) {
         modifier = Modifier
             .size(size)
             .clip(RoundedCornerShape(12.dp))
-            .background(Color.White),
+            .background(Color(0xFFF6F4F4)),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -327,7 +333,7 @@ fun OverviewInputField(
         },
         leadingIcon = {
             Icon(
-                painter = painterResource(id = R.drawable.popdown),
+                painter = painterResource(id = R.drawable.down),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(start = 8.dp)

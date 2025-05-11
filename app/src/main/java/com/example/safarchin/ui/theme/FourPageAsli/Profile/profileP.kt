@@ -46,14 +46,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupProperties
+//import androidx.compose.ui.window.Popup
+//import androidx.compose.ui.window.PopupProperties
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourCardList
 import com.example.safarchin.ui.theme.FourPageAsli.Plannig.Trip
 import com.example.safarchin.ui.theme.FourPageAsli.Plannig.Components.TripCard
 import com.example.safarchin.ui.theme.iranSans
-
+import androidx.compose.foundation.clickable
 @Composable
 fun profileP() {
     val sampleTrips = listOf(

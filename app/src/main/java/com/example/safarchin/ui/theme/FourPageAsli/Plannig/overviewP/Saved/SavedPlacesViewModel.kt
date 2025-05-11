@@ -10,6 +10,12 @@ data class SavedPlace(
     val imageRes: Int
 )
 
+data class SelectedPlace(
+    val id: Int,
+    val name: String,
+    val imageRes: Int
+)
+
 // ویو مدل لیست مکان‌های ذخیره شده
 class SavedPlacesViewModel : ViewModel() {
     val savedPlaces = mutableStateListOf<SavedPlace>()

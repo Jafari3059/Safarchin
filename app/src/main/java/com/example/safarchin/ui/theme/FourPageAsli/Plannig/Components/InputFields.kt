@@ -119,7 +119,7 @@ fun CustomDropdownField(
         ) {
             // آیکن سمت چپ
             Icon(
-                painter = painterResource(id = R.drawable.popdown),
+                painter = painterResource(id = R.drawable.down),
                 contentDescription = null,
                 modifier = Modifier.size(14.dp),
                 tint = Color.Black

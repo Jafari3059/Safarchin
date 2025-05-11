@@ -4,6 +4,7 @@ package com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailstouristplace
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlace
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -48,14 +49,16 @@ import com.example.safarchin.R
 //import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlcCard
 import com.example.safarchin.ui.theme.iranSans
 
-
-
 @Composable
-fun TourPlaceCard(place: TourPlace) {
+fun TourPlaceCard(
+    place: TourPlace,
+    showRemove: Boolean = false,
+    onRemoveClick: (() -> Unit)? = null
+) {
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val screenHeight = LocalConfiguration.current.screenHeightDp
 
-    val cardHeight = (screenHeight * 0.29).dp // ✅ ارتفاع نسبت‌دار
+    val cardHeight = (screenHeight * 0.29).dp
     val imageWidth = (screenWidth * 0.35).dp
     val titleFontSize = (screenWidth * 0.035).sp
     val descFontSize = (screenWidth * 0.028).sp
@@ -68,17 +71,13 @@ fun TourPlaceCard(place: TourPlace) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(cardHeight) // ✅ ریسپانسیو بر اساس ارتفاع صفحه
+            .height(cardHeight)
             .padding(horizontal = 24.dp)
             .clip(RoundedCornerShape(16.dp))
             .shadow(8.dp, RoundedCornerShape(16.dp))
             .background(Color.White)
-
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
+        Row(modifier = Modifier.fillMaxSize()) {
             Image(
                 painter = painterResource(id = place.imageRes),
                 contentDescription = place.name,
@@ -88,8 +87,6 @@ fun TourPlaceCard(place: TourPlace) {
                     .fillMaxHeight()
             )
 
-
-            // متن و آیکون‌ها
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -119,10 +116,9 @@ fun TourPlaceCard(place: TourPlace) {
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .heightIn(min = minDescriptionHeight) // ✅ ارتفاع حداقل
+                            .heightIn(min = minDescriptionHeight)
                     )
                 }
-//                Spacer(modifier = Modifier.height(10.dp))
 
                 InfoRow(icon = R.drawable.clock2, text = "مدت بازدید: ${place.Visit_duration}", iconSize)
                 InfoRow(icon = R.drawable.money2, text = "هزینه بازدید: ${place.Visit_price}", iconSize)
@@ -132,7 +128,6 @@ fun TourPlaceCard(place: TourPlace) {
 
                 Spacer(modifier = Modifier.height(6.dp))
 
-                // دکمه و آیکون
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -148,10 +143,11 @@ fun TourPlaceCard(place: TourPlace) {
                     Box(
                         modifier = Modifier
                             .background(Color(0xFFFFB26B), RoundedCornerShape(8.dp))
+                            .clickable(enabled = showRemove, onClick = { onRemoveClick?.invoke() })
                             .padding(horizontal = 12.dp, vertical = 4.dp)
                     ) {
                         Text(
-                            text = "توضیحات بیشتر",
+                            text = if (showRemove) "حذف از منتخبین" else "توضیحات بیشتر",
                             fontSize = (screenWidth * 0.025).sp,
                             color = Color.White,
                             fontFamily = iranSans

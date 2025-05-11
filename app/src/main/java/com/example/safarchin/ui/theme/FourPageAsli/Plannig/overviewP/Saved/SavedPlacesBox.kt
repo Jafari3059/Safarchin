@@ -21,9 +21,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.iranSans
+import android.util.Log
 
 @Composable
-fun SavedPlacesBox(viewModel: SavedPlacesViewModel) {
+fun SavedPlacesBox(
+    viewModel: SavedPlacesViewModel,
+    onAddToPlanClicked: (SavedPlace) -> Unit
+) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val boxWidth = screenWidth * 0.90f
@@ -113,12 +117,20 @@ fun SavedPlacesBox(viewModel: SavedPlacesViewModel) {
                                     fontSize = fontSize,
                                     fontFamily = iranSans,
                                     fontWeight = FontWeight.Bold,
-                                    modifier = Modifier.align(Alignment.End).padding(end = 8.dp),
+                                    modifier = Modifier
+                                        .align(Alignment.End)
+                                        .padding(end = 8.dp),
                                     maxLines = 1
                                 )
                                 Spacer(modifier = Modifier.height(4.dp))
+
+                                // ✅ دکمه فعال شده
                                 Button(
-                                    onClick = { },
+                                    onClick = {
+                                        Log.d("BTN_CLICK", "کلیک روی: ${place.name}")
+                                        onAddToPlanClicked(place)
+                                    },
+
                                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF939B62)),
                                     modifier = Modifier
                                         .width(buttonWidth)
@@ -144,7 +156,7 @@ fun SavedPlacesBox(viewModel: SavedPlacesViewModel) {
     }
 }
 
-    @Preview(showBackground = true, locale = "fa")
+@Preview(showBackground = true, locale = "fa")
 @Composable
 fun PreviewSavedPlacesBox() {
     val fakeViewModel = SavedPlacesViewModel().apply {
@@ -153,10 +165,14 @@ fun PreviewSavedPlacesBox() {
 
     MaterialTheme {
         Surface {
-            SavedPlacesBox(viewModel = fakeViewModel)
+            SavedPlacesBox(
+                viewModel = fakeViewModel,
+                onAddToPlanClicked = { /* اینجا فعلاً کاری نمی‌کنیم */ }
+            )
         }
     }
 }
+
 
 //@Preview(showBackground = true, locale = "fa")
 //@Composable
