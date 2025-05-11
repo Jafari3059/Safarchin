@@ -72,18 +72,13 @@ import coil.compose.rememberAsyncImagePainter
 
 
 @Composable
-fun popupSettting(
-    mainPhoneNumber: String,
-    onPhoneChange: (String) -> Unit
+fun popupfirstlogin(
 ){
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
 
-
-    val context = LocalContext.current
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
-    val isPhonePopupVisible = remember { mutableStateOf(false) }
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -121,7 +116,7 @@ fun popupSettting(
                                 painter = if (selectedImageUri != null)
                                     rememberAsyncImagePainter(selectedImageUri)
                                 else
-                                    painterResource(id = R.drawable.profile_image),
+                                    painterResource(id = R.drawable.profile_pic),
                                 contentDescription = "Profile Picture",
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
@@ -171,10 +166,6 @@ fun popupSettting(
                             val cityOptions = listOf("تهران", "مشهد", "اصفهان", "شیراز", "تبریز", "رشت", "کرج", "قم", "اهواز", "یزد", "ارومیه", "زاهدان", "سنندج", "گرگان", "بندرعباس", "قزوین", "زنجان", "کرمان", "خرم‌آباد", "ایلام", "بوشهر", "ساری", "کاشان", "بجنورد", "سبزوار", "کیش", "قشم", "شهرکرد", "اردبیل", "همدان", "ملایر", "مراغه", "بابل", "آمل", "نجف‌آباد", "ورامین", "اندیمشک", "شوشتر", "ساوه", "بیرجند", "نیشابور", "دزفول", "لار", "آبادان", "ماهشهر", "خمینی‌شهر", "رفسنجان", "ایرانشهر", "سیرجان", "جاجرم", "گرمسار", "طبس", "دهدشت", "درود", "بندر گناوه", "تربت‌حیدریه")
 
                             val inputValues = remember { mutableStateListOf("", "", "", "", "", "") }
-
-                            LaunchedEffect(mainPhoneNumber) {
-                                inputValues[5] = mainPhoneNumber
-                            }
 
                             labels.forEachIndexed { index, label ->
                                 var expanded by remember { mutableStateOf(false) }
@@ -236,17 +227,13 @@ fun popupSettting(
                                         else if (index == 5) {
                                             // فیلد شماره - فقط نمایشی و قابل کلیک
                                             Text(
-                                                text = inputValues[index].ifEmpty { mainPhoneNumber }, // 👈 نمایش مقدار واقعی
+                                                text = inputValues[index], // 👈 نمایش مقدار واقعی
                                                 fontFamily = iranSans,
                                                 fontSize = (screenWidth.value * 0.026).sp,
-                                                color = Color(0xFFFF7F54),
+                                                color = Color(0xFF969696),
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .padding(horizontal = 8.dp)
-                                                    .clickable {
-                                                        // اینجا پاپ‌آپ جدیدت رو باز کن
-                                                        isPhonePopupVisible.value = true
-                                                    },
+                                                    .padding(horizontal = 8.dp),
                                                 textAlign = TextAlign.Right
                                             )
                                         }
@@ -286,51 +273,9 @@ fun popupSettting(
                         }
                     }
                 }
-                var isCheckedS by remember { mutableStateOf(false) }
                 var isCheckedN by remember { mutableStateOf(false) }
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(screenHeight * 0.05f)
-                        .background(Color.Transparent),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    // Switch سفارشی‌شده
-                    Switch(
-                        checked = isCheckedS,
-                        onCheckedChange = { isCheckedS = it },
-                        colors = SwitchDefaults.colors(
-                            checkedThumbColor = Color.White,
-                            checkedTrackColor = Color(0xFFFFC98D), // نارنجی کم‌رنگ
-                            uncheckedThumbColor = Color.Black,
-                            uncheckedTrackColor = Color.Transparent
-                        ),
-                        modifier = Modifier.scale(0.85f)
-                    )
 
-                    Text(
-                        text = buildAnnotatedString {
-                            append("ایا مایل هستید سفرهای برنامه ریزی شده شما در صفحه پروفایلتان قرار بگیرد؟ ")
-
-                            withStyle(
-                                style = SpanStyle(
-                                    fontSize = (screenWidth.value * 0.020).sp, // کوچکتر از متن اصلی
-                                    color = Color.Gray // می‌تونی رنگ رو هم عوض کنی
-                                )
-                            ) {
-                                append("(با اینکار کاربران دیگر میتوانند محتوای سفر شما را مشاهده کنند)")
-                            }
-                        },
-                        fontFamily = iranSans,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = (screenWidth.value * 0.025).sp, // سایز متن اصلی
-                        color = Color.Black,
-                        textAlign = TextAlign.Right
-                    )
-
-                }
 
                 Row(
                     modifier = Modifier
@@ -362,98 +307,39 @@ fun popupSettting(
                     )
 
                 }
-                Spacer(modifier = Modifier.height(16.dp)) // 👈 فاصله افقی بین دو دکمه
 
+                Spacer(modifier = Modifier.height(4.dp)) // 👈 فاصله افقی بین دو دکمه
 
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(screenHeight * 0.07f),
-                    verticalAlignment = Alignment.CenterVertically
+                        .width(screenWidth * 0.4f )
+                        .height(screenHeight * 0.07f)
+                        .align(alignment = Alignment.CenterHorizontally),
                 ) {
-                    Row(
+                    // دکمه "ثبت"
+                    Box(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(screenHeight * 0.07f), // ⬅ جایگزین 60.dp
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceEvenly
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(screenWidth * 0.04f))
+                            .background(Color(0xFFFF7F54)),
+                        contentAlignment = Alignment.Center
                     ) {
-                        // دکمه "خروج"
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxHeight()
-                                .clip(RoundedCornerShape(screenWidth * 0.04f)) // گردی نسبی
-                                .background(Color.White)
-                                .border(1.5.dp, Color(0xFFFF3A3A), RoundedCornerShape(screenWidth * 0.04f)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "خروج",
-                                fontFamily = iranSans,
-                                fontWeight = FontWeight.Medium,
-                                fontSize = (screenWidth.value * 0.04).sp, // ⬅ اندازه فونت ریسپانسیو
-                                color = Color.Black
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.width(screenWidth * 0.06f)) // فاصله ریسپانسیو
-
-                        // دکمه "ثبت"
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxHeight()
-                                .clip(RoundedCornerShape(screenWidth * 0.04f))
-                                .background(Color(0xFFFF7F54)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "ثبت",
-                                fontFamily = iranSans,
-                                fontWeight = FontWeight.Medium,
-                                fontSize = (screenWidth.value * 0.04).sp,
-                                color = Color.White
-                            )
-                        }
+                        Text(
+                            text = "ثبت",
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = (screenWidth.value * 0.04).sp,
+                            color = Color.White
+                        )
                     }
                 }
 
             }
-
-
-
-        }
-    var mainPhoneNumber by remember { mutableStateOf("09130987654") }
-
-    if (isPhonePopupVisible.value) {
-        Dialog(
-            onDismissRequest = { isPhonePopupVisible.value = false },
-            properties = DialogProperties(
-                usePlatformDefaultWidth = false,
-                dismissOnClickOutside = true
-            )
-        ) {
-            PhoneVerificationDialog(
-                phone = mainPhoneNumber,
-                onDismiss = { isPhonePopupVisible.value = false },
-                onConfirm = { newPhone ->
-                    onPhoneChange(newPhone) // 👈 شماره جدید رو بیرون بده
-                    isPhonePopupVisible.value = false
-                }
-            )
-        }
     }
-
-
-
-
-
-
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PopupS() {
-//    popupSettting()
-//}
+@Preview(showBackground = true)
+@Composable
+fun PopupS() {
+    popupfirstlogin()
+}
