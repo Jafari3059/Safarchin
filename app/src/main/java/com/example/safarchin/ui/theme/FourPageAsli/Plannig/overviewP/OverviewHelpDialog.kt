@@ -76,7 +76,7 @@ fun GuidePopup(
                     )
                    // Spacer(modifier = Modifier.height(2.dp))
                     Image(
-                        painter = painterResource(id = R.drawable.khajo),
+                        painter = painterResource(id = R.drawable.guidesave),
                         contentDescription = null,
                         modifier = Modifier
                             .size(width = 186.dp, height = 73.dp),
