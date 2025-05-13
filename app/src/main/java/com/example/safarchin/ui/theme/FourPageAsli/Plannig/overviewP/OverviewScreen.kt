@@ -143,6 +143,14 @@ fun OverviewScreen(navController: NavController) {
                     selectedPlacesViewModel = selectedPlacesViewModel
                 )
             }
+
+            if (selectedTabIndex == 1) {
+                // OverviewTabContent(savedPlacesViewModel = savedPlacesViewModel)
+                OverviewTabContent(
+                    savedPlacesViewModel = savedPlacesViewModel,
+                    selectedPlacesViewModel = selectedPlacesViewModel
+                )
+            }
         }
 
         // 🔘 دکمه شناور
@@ -186,6 +194,7 @@ fun OverviewScreen(navController: NavController) {
         }
     }
 }
+
 
 @Composable
 fun DateBox(label: String, value: String, size: Dp, fontSize: TextUnit) {
