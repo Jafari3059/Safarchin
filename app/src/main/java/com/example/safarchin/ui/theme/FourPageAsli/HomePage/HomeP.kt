@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HeaderSection
 import com.example.safarchin.ui.theme.FourPageAsli.SearchBar
@@ -350,7 +351,13 @@ fun HomeP(navController: NavController) {
 
     }
 }
-//
+@Preview(showSystemUi = true, showBackground = true, locale = "fa")
+@Composable
+fun PreviewHomeP() {
+    val navController = rememberNavController()
+    HomeP(navController = navController)
+}
+
 //@Preview(showBackground = true)
 //@Composable
 //fun HomeScreenPreview() {

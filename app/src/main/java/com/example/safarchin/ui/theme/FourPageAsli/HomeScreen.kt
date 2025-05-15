@@ -23,7 +23,7 @@ import androidx.navigation.NavController
 import com.example.safarchin.ui.theme.FourPageAsli.Eshterak.EshterakP
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.HomeP
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.profileP
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.planingP
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.planingP
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

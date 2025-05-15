@@ -17,16 +17,12 @@ import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsResturantCaff
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsCentershop.SoqatiDetaP
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.spqati.Souvenir.SouvenirDetailScreen
 import com.example.safarchin.ui.theme.FourPageAsli.HomeScreen
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.OverviewScreen
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.planingP
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.OverviewScreen
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.planingP
 import com.example.safarchin.ui.theme.login.login
 import com.example.safarchin.ui.theme.login.codeLogin
 import com.example.safarchin.ui.theme.SafarchinTheme
 import kotlinx.coroutines.delay
-import androidx.compose.material3.Text // یا material3 بسته به استفاده‌ت
-import androidx.compose.ui.Modifier
-import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.unit.dp
 
 
 class MainActivity : ComponentActivity() {
@@ -97,16 +93,13 @@ fun AppNavigation() {
         composable("login") {
             login(navController = navController)
         }
-
         // صفحه کد ورود
         composable("codelogin") {
             codeLogin(navController = navController)
         }
-
         composable("home") {
             HomeScreen(navController = navController)
         }
-
         composable("cityDetail") {
             CityP(navController = navController) // یا CityP(cityViewModel.selectedCity.value) اگر ViewModel داری
         }

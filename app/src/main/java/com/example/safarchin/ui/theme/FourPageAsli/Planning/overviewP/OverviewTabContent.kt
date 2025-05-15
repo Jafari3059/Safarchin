@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP
 
 
 import androidx.compose.foundation.*
@@ -10,7 +10,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
@@ -28,9 +27,9 @@ import androidx.compose.ui.unit.sp
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlace
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailstouristplaces.TourPlaceCard
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.Saved.SavedPlace
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.Saved.SavedPlacesBox
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.Saved.SavedPlacesViewModel
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.Saved.SavedPlace
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.Saved.SavedPlacesBox
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.Saved.SavedPlacesViewModel
 import com.example.safarchin.ui.theme.iranSans
 
 @Composable
