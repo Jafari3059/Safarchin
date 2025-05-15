@@ -148,6 +148,24 @@ fun OverviewScreen(navController: NavController) {
                     selectedPlacesViewModel = selectedPlacesViewModel
                 )
             }
+
+            val currentValue = 300000 // گرفتن currentValue از DreamTripCard
+            val maxValue = 900000
+
+            if (selectedTabIndex == 1) {
+                OverviewTabBudget(
+                    currentValue = currentValue, // استفاده از currentValue
+                    maxValue = maxValue,
+                    items = listOf(
+                        "خرید" to 850000,
+                        "اقامتگاه" to 500000,
+                        "خوردنی" to 10000,
+                        "تفریح" to 2000,
+                        "حمل و نقل" to 10000,
+                        "متفرقه" to 100000
+                    )
+                )
+            }
         }
 
         // 🔘 دکمه شناور
@@ -164,6 +182,25 @@ fun OverviewScreen(navController: NavController) {
                 Icon(
                     painter = painterResource(id = R.drawable.newplace),
                     contentDescription = "افزودن مکان",
+                    tint = Color.Unspecified,
+                    modifier = Modifier.size(iconSize)
+                )
+            }
+        }
+
+        if (!isPopupVisible.value && selectedTabIndex == 1) {
+            FloatingActionButton(
+                onClick = { isPopupVisible.value = true },
+                shape = CircleShape,
+                containerColor = Color(0xFFFFD56B),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = fabPaddingEnd, bottom = fabPaddingBottom)
+                    .size(fabSize)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.newcost),
+                    contentDescription = "افزودن هزینه",
                     tint = Color.Unspecified,
                     modifier = Modifier.size(iconSize)
                 )
@@ -191,6 +228,7 @@ fun OverviewScreen(navController: NavController) {
         }
     }
 }
+
 
 @Composable
 fun DateBox(label: String, value: String, size: Dp, fontSize: TextUnit) {

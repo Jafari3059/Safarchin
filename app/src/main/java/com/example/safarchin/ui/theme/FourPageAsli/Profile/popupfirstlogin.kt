@@ -1,5 +1,6 @@
 package com.example.safarchin.ui.theme.FourPageAsli.Profile
 
+import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.util.Log
@@ -69,11 +70,17 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.rememberAsyncImagePainter
+import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.UserEntity
+import com.example.safarchin.ui.theme.FourPageAsli.saveImageToInternalStorage
+import java.io.File
 
 
 @Composable
 fun popupfirstlogin(
-){
+    phone: String,
+    onSave: (UserEntity) -> Unit
+)
+{
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
@@ -84,6 +91,14 @@ fun popupfirstlogin(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         selectedImageUri = uri
+    }
+    val dropDownIndices = listOf(3, 4) // سن = index 3، شهر = index 4
+    val ageOptions = (18..70).map { "$it سال" }
+    val cityOptions = listOf("تهران", "مشهد", "اصفهان", "شیراز", "تبریز", "رشت", "کرج", "قم", "اهواز", "یزد", "ارومیه", "زاهدان", "سنندج", "گرگان", "بندرعباس", "قزوین", "زنجان", "کرمان", "خرم‌آباد", "ایلام", "بوشهر", "ساری", "کاشان", "بجنورد", "سبزوار", "کیش", "قشم", "شهرکرد", "اردبیل", "همدان", "ملایر", "مراغه", "بابل", "آمل", "نجف‌آباد", "ورامین", "اندیمشک", "شوشتر", "ساوه", "بیرجند", "نیشابور", "دزفول", "لار", "آبادان", "ماهشهر", "خمینی‌شهر", "رفسنجان", "ایرانشهر", "سیرجان", "جاجرم", "گرمسار", "طبس", "دهدشت", "درود", "بندر گناوه", "تربت‌حیدریه")
+
+    val inputValues = remember { mutableStateListOf("", "", "", "", "", "") }
+    LaunchedEffect(phone) {
+        inputValues[5] = phone
     }
 
     Box(
@@ -161,11 +176,6 @@ fun popupfirstlogin(
                                 ":شهر محل زندگی",
                                 ":شماره"
                             )
-                            val dropDownIndices = listOf(3, 4) // سن = index 3، شهر = index 4
-                            val ageOptions = (18..70).map { "$it سال" }
-                            val cityOptions = listOf("تهران", "مشهد", "اصفهان", "شیراز", "تبریز", "رشت", "کرج", "قم", "اهواز", "یزد", "ارومیه", "زاهدان", "سنندج", "گرگان", "بندرعباس", "قزوین", "زنجان", "کرمان", "خرم‌آباد", "ایلام", "بوشهر", "ساری", "کاشان", "بجنورد", "سبزوار", "کیش", "قشم", "شهرکرد", "اردبیل", "همدان", "ملایر", "مراغه", "بابل", "آمل", "نجف‌آباد", "ورامین", "اندیمشک", "شوشتر", "ساوه", "بیرجند", "نیشابور", "دزفول", "لار", "آبادان", "ماهشهر", "خمینی‌شهر", "رفسنجان", "ایرانشهر", "سیرجان", "جاجرم", "گرمسار", "طبس", "دهدشت", "درود", "بندر گناوه", "تربت‌حیدریه")
-
-                            val inputValues = remember { mutableStateListOf("", "", "", "", "", "") }
 
                             labels.forEachIndexed { index, label ->
                                 var expanded by remember { mutableStateOf(false) }
@@ -310,6 +320,9 @@ fun popupfirstlogin(
 
                 Spacer(modifier = Modifier.height(4.dp)) // 👈 فاصله افقی بین دو دکمه
 
+                val context = LocalContext.current
+
+
                 Row(
                     modifier = Modifier
                         .width(screenWidth * 0.4f )
@@ -321,8 +334,29 @@ fun popupfirstlogin(
                         modifier = Modifier
                             .fillMaxSize()
                             .clip(RoundedCornerShape(screenWidth * 0.04f))
-                            .background(Color(0xFFFF7F54)),
-                        contentAlignment = Alignment.Center
+                            .background(Color(0xFFFF7F54))
+                            .clickable {
+                                val imagePath = selectedImageUri?.let {
+                                    val oldFile = File(context.filesDir, "profile_image.jpg")
+                                    if (oldFile.exists()) oldFile.delete()
+                                    saveImageToInternalStorage(context, it)?.toString()
+                                }
+
+                                val user = UserEntity(
+                                    phone = phone,
+                                    username = inputValues[0],
+                                    name = inputValues[1],
+                                    lastName = inputValues[2],
+                                    age = inputValues[3],
+                                    city = inputValues[4],
+                                    notifyEnabled = isCheckedN,
+                                    showTripsPublicly = true,
+                                    imageUri = imagePath // ⬅ دقیقاً همین‌جا مقدار نهایی رو بفرست
+                                )
+                                onSave(user)
+                            },
+
+                                contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = "ثبت",
@@ -332,14 +366,31 @@ fun popupfirstlogin(
                             color = Color.White
                         )
                     }
+
                 }
 
             }
     }
 }
+fun saveImageToInternalStorage(context: Context, uri: Uri): Uri? {
+    return try {
+        val inputStream = context.contentResolver.openInputStream(uri) ?: return null
+        val fileName = "profile_image.jpg"
+        val file = File(context.filesDir, fileName)
 
-@Preview(showBackground = true)
-@Composable
-fun PopupS() {
-    popupfirstlogin()
+        file.outputStream().use { output ->
+            inputStream.copyTo(output)
+        }
+
+        Uri.fromFile(file)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
 }
+
+//@Preview(showBackground = true)
+//@Composable
+//fun PopupS() {
+//    popupfirstlogin()
+//}
