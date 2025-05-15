@@ -1,11 +1,8 @@
 package com.example.safarchin.ui.theme.FourPageAsli.Profile
 
 import android.net.Uri
-import android.os.Build
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,9 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -30,8 +25,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,16 +40,12 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.iranSans
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.draw.scale
@@ -69,26 +58,45 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.rememberAsyncImagePainter
+import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.UserEntity
+import java.io.File
 
 
 @Composable
 fun popupSettting(
-    mainPhoneNumber: String,
-    onPhoneChange: (String) -> Unit
-){
+    user: UserEntity,
+    onPhoneChange: (String) -> Unit,
+    onDismiss: () -> Unit,
+    onSubmit: (UserEntity) -> Unit
+)
+{
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
 
 
-    val context = LocalContext.current
-    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
     val isPhonePopupVisible = remember { mutableStateOf(false) }
-
+    var selectedImageUri by remember {
+        mutableStateOf(user.imageUri?.let { Uri.fromFile(File(it)) })
+    }
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         selectedImageUri = uri
+    }
+
+    var isCheckedS by remember { mutableStateOf(user.showTripsPublicly) }
+    var isCheckedN by remember { mutableStateOf(user.notifyEnabled) }
+
+    val inputValues = remember {
+        mutableStateListOf(
+            user.username,
+            user.name,
+            user.lastName,
+            user.age,
+            user.city,
+            user.phone
+        )
     }
 
     Box(
@@ -170,11 +178,7 @@ fun popupSettting(
                             val ageOptions = (18..70).map { "$it سال" }
                             val cityOptions = listOf("تهران", "مشهد", "اصفهان", "شیراز", "تبریز", "رشت", "کرج", "قم", "اهواز", "یزد", "ارومیه", "زاهدان", "سنندج", "گرگان", "بندرعباس", "قزوین", "زنجان", "کرمان", "خرم‌آباد", "ایلام", "بوشهر", "ساری", "کاشان", "بجنورد", "سبزوار", "کیش", "قشم", "شهرکرد", "اردبیل", "همدان", "ملایر", "مراغه", "بابل", "آمل", "نجف‌آباد", "ورامین", "اندیمشک", "شوشتر", "ساوه", "بیرجند", "نیشابور", "دزفول", "لار", "آبادان", "ماهشهر", "خمینی‌شهر", "رفسنجان", "ایرانشهر", "سیرجان", "جاجرم", "گرمسار", "طبس", "دهدشت", "درود", "بندر گناوه", "تربت‌حیدریه")
 
-                            val inputValues = remember { mutableStateListOf("", "", "", "", "", "") }
 
-                            LaunchedEffect(mainPhoneNumber) {
-                                inputValues[5] = mainPhoneNumber
-                            }
 
                             labels.forEachIndexed { index, label ->
                                 var expanded by remember { mutableStateOf(false) }
@@ -195,7 +199,7 @@ fun popupSettting(
                                         contentAlignment = Alignment.CenterStart
                                     ) {
                                         if (index in dropDownIndices) {
-                                            // Dropdown فیلد سفارشی
+                                            // فیلد کشویی (سن و شهر)
                                             Text(
                                                 text = inputValues[index].ifEmpty { "انتخاب کنید" },
                                                 fontFamily = iranSans,
@@ -212,9 +216,9 @@ fun popupSettting(
                                                 onDismissRequest = { expanded = false },
                                                 modifier = Modifier
                                                     .fillMaxWidth(0.38f)
-                                                    .heightIn(max = screenHeight * 0.3f) // ⬅ محدود کردن ارتفاع
+                                                    .heightIn(max = screenHeight * 0.3f)
                                                     .background(Color.White)
-                                            ){
+                                            ) {
                                                 val items = if (index == 3) ageOptions else cityOptions
                                                 items.forEach { option ->
                                                     DropdownMenuItem(
@@ -232,26 +236,22 @@ fun popupSettting(
                                                     )
                                                 }
                                             }
-                                        }
-                                        else if (index == 5) {
-                                            // فیلد شماره - فقط نمایشی و قابل کلیک
+                                        }else if (index == 5) {
                                             Text(
-                                                text = inputValues[index].ifEmpty { mainPhoneNumber }, // 👈 نمایش مقدار واقعی
+                                                text = inputValues[index],
                                                 fontFamily = iranSans,
                                                 fontSize = (screenWidth.value * 0.026).sp,
-                                                color = Color(0xFFFF7F54),
+                                                color = Color(0xFF969696),
                                                 modifier = Modifier
                                                     .fillMaxWidth()
                                                     .padding(horizontal = 8.dp)
                                                     .clickable {
-                                                        // اینجا پاپ‌آپ جدیدت رو باز کن
                                                         isPhonePopupVisible.value = true
                                                     },
                                                 textAlign = TextAlign.Right
                                             )
-                                        }
-                                        else {
-                                            // BasicTextField برای بقیه فیلدها
+                                        } else {
+                                            // بقیه فیلدها قابل ویرایش
                                             BasicTextField(
                                                 value = inputValues[index],
                                                 onValueChange = { inputValues[index] = it },
@@ -283,12 +283,10 @@ fun popupSettting(
                                 }
                             }
 
+
                         }
                     }
                 }
-                var isCheckedS by remember { mutableStateOf(false) }
-                var isCheckedN by remember { mutableStateOf(false) }
-
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -374,38 +372,53 @@ fun popupSettting(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(screenHeight * 0.07f), // ⬅ جایگزین 60.dp
+                            .height(screenHeight * 0.07f),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        // دکمه "خروج"
+                        // خروج
                         Box(
                             modifier = Modifier
                                 .weight(1f)
                                 .fillMaxHeight()
-                                .clip(RoundedCornerShape(screenWidth * 0.04f)) // گردی نسبی
+                                .clip(RoundedCornerShape(screenWidth * 0.04f))
                                 .background(Color.White)
-                                .border(1.5.dp, Color(0xFFFF3A3A), RoundedCornerShape(screenWidth * 0.04f)),
+                                .border(1.5.dp, Color(0xFFFF3A3A), RoundedCornerShape(screenWidth * 0.04f))
+                                .clickable { onDismiss() }, // 👈 فقط بستن
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
                                 text = "خروج",
                                 fontFamily = iranSans,
                                 fontWeight = FontWeight.Medium,
-                                fontSize = (screenWidth.value * 0.04).sp, // ⬅ اندازه فونت ریسپانسیو
+                                fontSize = (screenWidth.value * 0.04).sp,
                                 color = Color.Black
                             )
                         }
 
-                        Spacer(modifier = Modifier.width(screenWidth * 0.06f)) // فاصله ریسپانسیو
+                        Spacer(modifier = Modifier.width(screenWidth * 0.06f))
 
-                        // دکمه "ثبت"
+                        // ثبت
                         Box(
                             modifier = Modifier
                                 .weight(1f)
                                 .fillMaxHeight()
                                 .clip(RoundedCornerShape(screenWidth * 0.04f))
-                                .background(Color(0xFFFF7F54)),
+                                .background(Color(0xFFFF7F54))
+                                .clickable {
+                                    val updatedUser = user.copy(
+                                        username = inputValues[0],
+                                        name = inputValues[1],
+                                        lastName = inputValues[2],
+                                        age = inputValues[3],
+                                        city = inputValues[4],
+                                        phone = inputValues[5],
+                                        notifyEnabled = isCheckedN,
+                                        showTripsPublicly = isCheckedS,
+                                        imageUri = selectedImageUri?.path ?: user.imageUri
+                                    )
+                                    onSubmit(updatedUser)
+                                },
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
@@ -417,6 +430,7 @@ fun popupSettting(
                             )
                         }
                     }
+
                 }
 
             }
@@ -424,7 +438,6 @@ fun popupSettting(
 
 
         }
-    var mainPhoneNumber by remember { mutableStateOf("09130987654") }
 
     if (isPhonePopupVisible.value) {
         Dialog(
@@ -435,15 +448,17 @@ fun popupSettting(
             )
         ) {
             PhoneVerificationDialog(
-                phone = mainPhoneNumber,
+                phone = inputValues[5], // ← از inputValues بخون
                 onDismiss = { isPhonePopupVisible.value = false },
                 onConfirm = { newPhone ->
-                    onPhoneChange(newPhone) // 👈 شماره جدید رو بیرون بده
+                    onPhoneChange(newPhone)
+                    inputValues[5] = newPhone // ✅ این خط خیلی مهمه
                     isPhonePopupVisible.value = false
                 }
             )
         }
     }
+
 
 
 

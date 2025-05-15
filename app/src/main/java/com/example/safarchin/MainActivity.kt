@@ -99,13 +99,18 @@ fun AppNavigation() {
         }
 
         // صفحه کد ورود
-        composable("codelogin") {
-            codeLogin(navController = navController)
+        composable("codelogin/{phone}") { backStackEntry ->
+            val phone = backStackEntry.arguments?.getString("phone") ?: ""
+            codeLogin(navController, phone)
         }
 
-        composable("home") {
-            HomeScreen(navController = navController)
+
+        composable("homeScreen/{phone}") { backStackEntry ->
+            val phone = backStackEntry.arguments?.getString("phone") ?: ""
+            HomeScreen(navController = navController, phone = phone)
         }
+
+
 
         composable("cityDetail") {
             CityP(navController = navController) // یا CityP(cityViewModel.selectedCity.value) اگر ViewModel داری
@@ -147,8 +152,6 @@ fun AppNavigation() {
                 imageResList = imageResList
             )
         }
-
-
 
     }
 }

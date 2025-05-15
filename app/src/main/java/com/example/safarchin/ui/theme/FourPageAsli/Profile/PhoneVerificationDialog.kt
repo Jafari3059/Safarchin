@@ -59,7 +59,6 @@ fun PhoneVerificationDialog(
         }
     }
 
-
         Box(
             modifier = Modifier
                 .width(screenWidth * 0.8f)

@@ -28,7 +28,7 @@ import com.example.safarchin.ui.theme.iranSans
 import kotlinx.coroutines.delay
 
 @Composable
-fun codeLogin(navController: NavController) {
+fun codeLogin(navController: NavController, phone: String) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
@@ -156,7 +156,8 @@ fun codeLogin(navController: NavController) {
 
                     Button(
                         onClick = {
-                            navController.navigate("home")
+                            navController.navigate("homeScreen/${phone}")
+
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFB26B)),
                         modifier = Modifier

@@ -1,5 +1,6 @@
 package com.example.safarchin.ui.theme.FourPageAsli.HomePage
 
+import android.util.Log
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -23,22 +24,65 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HeaderSection
+import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.DatabaseProvider
+import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.UserEntity
+import com.example.safarchin.ui.theme.FourPageAsli.Profile.popupfirstlogin
 import com.example.safarchin.ui.theme.FourPageAsli.SearchBar
 import com.example.safarchin.ui.theme.iranSans
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
-fun HomeP(navController: NavController) {
+fun HomeP(navController: NavController, phone: String) {
+    val context = LocalContext.current
+    val db = DatabaseProvider.getDatabase(context)
+    val isNewUser = remember { mutableStateOf(false) }
+    LaunchedEffect(true) {
+        val currentUser = withContext(Dispatchers.IO) {
+            db.userDao().getUserByPhone(phone)
+        }
+        Log.d("USER_IMAGE", "imageUri = ${currentUser?.imageUri}")
+    }
+
+    // مربوط به گرفتن اطلاعات از پاپ اپ و بروز کردن هدرسکشن
+    var userInfo by remember { mutableStateOf<UserEntity?>(null) }
+    LaunchedEffect(Unit) {
+        val currentUser = withContext(Dispatchers.IO) {
+            db.userDao().getUserByPhone(phone)
+        }
+        isNewUser.value = currentUser == null
+        if (currentUser != null) {
+            userInfo = currentUser
+        }
+    }
+// مربوط به گرفتن اطلاعات از پاپ اپ و بروز کردن هدرسکشن
+
+
+    Log.d("PHONE_CHECK", "Phone received: $phone")
+
+    LaunchedEffect(Unit) {
+        val currentUser = withContext(Dispatchers.IO) {
+            db.userDao().getUserByPhone(phone)  // 👈 شماره رو از ورودی گرفته‌ای
+        }
+        isNewUser.value = currentUser == null
+    }
+
+
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
@@ -113,8 +157,10 @@ fun HomeP(navController: NavController) {
             // Header
             HeaderSection(
                 onNotificationClick = {},
-                onHelpClick = {}
+                onHelpClick = {},
+                user = userInfo
             )
+
 
             // ✅ دایره‌های پایین وسط
             Row(
@@ -349,6 +395,30 @@ fun HomeP(navController: NavController) {
         Spacer(modifier = Modifier.height(90.dp)) // 👈 این کمک می‌کنه بنر کامل دیده بشه
 
     }
+    val scope = rememberCoroutineScope()
+
+    if (isNewUser.value) {
+        Dialog(
+            onDismissRequest = {},
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false,
+                dismissOnClickOutside = false
+            )
+        ) {
+            popupfirstlogin(
+                phone = phone,
+                onSave = { user ->
+                    scope.launch {
+                        db.userDao().insertUser(user)
+                        userInfo = user     // ✅ اطلاعات جدید کاربر در هوم اسکرین
+                        isNewUser.value = false
+                    }
+                }
+            )
+        }
+    }
+
+
 }
 //
 //@Preview(showBackground = true)

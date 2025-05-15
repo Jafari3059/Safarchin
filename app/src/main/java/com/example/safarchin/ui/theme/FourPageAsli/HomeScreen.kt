@@ -27,7 +27,8 @@ import com.example.safarchin.ui.theme.FourPageAsli.Plannig.planingP
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavController, phone: String) {
+
     var selectedIndex by remember { mutableStateOf(3) }
     var showDialog by remember { mutableStateOf(false) } // ✅ اینجا کنترل پاپ‌آپ
 
@@ -53,27 +54,13 @@ fun HomeScreen(navController: NavController) {
                     .fillMaxSize()
             ) {
 
-                // ✅ فراخوانی هدر
-//                HeaderSection(
-//                    onNotificationClick = {
-//                        // اینجا کاری که میخوای وقتی روی آیکون نوتیفیکیشن زد انجام بشه
-//                        // مثلاً navController.navigate("notifications")
-//                    },
-//                    onHelpClick = {
-//                        // اینجا هم کاری که وقتی روی علامت سوال زد
-//                        // مثلا navController.navigate("help")
-//                    }
-//                )
-
-//                Spacer(modifier = Modifier.height(8.dp))
-//                SearchBar()
-//
                 // ⬇ صفحه‌ها
                 when (selectedIndex) {
-                    0 -> profileP()
+                    0 -> profileP(phone = phone)
                     1 -> EshterakP()
                     2 -> planingP(navController)
-                    3 -> HomeP(navController)
+                    3 -> HomeP(navController = navController, phone = phone)
+
                 }
             }
         }

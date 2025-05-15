@@ -1,5 +1,6 @@
 package com.example.safarchin.ui.theme.FourPageAsli.Profile
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,9 +28,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +43,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -49,29 +54,47 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-//import androidx.compose.ui.window.Popup
-//import androidx.compose.ui.window.PopupProperties
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
+import coil.compose.rememberAsyncImagePainter
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourCardList
 import com.example.safarchin.ui.theme.FourPageAsli.Plannig.Trip
 import com.example.safarchin.ui.theme.FourPageAsli.Plannig.Components.TripCard
+import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.DatabaseProvider
+import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.UserEntity
 import com.example.safarchin.ui.theme.iranSans
-import androidx.compose.foundation.clickable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
+
 @Composable
-fun profileP() {
+fun profileP( phone: String) {
     val sampleTrips = listOf(
         Trip(1, "یزد", "۱۴۰۳/۰۱/۱۵", "اقامت در هتل داد", R.drawable.khajo),
         Trip(2, "شیراز", "۱۴۰۳/۰۲/۲۰", "بازدید از تخت جمشید", R.drawable.shiraz),
         Trip(3, "تبریز", "۱۴۰۳/۰۳/۰۵", "تور کندوان", R.drawable.profile_image)
     )
     val scrollState = rememberScrollState()
-    val density = LocalDensity.current
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
-
-
+    val context = LocalContext.current
+    val db = DatabaseProvider.getDatabase(context)
+    val userState = remember { mutableStateOf<UserEntity?>(null) }
+    val initialUser by produceState<UserEntity?>(initialValue = null) {
+        value = withContext(Dispatchers.IO) {
+            db.userDao().getUserByPhone(phone)
+        }
+    }
+    val user = userState.value ?: initialUser
     var isPopupVisible = remember { mutableStateOf(false) }
+    val fontSizeMore = (screenWidth.value * 0.03).sp       // حدود 12sp روی گوشی 400dp
+    val horizontalPadding = (screenWidth.value * 0.06).dp  // حدود 24dp روی گوشی 400dp
+
+    val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    val phone = sharedPreferences.getString("current_phone", "") ?: ""
 
     Column(
         modifier = Modifier
@@ -121,13 +144,14 @@ fun profileP() {
                                 .padding(top = screenHeight * 0.08f)
                         ) {
                             Text(
-                                text = "سارا انصاری",
+                                text = "${user?.name} ${user?.lastName}",
                                 fontFamily = iranSans,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = (screenWidth.value * 0.03).sp
                             )
+
                             Text(
-                                text = "تهران، ۲۸ ساله",
+                                text = "${user?.city}، ${user?.age}",
                                 fontFamily = iranSans,
                                 fontWeight = FontWeight.Medium,
                                 fontSize = (screenWidth.value * 0.025).sp,
@@ -166,14 +190,25 @@ fun profileP() {
                             .padding(top = screenHeight * 0.12f)
                             .size(screenWidth * 0.25f)
                     ) {
+                        val currentUser = user
+                        val imageFile = currentUser?.imageUri?.let { File(it) }
+
+                        val painter = if (imageFile != null && imageFile.exists()) {
+                            rememberAsyncImagePainter(imageFile)
+                        } else {
+                            painterResource(id = R.drawable.profile_pic)
+                        }
+
                         Image(
-                            painter = painterResource(id = R.drawable.profile_image),
+                            painter = painter,
                             contentDescription = "Profile Picture",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .clip(CircleShape)
                         )
+
+
 
                         Icon(
                             painter = painterResource(id = R.drawable.editproficon),
@@ -249,9 +284,7 @@ fun profileP() {
                     }
                 }
 
-                val fontSizeTitle = (screenWidth.value * 0.035).sp     // حدود 14sp روی گوشی 400dp
-                val fontSizeMore = (screenWidth.value * 0.03).sp       // حدود 12sp روی گوشی 400dp
-                val horizontalPadding = (screenWidth.value * 0.06).dp  // حدود 24dp روی گوشی 400dp
+
                 Spacer(modifier = Modifier.height(10.dp))
 
 //                 ✅ بخش: ذخیره شده ها
@@ -393,29 +426,42 @@ fun profileP() {
         Spacer(modifier = Modifier.height(100.dp))
     }
 
+    val scope = rememberCoroutineScope()
+
+    val currentPhone = remember { mutableStateOf(phone) }
 
     if (isPopupVisible.value) {
         Dialog(
             onDismissRequest = { isPopupVisible.value = false },
             properties = DialogProperties(
-                usePlatformDefaultWidth = false, // 👈 اجازه عرض دلخواه
+                usePlatformDefaultWidth = false,
                 dismissOnClickOutside = true
             )
         ) {
-            var mainPhoneNumber by remember { mutableStateOf("09130987654") }
-            var phoneNumber by remember { mutableStateOf("091300000000") }
+            user?.let {
+                popupSettting(
+                    user = it,
+                    onPhoneChange = { newPhone ->
+                        currentPhone.value = newPhone
+                    },
+                    onDismiss = {
+                        isPopupVisible.value = false
+                    },
+                    onSubmit = { updatedUser ->
+                        scope.launch {
+                            db.userDao().updateUser(updatedUser)
 
-            popupSettting(
-                mainPhoneNumber = phoneNumber,
-                onPhoneChange = { newPhone -> phoneNumber = newPhone }
-            )
+                            val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                            sharedPreferences.edit().putString("current_phone", currentPhone.value).apply()
 
+                            userState.value = updatedUser
+                            isPopupVisible.value = false
+                        }
+                    }
+                )
+            }
         }
     }
-
-
-
-
 
 }
 
@@ -504,8 +550,8 @@ fun StatBox(title: String, value: String, subtitle: String, background: Color) {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreCards() {
-    profileP()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreCards() {
+//    profileP()
+//}
