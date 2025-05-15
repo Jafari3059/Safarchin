@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.Plannig.Components
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.Components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.safarchin.R
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.Trip
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.Trip
 //import com.example.safarchin.model.Trip
 import com.example.safarchin.ui.theme.iranSans
 

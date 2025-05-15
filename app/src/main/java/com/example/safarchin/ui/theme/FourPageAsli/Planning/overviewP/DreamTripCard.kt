@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*

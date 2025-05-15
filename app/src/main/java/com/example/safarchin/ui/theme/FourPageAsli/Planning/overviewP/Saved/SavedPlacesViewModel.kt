@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.Saved
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.Saved
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel

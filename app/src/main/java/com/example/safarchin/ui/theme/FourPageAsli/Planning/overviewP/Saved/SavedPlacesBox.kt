@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.Saved
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.Saved
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*

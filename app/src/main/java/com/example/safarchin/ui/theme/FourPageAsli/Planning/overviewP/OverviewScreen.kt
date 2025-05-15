@@ -1,10 +1,10 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP
 
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.Saved.SavedPlacesViewModel
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.Saved.SavedPlacesViewModel
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.compose.foundation.*
@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.iranSans
 import androidx.navigation.compose.rememberNavController
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.PlanningTabContent
 
 @Composable
 fun OverviewScreen(navController: NavController) {
@@ -134,8 +135,12 @@ fun OverviewScreen(navController: NavController) {
                 )
             }
 
+
             Spacer(modifier = Modifier.height(spacerHeight))
 
+            if (selectedTabIndex == 2) {
+                PlanningTabContent()
+            }
             if (selectedTabIndex == 3) {
                // OverviewTabContent(savedPlacesViewModel = savedPlacesViewModel)
                 OverviewTabContent(

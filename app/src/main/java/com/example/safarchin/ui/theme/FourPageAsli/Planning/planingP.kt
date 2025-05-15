@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.Plannig
+package com.example.safarchin.ui.theme.FourPageAsli.Planning
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,8 +25,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.window.DialogProperties
 import com.example.safarchin.ui.theme.FourPageAsli.SearchBar
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.Components.TripCardsSection
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.Components.CreateTripDialog
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.Components.TripCardsSection
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.Components.CreateTripDialog
 import androidx.compose.ui.window.Dialog
 
 

@@ -35,6 +35,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HeaderSection
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.Soqati
@@ -483,7 +484,13 @@ fun HomeP(navController: NavController, phone: String) {
 
 
 }
-//
+@Preview(showSystemUi = true, showBackground = true, locale = "fa")
+@Composable
+fun PreviewHomeP() {
+    val navController = rememberNavController()
+    HomeP(navController = navController)
+}
+
 //@Preview(showBackground = true)
 //@Composable
 //fun HomeScreenPreview() {

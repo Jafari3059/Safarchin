@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.Plannig.Components
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.Components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -54,9 +54,8 @@ fun CustomTextField(
             .height(height)
             .clip(RoundedCornerShape(8.dp))
             .background(Color.White)
-            .border(1.dp, Color(0xFFD9D9D9), RoundedCornerShape(8.dp)) // ✅ کادر اضافه شد
-            .clickable(enabled = onClick != null) { onClick?.invoke() },
-        contentAlignment = Alignment.CenterEnd
+            .border(1.dp, Color(0xFFD9D9D9), RoundedCornerShape(8.dp))
+            .clickable(enabled = onClick != null) { onClick?.invoke() }
     ) {
         BasicTextField(
             value = value,
@@ -67,25 +66,25 @@ fun CustomTextField(
                 color = Color.Black,
                 fontSize = 14.sp,
                 textAlign = TextAlign.Right,
-                textDirection = TextDirection.ContentOrRtl
+                textDirection = TextDirection.Rtl
             ),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 12.dp, vertical = 8.dp),
             decorationBox = { innerTextField ->
-                Box(Modifier.fillMaxSize()) {
+                Row(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End // ⬅️ مهم برای چسباندن به راست
+                ) {
                     if (value.isEmpty()) {
                         Text(
                             text = placeholder,
                             color = Color.Gray,
                             fontSize = 14.sp,
                             textAlign = TextAlign.Right,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(end = 12.dp),
-                            style = TextStyle(
-                                textDirection = TextDirection.ContentOrRtl
-                            )
+                            style = TextStyle(textDirection = TextDirection.Rtl),
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
                     innerTextField()
@@ -94,6 +93,64 @@ fun CustomTextField(
         )
     }
 }
+
+//@Composable
+//fun CustomTextField(
+//    value: String,
+//    onValueChange: (String) -> Unit,
+//    width: Dp,
+//    height: Dp,
+//    placeholder: String,
+//    readOnly: Boolean = false,
+//    onClick: (() -> Unit)? = null
+//) {
+//    Box(
+//        modifier = Modifier
+//            .width(width)
+//            .height(height)
+//            .clip(RoundedCornerShape(8.dp))
+//            .background(Color.White)
+//            .border(1.dp, Color(0xFFD9D9D9), RoundedCornerShape(8.dp)) // ✅ کادر اضافه شد
+//            .clickable(enabled = onClick != null) { onClick?.invoke() },
+//        contentAlignment = Alignment.CenterEnd
+//    ) {
+//        BasicTextField(
+//            value = value,
+//            onValueChange = onValueChange,
+//            readOnly = readOnly,
+//            singleLine = true,
+//            textStyle = TextStyle(
+//                color = Color.Black,
+//                fontSize = 14.sp,
+//                textAlign = TextAlign.Right,
+//               // textDirection = TextDirection.ContentOrRtl
+//                textDirection = TextDirection.Rtl
+//            ),
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(horizontal = 12.dp, vertical = 8.dp),
+//            decorationBox = { innerTextField ->
+//                Box(Modifier.fillMaxSize()) {
+//                    if (value.isEmpty()) {
+//                        Text(
+//                            text = placeholder,
+//                            color = Color.Gray,
+//                            fontSize = 14.sp,
+//                            textAlign = TextAlign.Right,
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .padding(end = 12.dp),
+//                            style = TextStyle(
+//                                textDirection = TextDirection.ContentOrRtl
+//                            )
+//                        )
+//                    }
+//                    innerTextField()
+//                }
+//            }
+//        )
+//    }
+//}
 //شهر و بودجه
 @Composable
 fun CustomDropdownField(
