@@ -118,8 +118,9 @@ fun AppNavigation() {
             }
 
             composable("cityDetail") {
-                CityP(navController = navController)
+                CityP(navController)
             }
+
 
             composable("tourDetails") {
                 TourPlaceDetaP(navController = navController)

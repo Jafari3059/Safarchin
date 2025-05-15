@@ -29,7 +29,7 @@ import com.example.safarchin.ui.theme.iranSans
 data class Soqati(
     val name: String,
     val description: String,
-    val imageResList: List<Int> // لیست از آیدی‌های عکس
+    val imageResList: List<Int>
 )
 
 @Composable
@@ -96,37 +96,20 @@ fun SoqatiCard(soqati: Soqati) {
 }
 
 @Composable
-fun SoqatiList() {
-    val soqatiItems = listOf(
-        Soqati(
-            "کلوچه مسقطی",
-            "یکی از سوغاتی‌های معروف و خوشمزه شیراز.",
-            imageResList = listOf(R.drawable.shiraz, R.drawable.khajo, R.drawable.meydan_emam)
-        ),
-        Soqati(
-            "عرقیات گیاهی",
-            "محصولات طبیعی با عطر بی‌نظیر.",
-            imageResList = listOf(R.drawable.shiraz, R.drawable.meydan_emam)
-        ),
-        Soqati(
-            "فالوده شیرازی",
-            "دسر سنتی خنک و محبوب مخصوص شیراز.",
-            imageResList = listOf(R.drawable.shiraz)
-        )
-    )
-
+fun SoqatiList(items: List<Soqati>) {
     LazyRow(
         reverseLayout = true,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(soqatiItems) { item ->
+        items(items) { item ->
             SoqatiCard(item)
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewSoqatiCards() {
-    SoqatiList()
-}
+
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewSoqatiCards() {
+//    SoqatiList()
+//}
