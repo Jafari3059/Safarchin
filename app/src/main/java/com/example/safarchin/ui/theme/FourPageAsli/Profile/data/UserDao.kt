@@ -17,4 +17,7 @@ interface UserDao {
     @Delete
     suspend fun deleteUser(user: UserEntity)
 
+    @Query("SELECT * FROM users LIMIT 1")
+    suspend fun getAnyUser(): UserEntity?
+
 }

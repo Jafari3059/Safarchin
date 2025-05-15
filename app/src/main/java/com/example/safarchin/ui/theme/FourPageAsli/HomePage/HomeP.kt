@@ -52,6 +52,7 @@ fun HomeP(navController: NavController, phone: String) {
     val context = LocalContext.current
     val db = DatabaseProvider.getDatabase(context)
     val isNewUser = remember { mutableStateOf(false) }
+
     LaunchedEffect(true) {
         val currentUser = withContext(Dispatchers.IO) {
             db.userDao().getUserByPhone(phone)
@@ -75,12 +76,12 @@ fun HomeP(navController: NavController, phone: String) {
 
     Log.d("PHONE_CHECK", "Phone received: $phone")
 
-    LaunchedEffect(Unit) {
-        val currentUser = withContext(Dispatchers.IO) {
-            db.userDao().getUserByPhone(phone)  // 👈 شماره رو از ورودی گرفته‌ای
-        }
-        isNewUser.value = currentUser == null
-    }
+//    LaunchedEffect(Unit) {
+//        val currentUser = withContext(Dispatchers.IO) {
+//            db.userDao().getUserByPhone(phone)  // 👈 شماره رو از ورودی گرفته‌ای
+//        }
+//        isNewUser.value = currentUser == null
+//    }
 
 
     val configuration = LocalConfiguration.current
@@ -108,6 +109,15 @@ fun HomeP(navController: NavController, phone: String) {
                 easing = LinearOutSlowInEasing
             )
         )
+    }
+    LaunchedEffect(Unit) {
+        val user = withContext(Dispatchers.IO) {
+            db.userDao().getUserByPhone(phone)
+        }
+        isNewUser.value = user == null
+        if (user != null) {
+            userInfo = user
+        }
     }
 
     val scrollState = rememberScrollState()

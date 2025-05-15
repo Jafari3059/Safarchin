@@ -3,8 +3,7 @@ package com.example.safarchin
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -23,11 +22,10 @@ import com.example.safarchin.ui.theme.login.login
 import com.example.safarchin.ui.theme.login.codeLogin
 import com.example.safarchin.ui.theme.SafarchinTheme
 import kotlinx.coroutines.delay
-import androidx.compose.material3.Text // یا material3 بسته به استفاده‌ت
-import androidx.compose.ui.Modifier
-import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.unit.dp
-
+import androidx.compose.ui.platform.LocalContext
+import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.DatabaseProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,116 +41,124 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
+    val context = LocalContext.current
+    val db = DatabaseProvider.getDatabase(context)
 
-    NavHost(navController = navController, startDestination = "firstLogo") {
+    var startDestination by remember { mutableStateOf<String?>(null) }
 
-        // صفحه لوگو اول
-        composable("firstLogo") {
-            FirstLogoPage(
-                onNavigate = {
-                    navController.navigate("advertisement1") {
-                        popUpTo("firstLogo") { inclusive = true }
+    LaunchedEffect(Unit) {
+        val user = withContext(Dispatchers.IO) {
+            db.userDao().getAnyUser()
+        }
+
+        startDestination = if (user != null) {
+            "homeScreen/${user.phone}"
+        } else {
+            "firstLogo"
+        }
+    }
+
+    startDestination?.let { destination ->
+        NavHost(navController = navController, startDestination = destination) {
+            composable("firstLogo") {
+                FirstLogoPage(
+                    onNavigate = {
+                        navController.navigate("advertisement1") {
+                            popUpTo("firstLogo") { inclusive = true }
+                        }
                     }
-                }
-            )
+                )
+            }
+
+            composable("advertisement1") {
+                AdvertisementScreenPage(
+                    imageResId = R.drawable.gift,
+                    title = "سفر فقط رفتن نیست... یه تجربه ست!",
+                    description = "با برنامه ریزی هوشمند، لحظه هات رو خاص کن.",
+                    indicatorState = listOf(true, false, false),
+                    onNext = { navController.navigate("advertisement2") },
+                    onSkip = { navController.navigate("login") }
+                )
+            }
+
+            composable("advertisement2") {
+                AdvertisementScreenPage(
+                    imageResId = R.drawable.gift,
+                    title = "برنامه ریزی ساده، سفر آسوده",
+                    description = "از انتخاب مقصد تا جاذبه‌های دیدنی، همراهتم!",
+                    indicatorState = listOf(false, true, false),
+                    onNext = { navController.navigate("advertisement3") },
+                    onSkip = { navController.navigate("login") }
+                )
+            }
+
+            composable("advertisement3") {
+                AdvertisementScreenPage(
+                    imageResId = R.drawable.gift,
+                    title = "سفرتو همینجا شروع کن!",
+                    description = "مقصدتو انتخاب کن، بقیش با ما!",
+                    indicatorState = listOf(false, false, true),
+                    onNext = { navController.navigate("login") },
+                    onSkip = { navController.navigate("login") }
+                )
+            }
+
+            composable("login") {
+                login(navController = navController)
+            }
+
+            composable("codelogin/{phone}") { backStackEntry ->
+                val phone = backStackEntry.arguments?.getString("phone") ?: ""
+                codeLogin(navController, phone)
+            }
+
+            composable("homeScreen/{phone}") { backStackEntry ->
+                val phone = backStackEntry.arguments?.getString("phone") ?: ""
+                HomeScreen(navController = navController, phone = phone)
+            }
+
+            composable("cityDetail") {
+                CityP(navController = navController)
+            }
+
+            composable("tourDetails") {
+                TourPlaceDetaP(navController = navController)
+            }
+
+            composable("RestDetails") {
+                RestCaffeDetaP(navController = navController)
+            }
+
+            composable("shopDetails") {
+                ShopCenterDetaP(navController = navController)
+            }
+
+            composable("soqatiDetails") {
+                SoqatiDetaP(navController = navController)
+            }
+
+            composable("planing") {
+                planingP(navController = navController)
+            }
+
+            composable("overview") {
+                OverviewScreen(navController = navController)
+            }
+
+            composable("SouvenirDetailScreen/{name}/{description}/{images}") { backStackEntry ->
+                val name = backStackEntry.arguments?.getString("name") ?: ""
+                val description = backStackEntry.arguments?.getString("description") ?: ""
+                val imageParam = backStackEntry.arguments?.getString("images") ?: ""
+                val imageResList = imageParam.split(",").mapNotNull { it.toIntOrNull() }
+
+                SouvenirDetailScreen(
+                    navController = navController,
+                    name = name,
+                    description = description,
+                    imageResList = imageResList
+                )
+            }
         }
-
-        // تبلیغ اول
-        composable("advertisement1") {
-            AdvertisementScreenPage(
-                imageResId = R.drawable.gift,
-                title = "سفر فقط رفتن نیست... یه تجربه ست!",
-                description = "با برنامه ریزی هوشمند، لحظه هات رو خاص کن.",
-                indicatorState = listOf(true, false, false),
-                onNext = { navController.navigate("advertisement2") },
-                onSkip = { navController.navigate("login") }
-            )
-        }
-
-        // تبلیغ دوم
-        composable("advertisement2") {
-            AdvertisementScreenPage(
-                imageResId = R.drawable.gift,
-                title = "برنامه ریزی ساده، سفر آسوده",
-                description = "از انتخاب مقصد تا جاذبه‌های دیدنی، همراهتم!",
-                indicatorState = listOf(false, true, false),
-                onNext = { navController.navigate("advertisement3") },
-                onSkip = { navController.navigate("login") }
-            )
-        }
-
-        // تبلیغ سوم
-        composable("advertisement3") {
-            AdvertisementScreenPage(
-                imageResId = R.drawable.gift,
-                title = "سفرتو همینجا شروع کن!",
-                description = "مقصدتو انتخاب کن، بقیش با ما!",
-                indicatorState = listOf(false, false, true),
-                onNext = { navController.navigate("login") },
-                onSkip = { navController.navigate("login") }
-            )
-        }
-
-        // صفحه لاگین
-        composable("login") {
-            login(navController = navController)
-        }
-
-        // صفحه کد ورود
-        composable("codelogin/{phone}") { backStackEntry ->
-            val phone = backStackEntry.arguments?.getString("phone") ?: ""
-            codeLogin(navController, phone)
-        }
-
-
-        composable("homeScreen/{phone}") { backStackEntry ->
-            val phone = backStackEntry.arguments?.getString("phone") ?: ""
-            HomeScreen(navController = navController, phone = phone)
-        }
-
-
-
-        composable("cityDetail") {
-            CityP(navController = navController) // یا CityP(cityViewModel.selectedCity.value) اگر ViewModel داری
-        }
-        composable("tourDetails") {
-            TourPlaceDetaP(navController = navController)
-        }
-        composable("RestDetails") {
-            RestCaffeDetaP(navController = navController)
-        }
-        composable("shopDetails") {
-            ShopCenterDetaP(navController = navController)
-        }
-        composable("soqatiDetails") {
-            SoqatiDetaP(navController = navController)
-        }
-        composable("planing") {
-            planingP(navController = navController)
-        }
-        composable("overview") {
-            OverviewScreen(navController = navController)
-        }
-
-
-
-        composable(
-            "SouvenirDetailScreen/{name}/{description}/{images}"
-        ) { backStackEntry ->
-
-            val name = backStackEntry.arguments?.getString("name") ?: ""
-            val description = backStackEntry.arguments?.getString("description") ?: ""
-            val imageParam = backStackEntry.arguments?.getString("images") ?: ""
-            val imageResList = imageParam.split(",").mapNotNull { it.toIntOrNull() }
-
-            SouvenirDetailScreen(
-                navController = navController,
-                name = name,
-                description = description,
-                imageResList = imageResList
-            )
-        }
-
     }
 }
 
