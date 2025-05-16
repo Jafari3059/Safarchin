@@ -112,9 +112,12 @@ fun HomeP(navController: NavController) {
 
             // Header
             HeaderSection(
-                onNotificationClick = {},
-                onHelpClick = {}
+                onNotificationClick = { /* می‌تونی بعداً آلارم بزاری */ },
+                onHelpClick = {
+                    navController.navigate("support_page")
+                }
             )
+
 
             // ✅ دایره‌های پایین وسط
             Row(
@@ -350,6 +353,8 @@ fun HomeP(navController: NavController) {
 
     }
 }
+
+
 //
 //@Preview(showBackground = true)
 //@Composable

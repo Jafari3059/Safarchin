@@ -1,4 +1,5 @@
 package com.example.safarchin
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.support.Support1 //smy
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -127,6 +128,14 @@ fun AppNavigation() {
         }
         composable("overview") {
             OverviewScreen(navController = navController)
+        }
+        composable("support_page") {
+            Support1()
+        }
+        composable("full_map") {
+            com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.FullMapScreen(
+                onBack = { navController.popBackStack() }
+            )
         }
 
 

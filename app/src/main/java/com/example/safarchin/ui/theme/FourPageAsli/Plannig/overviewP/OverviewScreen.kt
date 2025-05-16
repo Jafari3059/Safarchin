@@ -1,6 +1,7 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
 package com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.MapTabContent
 
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -136,13 +137,16 @@ fun OverviewScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(spacerHeight))
 
-            if (selectedTabIndex == 3) {
-               // OverviewTabContent(savedPlacesViewModel = savedPlacesViewModel)
-                OverviewTabContent(
+            when (selectedTabIndex) {
+                0 -> MapTabContent(navController = navController)
+                1 -> {} // بودجه
+                2 -> {} // برنامه‌ریزی
+                3 -> OverviewTabContent(
                     savedPlacesViewModel = savedPlacesViewModel,
                     selectedPlacesViewModel = selectedPlacesViewModel
                 )
             }
+
         }
 
         // 🔘 دکمه شناور
