@@ -29,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -42,7 +43,6 @@ import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.UserEntity
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.popupfirstlogin
 import com.example.safarchin.ui.theme.FourPageAsli.SearchBar
 import com.example.safarchin.ui.theme.iranSans
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -428,15 +428,15 @@ fun HomeP(navController: NavController, phone: String) {
             )
         }
     }
-
-
 }
-@Preview(showSystemUi = true, showBackground = true, locale = "fa")
-@Composable
-fun PreviewHomeP() {
-    val navController = rememberNavController()
-    HomeP(navController = navController)
-}
+
+//@Preview(showSystemUi = true, showBackground = true, locale = "fa")
+//@Composable
+//fun PreviewHomeP() {
+//    val navController = rememberNavController()
+//    HomeP(navController = navController, phone = "09123456789")
+//}
+
 
 //@Preview(showBackground = true)
 //@Composable

@@ -15,7 +15,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -24,9 +23,8 @@ import androidx.navigation.NavController
 import com.example.safarchin.ui.theme.FourPageAsli.Eshterak.EshterakP
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.HomeP
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.profileP
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.planingP
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.planingP
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

@@ -35,7 +35,7 @@ data class PlaceWithTime(
 )
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun PlacePickerDialog(
     onDismiss: () -> Unit,
@@ -73,7 +73,7 @@ fun PlacePickerDialog(
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-        // ❶ عنوان دیالوگ
+        //  عنوان دیالوگ
         Text(
             text = dialogTitle,
             fontWeight = FontWeight.Bold,
@@ -85,7 +85,7 @@ fun PlacePickerDialog(
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        // ❷ توضیح بالا
+        //  توضیح بالا
         Text(
             text = "از لیست زیر می‌تونی مکان‌هایی که قراره تو این تاریخ اولین بازدید داشته باشی رو انتخاب به برنامه‌ات اضافه کنی.",
             fontSize = fontSizeText,
@@ -97,7 +97,7 @@ fun PlacePickerDialog(
 
         Spacer(modifier = Modifier.height(14.dp))
 
-        // ❸ جدول لیست با ارتفاع ثابت
+        //  جدول لیست با ارتفاع ثابت
         Box(
             modifier = Modifier
                 .width(246.dp)

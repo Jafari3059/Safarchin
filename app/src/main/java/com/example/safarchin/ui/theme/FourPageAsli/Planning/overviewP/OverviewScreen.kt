@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.iranSans
 import androidx.navigation.compose.rememberNavController
+import com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.OverviewTabBudget
 import com.example.safarchin.ui.theme.FourPageAsli.Planning.PlanningTabContent
 
 @Composable
