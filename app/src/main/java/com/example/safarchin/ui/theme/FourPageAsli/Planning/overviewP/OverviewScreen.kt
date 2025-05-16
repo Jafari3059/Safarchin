@@ -153,8 +153,8 @@ fun OverviewScreen(navController: NavController) {
                 )
             }
 
-            val currentValue = 300000 // گرفتن currentValue از DreamTripCard
-            val maxValue = 900000
+            val currentValue = 900000 // گرفتن currentValue از DreamTripCard
+            val maxValue = 1200000
 
             if (selectedTabIndex == 1) {
                 OverviewTabBudget(
@@ -212,10 +212,25 @@ fun OverviewScreen(navController: NavController) {
         }
 
         if (showCostPopup.value) {
-            AddNewCostPopup(
-                onDismiss = { showCostPopup.value = false }
-            )
+            Dialog(
+                onDismissRequest = { showCostPopup.value = false },
+                properties = DialogProperties(
+                    usePlatformDefaultWidth = false,
+                    dismissOnClickOutside = true
+                )
+            ) {
+                AddNewCostPopup(
+                    onDismiss = {
+                        showCostPopup.value = false
+                    },
+                    onSubmit = {
+                        showCostPopup.value = false
+                        navController.navigate("overview")
+                    }
+                )
+            }
         }
+
 
         // 💬 دیالوگ راهنمایی
         if (isPopupVisible.value) {

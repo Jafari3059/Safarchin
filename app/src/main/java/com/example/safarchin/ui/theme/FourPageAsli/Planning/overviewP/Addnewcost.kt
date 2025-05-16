@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,9 +26,11 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.safarchin.R
 
-
 @Composable
-fun AddNewCostPopup(onDismiss: () -> Unit) {
+fun AddNewCostPopup(
+    onDismiss: () -> Unit,
+    onSubmit: () -> Unit
+) {
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(
@@ -48,14 +50,14 @@ fun AddNewCostPopup(onDismiss: () -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
-                AddNewCostContent()
+                AddNewCostContent(onSubmit = onSubmit)
             }
         }
     }
 }
 
 @Composable
-fun AddNewCostContent() {
+fun AddNewCostContent(onSubmit: () -> Unit) {
     val categories = listOf("خرید", "اقامتگاه", "خوردنی", "تفریح", "حمل و نقل", "متفرقه")
     var selectedCategory by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
@@ -64,15 +66,15 @@ fun AddNewCostContent() {
     var description by remember { mutableStateOf("") }
     var date by remember { mutableStateOf("") }
 
-    fun validateDateFormat(input: String): String {
-        // فقط اجازه می‌دیم عدد و / وارد بشه
-        val allowed = input.filter { it.isDigit() || it == '/' }
+    val isFormValid = selectedCategory.isNotBlank() &&
+            amount.isNotBlank() &&
+            description.isNotBlank() &&
+            date.isNotBlank()
 
-        // حداکثر طول 10 کاراکتر (yyyy/mm/dd)
+    fun validateDateFormat(input: String): String {
+        val allowed = input.filter { it.isDigit() || it == '/' }
         return if (allowed.length <= 10) allowed else allowed.take(10)
     }
-
-
 
     Column(
         modifier = Modifier
@@ -92,7 +94,7 @@ fun AddNewCostContent() {
         // دسته بندی
         LabelledText(label = "دسته بندی هزینه")
         Box(
-            modifier = Modifier.clickable { expanded = true }
+            modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .clickable { expanded = true }
         ) {
@@ -132,6 +134,7 @@ fun AddNewCostContent() {
                 }
             }
         }
+
         Spacer(modifier = Modifier.height(16.dp))
 
         // مبلغ هزینه
@@ -149,7 +152,8 @@ fun AddNewCostContent() {
             leadingIcon = {
                 Text("تومان", color = Color.Gray, modifier = Modifier.padding(start = 8.dp))
             },
-            textStyle = TextStyle(textAlign = TextAlign.Right)
+            textStyle = TextStyle(textAlign = TextAlign.Right),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -198,25 +202,31 @@ fun AddNewCostContent() {
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
-
-
         Spacer(modifier = Modifier.height(32.dp))
 
-        // دکمه ثبت هزینه
+        // دکمه ثبت هزینه با رنگ و قابلیت کلیک متغیر بر اساس پر بودن فرم
         Box(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .height(53.dp)
-                .background(Color(0xFFE0E0E0), RoundedCornerShape(8.dp)),
+                .background(
+                    if (isFormValid) Color(0xFF5F5F5F) else Color(0xFFE0E0E0),
+                    RoundedCornerShape(8.dp)
+                )
+                .clickable(enabled = isFormValid) {
+                    onSubmit()
+                },
             contentAlignment = Alignment.Center
         ) {
-            Text("ثبت هزینه", color = Color.DarkGray)
+            Text(
+                "ثبت هزینه",
+                color = if (isFormValid) Color.White else Color.DarkGray
+            )
         }
     }
 }
 
-
-// 🧾 تابع کوچک برای نوشتن عنوان‌های هر فیلد
+// تابع کوچک برای عنوان فیلدها
 @Composable
 fun LabelledText(label: String) {
     Box(
@@ -234,6 +244,9 @@ fun LabelledText(label: String) {
 @Composable
 fun PreviewAddNewCostPopup() {
     MaterialTheme {
-        AddNewCostPopup(onDismiss = {})
+        AddNewCostPopup(
+            onDismiss = {},
+            onSubmit = {  }
+        )
     }
 }
