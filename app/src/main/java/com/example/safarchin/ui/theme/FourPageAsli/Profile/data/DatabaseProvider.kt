@@ -12,7 +12,8 @@ object DatabaseProvider {
                 context.applicationContext,
                 AppDatabase::class.java,
                 "safarchin_db"
-            ).build()
+            ).fallbackToDestructiveMigration().build()
+
         }
         return db!!
     }

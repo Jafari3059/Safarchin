@@ -6,18 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
@@ -27,12 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,88 +25,75 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-//import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.Soqati
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.SharedViewModel
 import com.example.safarchin.ui.theme.FourPageAsli.TabBar
 import com.example.safarchin.ui.theme.iranSans
-//import com.example.safarchin.ui.theme.irgitiFont
 import kotlinx.coroutines.delay
-
 
 @Composable
 fun SoqatiDetaP(navController: NavController) {
-
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
-
-
-    val images = listOf(
-        R.drawable.khajo,
-        R.drawable.shiraz,
-        R.drawable.meydan_emam
-    )
+    val viewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
+    val city = viewModel.selectedCity
+    val soqatiList = city?.souvenirs ?: emptyList()
+    val bannerItem = soqatiList.firstOrNull()
 
     val pagerState = rememberPagerState(
         initialPage = 0,
-        pageCount = { images.size }
+        pageCount = { bannerItem?.imageResList?.size ?: 1 }
     )
 
-    // ✅ تغییر خودکار عکس هر ۵ ثانیه
     LaunchedEffect(pagerState.currentPage) {
         delay(5000L)
         val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
         pagerState.animateScrollToPage(
             page = nextPage,
-            animationSpec = tween(
-                durationMillis = 2, // مثلا 600 میلی‌ثانیه
-                easing = LinearOutSlowInEasing
-            )
+            animationSpec = tween(durationMillis = 2, easing = LinearOutSlowInEasing)
         )
     }
+
     val scrollState = rememberScrollState()
 
-
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(Color(0xFFF6F4F4))
-            .verticalScroll(scrollState) // ✅ اسکرول‌پذیر کردن کل صفحه
+            .verticalScroll(scrollState)
     ) {
+        // Header
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(240.dp)
         ) {
-            // فقط یک HorizontalPager
             HorizontalPager(
                 state = pagerState,
-                pageSize = PageSize.Fill, // 👈 تمام عرض صفحه رو بگیره
+                pageSize = PageSize.Fill,
                 modifier = Modifier.fillMaxSize()
-
             ) { page ->
                 Image(
-                    painter = painterResource(id = images[page]),
-                    contentDescription = "Background Image",
+                    painter = painterResource(id = bannerItem?.imageResList?.getOrNull(page) ?: R.drawable.placeholder),
+                    contentDescription = "Banner Image",
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(RoundedCornerShape(0.dp))
-                        .clickable {
-                            navController.popBackStack() // رفتن به عقب
-                        },
-
+                        .clip(RoundedCornerShape(0.dp)),
                     contentScale = ContentScale.Crop,
-                    alpha = 0.9f // ✅ شفافیت تصویر
+                    alpha = 0.9f
                 )
             }
 
-            // گرادینت پایین برای محو کردن
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -134,7 +105,7 @@ fun SoqatiDetaP(navController: NavController) {
                         )
                     )
             )
-            // ✅ دایره‌های پایین وسط
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -142,7 +113,7 @@ fun SoqatiDetaP(navController: NavController) {
                     .padding(bottom = 12.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
-                repeat(images.size) { index ->
+                repeat(bannerItem?.imageResList?.size ?: 1) { index ->
                     Box(
                         modifier = Modifier
                             .padding(horizontal = 2.dp)
@@ -155,88 +126,45 @@ fun SoqatiDetaP(navController: NavController) {
                     )
                 }
             }
+
             Icon(
-                painter = painterResource(id = R.drawable.back), // آیکون برگشت خودت
-                contentDescription = "بازگشت",
+                painter = painterResource(id = R.drawable.back),
+                contentDescription = "Back",
                 modifier = Modifier
-                    .align(Alignment.TopStart) // یا .TopEnd برای سمت راست
+                    .align(Alignment.TopStart)
                     .padding(start = 24.dp, top = 42.dp)
                     .size(20.dp)
-                    .clickable {
-                        navController.popBackStack() // رفتن به عقب
-                    },
+                    .clickable { navController.popBackStack() },
                 tint = Color.Black
             )
+
             Text(
                 modifier = Modifier
                     .width(220.dp)
                     .align(alignment = Alignment.BottomEnd)
-                    .padding(horizontal = 24.dp, vertical = 34.dp),
-                text = "سوغاتی های اصفهان",
+                    .padding(horizontal = 14.dp, vertical = 34.dp),
+                text = "سوغاتی‌ها",
                 fontFamily = iranSans,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
                 color = Color.White,
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Center
             )
         }
 
+        Spacer(modifier = Modifier.height(screenHeight * 0.015f))
 
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp)
-                .wrapContentHeight() // 👈 ارتفاع بر اساس محتوا
-                .shadow(
-                    elevation = 8.dp, // شدت سایه
-                    shape = RoundedCornerShape(8.dp),
-                    clip = false // خیلی مهم برای دیده شدن سایه بیرون از Box
-                )
-                .background(color = Color(0xFFFFFFFF), RoundedCornerShape(8.dp))
-
-        ) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                text = " اگه مثل ما عاشق امتحان کردن طعم\u200Cهای جدید باشی، سفر به اصفهان بدون سر زدن به رستوران\u200Cها و غذاخوری\u200Cهای معروفش کامل نیست. از رستوران\u200Cهای سنتی مثل شهرزاد و جارچی باشی گرفته تا انتخاب\u200Cهای متنوعی مثل مجتمع غذایی ترنج، این شهر برای هر سلیقه\u200Cای یه پیشنهاد خوشمزه داره.\n" +
-                        "ما برای انتخاب این لیست، از تجربه کاربران و پیشنهادهای معتبر در سایت\u200Cهایی مثل The Culture Trip و Travital.com کمک گرفتیم تا مطمئن شیم جاهایی رو معرفی می\u200Cکنیم که حسابی محبوب و امتحان\u200Cپس\u200Cداده\u200Cان.",
-                fontFamily = iranSans,
-                fontWeight = FontWeight.Light,
-                fontSize = 8.sp,
-                color = Color.Black,
-                textAlign = TextAlign.Right,
-            )
-        }
-
-        Spacer(modifier = Modifier.height(screenHeight * 0.015f)) // 🔽 کمتر از قبل
-
-
-        var selectedNavIndex by remember { mutableStateOf(2) }
-        var selectedCardId by remember { mutableStateOf<Int?>(null) }
+        val tabs = listOf("هنرهای سنتی", "پوشاک", "خوردنی ها", "همه")
         var selectedTab by remember { mutableStateOf("همه") }
 
-        // تب‌ها
-        val tabs = listOf("هنرهای سنتی","پوشاک", "خوردنی ها", "همه")
         TabBar(
             tabs = tabs,
             selectedTab = selectedTab,
-            onTabSelected = {
-                selectedTab = it
-                selectedCardId = null
-            },
+            onTabSelected = { selectedTab = it },
             modifier = Modifier.padding(horizontal = screenWidth * 0.06f)
         )
-        Spacer(modifier = Modifier.height(screenHeight * 0.015f)) // 🔽 کمتر از قبل
 
-
-        val soqatiSamples = listOf(
-            Soqati("هیچی", "شیرینی سنتی با مغز و عسل", listOf()),
-            Soqati("یکی", "شیرینی سنتی با مغز و عسل", listOf(R.drawable.khajo)),
-            Soqati("گز اصفهان", "سوغات معروف با مغز پسته", listOf(R.drawable.shiraz, R.drawable.meydan_emam)),
-            Soqati("پولکی", "نبات نازک و شیرین", listOf(R.drawable.meydan_emam, R.drawable.khajo , R.drawable.shiraz, R.drawable.shiraz)),
-        )
+        Spacer(modifier = Modifier.height(screenHeight * 0.015f))
 
         Column(
             modifier = Modifier
@@ -244,46 +172,34 @@ fun SoqatiDetaP(navController: NavController) {
                 .background(Color(0xFFF7F7F7)),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            soqatiSamples.chunked(2).forEach { rowItems ->
+            soqatiList.chunked(2).forEach { rowItems ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 24.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    rowItems.forEach { item ->
-                        val imageParam = item.imageResList.joinToString(",")
-                        val encodedName = Uri.encode(item.name)
-                        val encodedDescription = Uri.encode(item.description)
-                        val route = "SouvenirDetailScreen/$encodedName/$encodedDescription/$imageParam"
+                    val viewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
 
+                    rowItems.forEach { item ->
                         SoqatiCard(
                             soqati = item,
-                            navController = navController, // ✅ اضافه کن
+                            navController = navController,
                             modifier = Modifier
                                 .width(160.dp)
-                                .clickable {
-                                    navController.navigate(route)
-                                }
+                                .height(210.dp)
+
                         )
-
-
                     }
+
+
                     if (rowItems.size == 1) {
                         Spacer(modifier = Modifier.width(160.dp))
                     }
                 }
             }
+
             Spacer(modifier = Modifier.height(16.dp))
         }
-
-
     }
 }
-
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun TourPlsPreview() {
-//    SoqatiDetaP()
-//}

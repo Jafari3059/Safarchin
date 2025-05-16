@@ -39,12 +39,12 @@ data class City(
     val name: String,
     val description: String,
     val imageRes: Int,
-    val location: Int,
+    val latitude: Double,
+    val longitude: Double,
     val touristPlaces: List<TourPlace>,
     val shoppingCenters: List<shopCenter>,
     val souvenirs: List<Soqati>,
     val restaurants: List<rest_kafe>
-
 )
 
 @Composable
@@ -134,43 +134,7 @@ fun CityCard(city: City, onClick: () -> Unit){
 }
 
 @Composable
-fun CityCardList(navToCityScreen: (City) -> Unit) {
-    val cityList = listOf(
-        City(
-            name = "شیراز",
-            description = "شهر زیبای شیراز در ۲۰ کیلشهر تاریخی اصفهان با معماریشهر تاریخی اصفهان با معماریومتری فارس واقع شده است.",
-            imageRes = R.drawable.shiraz,
-            location = 1,
-            touristPlaces = emptyList(),
-            shoppingCenters = emptyList(),
-            souvenirs = emptyList(),
-            restaurants = emptyList()
-        ),
-
-        City(
-            name = "اصفهان",
-            description = "شهر تاریخی شهر تاریخی اصفهان با معماریشهر تاریخی اصفهان با معماریاصفهان با معماری بی‌نظیر.",
-            imageRes = R.drawable.shiraz,
-            location = 2,
-            touristPlaces = emptyList(),
-            shoppingCenters = emptyList(),
-            souvenirs = emptyList(),
-            restaurants = emptyList()
-        ),
-
-        City(
-            name = "تبریز",
-            description = "شهر اولین‌ها در شمال‌غرب sdcjdc pwdcjn DKFCشهر تاریخی اصفهان با معماریJ epfjایران.",
-            imageRes = R.drawable.shiraz,
-            location = 3,
-            touristPlaces = emptyList(),
-            shoppingCenters = emptyList(),
-            souvenirs = emptyList(),
-            restaurants = emptyList()
-        )
-    )
-
-
+fun CityCardList(cityList: List<City>, navToCityScreen: (City) -> Unit) {
     LazyRow(
         reverseLayout = true,
         horizontalArrangement = Arrangement.spacedBy(8.dp),

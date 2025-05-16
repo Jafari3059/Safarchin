@@ -16,6 +16,8 @@ import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsResturantCaff
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsCentershop.SoqatiDetaP
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.spqati.Souvenir.SouvenirDetailScreen
 import com.example.safarchin.ui.theme.FourPageAsli.HomeScreen
+//import com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.OverviewScreen
+//import com.example.safarchin.ui.theme.FourPageAsli.Plannig.planingP
 import com.example.safarchin.ui.theme.login.login
 import com.example.safarchin.ui.theme.login.codeLogin
 import com.example.safarchin.ui.theme.SafarchinTheme
@@ -118,8 +120,9 @@ fun AppNavigation() {
             }
 
             composable("cityDetail") {
-                CityP(navController = navController)
+                CityP(navController)
             }
+
 
             composable("tourDetails") {
                 TourPlaceDetaP(navController = navController)
@@ -137,6 +140,8 @@ fun AppNavigation() {
                 SoqatiDetaP(navController = navController)
             }
 
+
+
             composable("planing") {
                 planingP(navController = navController)
             }
@@ -145,19 +150,10 @@ fun AppNavigation() {
                 OverviewScreen(navController = navController)
             }
 
-            composable("SouvenirDetailScreen/{name}/{description}/{images}") { backStackEntry ->
-                val name = backStackEntry.arguments?.getString("name") ?: ""
-                val description = backStackEntry.arguments?.getString("description") ?: ""
-                val imageParam = backStackEntry.arguments?.getString("images") ?: ""
-                val imageResList = imageParam.split(",").mapNotNull { it.toIntOrNull() }
-
-                SouvenirDetailScreen(
-                    navController = navController,
-                    name = name,
-                    description = description,
-                    imageResList = imageResList
-                )
+            composable("souvenirDetail") {
+                SouvenirDetailScreen(navController = navController)
             }
+
         }
     }
 }
