@@ -23,8 +23,9 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.example.safarchin.ui.theme.FourPageAsli.Eshterak.EshterakP
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.HomeP
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.planingP
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.profileP
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.planingP
+//import com.example.safarchin.ui.theme.FourPageAsli.Plannig.planingP
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

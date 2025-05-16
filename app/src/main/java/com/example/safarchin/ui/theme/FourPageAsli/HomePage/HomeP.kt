@@ -484,12 +484,12 @@ fun HomeP(navController: NavController, phone: String) {
 
 
 }
-@Preview(showSystemUi = true, showBackground = true, locale = "fa")
-@Composable
-fun PreviewHomeP() {
-    val navController = rememberNavController()
-    HomeP(navController = navController)
-}
+//@Preview(showSystemUi = true, showBackground = true, locale = "fa")
+//@Composable
+//fun PreviewHomeP() {
+//    val navController = rememberNavController()
+//    HomeP(navController = navController)
+//}
 
 //@Preview(showBackground = true)
 //@Composable

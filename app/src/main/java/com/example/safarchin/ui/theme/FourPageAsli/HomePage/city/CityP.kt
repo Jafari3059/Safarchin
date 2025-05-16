@@ -1,5 +1,6 @@
 package com.example.safarchin.ui.theme.FourPageAsli.HomePage.city
 
+import android.net.Uri
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -356,6 +357,7 @@ fun CityP(navController: NavController) {
 
 
 
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -378,12 +380,13 @@ fun CityP(navController: NavController) {
                     // سمت چپ (بیشتر + آیکون)
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .clickable {
+                        modifier = Modifier.clickable {
+                            city?.souvenirs?.firstOrNull()?.let { soqati ->
+                                sharedViewModel.selectedSouvenir = soqati
                                 navController.navigate("soqatiDetails")
-                            },
-
-                        ) {
+                            }
+                        }
+                    ) {
                         Image(
                             painter = painterResource(id = R.drawable.next_icon),
                             contentDescription = "Next Icon",
@@ -395,10 +398,8 @@ fun CityP(navController: NavController) {
                             fontFamily = iranSans,
                             fontWeight = FontWeight.Normal,
                             fontSize = fontSizeMore,
-                            color = Color.Black,
-
-
-                            )
+                            color = Color.Black
+                        )
                     }
 
                     // سمت راست (عنوان بخش)
@@ -412,24 +413,17 @@ fun CityP(navController: NavController) {
                 }
 
                 if (city != null) {
-                    SoqatiList(items = city.souvenirs)
+                    SoqatiList(items = city.souvenirs, navController = navController)
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))
             }
         }
 
+
     }
 }
-fun getSoqatiList(): List<Soqati> {
-    return listOf(
-        Soqati("کلوچه مسقطی", "یکی از سوغاتی‌های معروف شیراز.", listOf(R.drawable.shiraz, R.drawable.khajo)),
-        Soqati("فالوده", "دسر خنک مخصوص شیراز.", listOf()),
-        Soqati("کلوچه ddddمسقطی", "یکی از سوغاتی‌های معروف شیراز.", listOf(R.drawable.shiraz, R.drawable.khajo , R.drawable.meydan_emam)),
-        Soqati("کلوچهssss مسقطی", "یکی از سوغاتی‌های معروف شیراز.", listOf(R.drawable.shiraz, R.drawable.khajo)),
 
-        )
-}
 
 //@Preview(showBackground = true)
 //@Composable
