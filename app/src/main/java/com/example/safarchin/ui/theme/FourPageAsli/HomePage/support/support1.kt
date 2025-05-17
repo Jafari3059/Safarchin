@@ -632,7 +632,6 @@ fun UpdatesSection() {
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // عناوین نارنجی با علامت ":" و فاصله از راست
         FAQItem(
             "ویژگی‌های جدید:",
             "• قابلیت اشتراک‌گذاری برنامه سفر با یک کلیک\n" +
@@ -661,7 +660,7 @@ fun UpdatesSection() {
             modifier = Modifier
 
                 .fillMaxWidth()
-                .padding(horizontal = 53.dp), // ✅ فقط این خط اضافه بشه
+                .padding(horizontal = 53.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7F54))
         ) {
             Text("بروزرسانی")
