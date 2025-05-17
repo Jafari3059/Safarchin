@@ -1,5 +1,5 @@
 package com.example.safarchin
-import com.example.safarchin.ui.theme.FourPageAsli.HomePage.support.Support1 //smy
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.support.Support1
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

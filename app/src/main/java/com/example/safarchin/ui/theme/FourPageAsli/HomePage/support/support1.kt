@@ -29,13 +29,13 @@ import com.example.safarchin.ui.theme.FourPageAsli.HeaderSection
 @Composable
 fun Support1() {
     val helpItems = listOf(
-        "سوالات متداول" to "",
-        "راهنمای استفاده (با تصویر و ویدیو)" to "",
-        "جستجوی مشکلات رایج" to "",
-        "تماس با پشتیبانی" to "",
-        "راهنمای مکان‌یابی و مجوزها" to "",
-        "بروزرسانی‌ها و تغییرات نسخه جدید" to "",
-        "بخش ارسال بازخورد یا پیشنهادات" to "پیشنهاد یا انتقاد خود را از طریق فرم پایین ثبت کنید."
+        "سوالات متداول" to "placeholder",
+        "راهنمای استفاده (با تصویر و ویدیو)" to "placeholder",
+        "جستجوی مشکلات رایج" to "placeholder",
+        "تماس با پشتیبانی" to "برای ارتباط مستقیم با پشتیبانی می‌توانید از گزینه‌های تماس، ایمیل یا ارسال پیام استفاده کنید.",
+        "راهنمای مکان‌یابی و مجوزها" to "placeholder",
+        "بروزرسانی‌ها و تغییرات نسخه جدید" to "لیستی از بهبودها، امکانات جدید و تغییرات نسخه‌های اخیر برنامه در این بخش ارائه می‌شود.",
+        "بخش ارسال بازخورد یا پیشنهادات" to "در صورت داشتن نظر، پیشنهاد یا مشکل خاص، از این قسمت برای ارسال بازخورد استفاده کنید."
     )
 
     Column(
@@ -44,17 +44,59 @@ fun Support1() {
             .verticalScroll(rememberScrollState())
             .background(Color(0xFFF6F4F4))
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(240.dp)
-        ) {
+        Box(modifier = Modifier.fillMaxWidth()) {
             Image(
                 painter = painterResource(id = R.drawable.khajo),
-                contentDescription = "پل خاجو",
+                contentDescription = "پل خواجو",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.matchParentSize()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(249.dp)
             )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                    .align(Alignment.TopCenter),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.next_icon),
+                        contentDescription = "بازگشت",
+                        tint = Color(0xFFFF7B54),
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Icon(
+                        painter = painterResource(id = R.drawable.notification_icon),
+                        contentDescription = "زنگ",
+                        tint = Color(0xFFFF7B54),
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Column(horizontalAlignment = Alignment.End) {
+                        Text(text = "سلام سارا :)", fontSize = 14.sp, color = Color.White)
+                        Text(
+                            text = "حاضری به ماجراجویی دیگه ای شروع کنی؟",
+                            fontSize = 12.sp,
+                            color = Color.White
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Image(
+                        painter = painterResource(id = R.drawable.profile_image),
+                        contentDescription = "پروفایل",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(RoundedCornerShape(20.dp))
+                    )
+                }
+            }
 
             Box(
                 modifier = Modifier
@@ -67,11 +109,6 @@ fun Support1() {
                         )
                     )
             )
-
-            HeaderSection(
-                onNotificationClick = { },
-                onHelpClick = { }
-            )
         }
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -79,8 +116,41 @@ fun Support1() {
         helpItems.forEach { (title, content) ->
             ExpandableHelpItem(title = title, content = content)
         }
+        Spacer(modifier = Modifier.height(24.dp))
 
-        Spacer(modifier = Modifier.height(48.dp))
+        Text(
+            text = "آیا این راهنما برایتان مفید بود؟",
+            fontSize = 14.sp,
+            color = Color.DarkGray,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp)
+        )
+
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            IconButton(onClick = { /* Like */ }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_thumb_up),
+                    contentDescription = "مفید بود",
+                    tint = Color(0xFF4CAF50),
+                    modifier = Modifier.size(28.dp) // یا مثلاً 32.dp
+                )
+            }
+            Spacer(modifier = Modifier.width(2.dp))
+            IconButton(onClick = { /* Dislike */ }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_thumb_down),
+                    contentDescription = "مفید نبود",
+                    tint = Color(0xFFF44336),
+                    modifier = Modifier.size(28.dp)
+                )
+            }
+        }
+
     }
 }
 
@@ -98,10 +168,15 @@ fun ExpandableHelpItem(title: String, content: String) {
             .padding(horizontal = 27.dp, vertical = 6.dp),
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
-    ) {
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFFFFFFFF)
+        )
+    )
+
+    {
         Column(
             modifier = Modifier
+                .fillMaxWidth()
                 .clickable { expanded = !expanded }
                 .padding(16.dp)
         ) {
@@ -120,95 +195,145 @@ fun ExpandableHelpItem(title: String, content: String) {
                 Text(
                     text = title,
                     fontSize = 16.sp,
-                    color = Color.Black,
                     textAlign = TextAlign.Right,
+                    color = Color.Black,
                     style = LocalTextStyle.current.copy(textDirection = TextDirection.Rtl),
                     modifier = Modifier.weight(1f)
                 )
             }
 
-            if (expanded) {
-                Spacer(modifier = Modifier.height(8.dp))
 
-                when (title) {
-                    "سوالات متداول" -> {
-                        Column {
-                            FAQItem("چطور می‌تونم یک سفر جدید بسازم؟", "از بخش «سفرهای من»، روی دکمه + کلیک کنید. عنوان و تاریخ سفر را وارد کرده و دکمه ذخیره را بزنید.")
-                            FAQItem("چطور مکان دیدنی اضافه کنم؟", "بعد از ایجاد سفر، از طریق نقشه یا جستجو، مکان مورد نظر را پیدا کرده و با زدن دکمه افزودن آن را اضافه کنید.")
-                            FAQItem("آیا می‌تونم برنامه سفر را با دیگران به اشتراک بگذارم؟", "بله. گزینه «اشتراک‌گذاری» را در صفحه سفر انتخاب کنید و لینک را برای دوستانتان بفرستید.")
-                        }
-                    }
-                    "راهنمای استفاده (با تصویر و ویدیو)" -> {
-                        Column {
-                            FAQItem("ساخت سفر جدید", "وارد بخش سفرهای من شوید و روی دکمه + کلیک کنید. عنوان، مقصد و تاریخ را وارد کرده و ذخیره کنید.")
-                            FAQItem("افزودن مکان‌های دیدنی", "در صفحه سفر، از نقشه یا جستجو برای پیدا کردن مکان استفاده کرده و روی افزودن کلیک کنید.")
-                            FAQItem("برنامه‌ریزی زمانی", "برای هر مکان ساعت رسیدن را مشخص کنید تا برنامه منظمی داشته باشید.")
-                            Image(
-                                painter = painterResource(id = R.drawable.video),
-                                contentDescription = "آموزش تصویری",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(180.dp)
-                                    .padding(top = 16.dp)
-                                    .clip(RoundedCornerShape(12.dp))
-                            )
-                        }
-                    }
-                    "جستجوی مشکلات رایج" -> {
-                        Column {
-                            FAQItem("برنامه باز نمی‌شود یا هنگ می‌کند", "اتصال اینترنت، به‌روزرسانی برنامه و پاک‌سازی کش را بررسی کنید.")
-                            FAQItem("نقشه‌ها لود نمی‌شوند", "دسترسی مکان و اتصال اینترنت را بررسی کنید. اگر مشکل ادامه داشت، تنظیمات دستگاه را چک کنید.")
-                        }
-                    }
-                    "تماس با پشتیبانی" -> {
-                        Column {
-                            FAQItem("تماس تلفنی", "با شماره ۰۹۱۲۳۴۵۶۷۸۹ در ساعات اداری تماس بگیرید.")
-                            FAQItem("ارسال ایمیل", "پیام خود را به آدرس support@safarapp.com بفرستید.")
-                            FAQItem("فرم تماس داخل برنامه", "از فرم پایین همین صفحه استفاده کنید تا با ما در ارتباط باشید.")
-                        }
-                    }
-                    "راهنمای مکان‌یابی و مجوزها" -> {
-                        Column {
-                            FAQItem("برای اینکه تجربه‌ی بهتری در سفر داشته باشید، اپلیکیشن نیاز به دسترسی به موقعیت مکانی شما دارد:", "\n• مکان فعلی شما را روی نقشه نمایش دهد\n• مسیرهای پیشنهادی را نمایش دهد")
-                            FAQItem("در دستگاه‌های اندرویدی:", "\n• وارد تنظیمات شوید\n• به بخش مجوزها (Permissions) بروید\n• گزینه Location را فعال کنید")
-                            FAQItem("در دستگاه‌های iOS:", "\n• وارد Settings شوید\n• به بخش Privacy & Security > Location بروید\n• While Using the App را فعال کنید\n• Precise Location را هم روشن کنید (برای دقت بیشتر)")
-                        }
-                    }
-                    "بروزرسانی‌ها و تغییرات نسخه جدید" -> {
-                        Column {
-                            FAQItem("ویژگی‌های جدید:", "\n• قابلیت اشتراک‌گذاری برنامه سفر\n• افزودن مسیرهای پیشنهادی\n• دسته‌بندی جدید برای مکان‌ها")
-                            FAQItem("بهبودهای عملکرد:", "\n• افزایش سرعت بارگذاری نقشه‌ها و لیست مکان‌ها\n• بهینه‌سازی نمایش مکان‌ها برای دقت بیشتر\n• بهبود بخش پشتیبانی و ارسال سریع‌تر پیام")
-                            FAQItem("باک‌فیکس‌ها:", "\n• رفع مشکل نمایش ندادن ایمیل‌ها\n• اصلاح نمایش ناهماهنگ در برخی صفحه‌ها")
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = title,
+                fontSize = 16.sp,
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Right,
+                color = Color.Black,
+                style = LocalTextStyle.current.copy(textDirection = TextDirection.Rtl)
+            )
+        }
 
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Button(
-                                onClick = { },
-                                modifier = Modifier.fillMaxWidth().padding(horizontal = 53.dp),
-                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7F54))
-                            ) {
-                                Text("بروزرسانی")
-                            }
-                        }
-                    }
-                    else -> {
-                        Text(
-                            text = content,
-                            fontSize = 14.sp,
+        if (expanded) {
+            Spacer(modifier = Modifier.height(8.dp))
+            when (title) {
+                "سوالات متداول" -> {
+                    Column {
+
+                        HorizontalDivider(
                             color = Color.Gray,
-                            textAlign = TextAlign.Right,
-                            style = LocalTextStyle.current.copy(textDirection = TextDirection.Rtl),
-                            modifier = Modifier.fillMaxWidth()
+                            thickness = 1.dp,
+                            modifier = Modifier.padding(horizontal = 12.dp)
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        FAQItem("چطور می‌تونم یک سفر جدید بسازم؟", "از بخش «سفرهای من»، روی دکمه + کلیک کنید. عنوان و تاریخ سفر را وارد کرده و دکمه ذخیره را بزنید.")
+                        FAQItem("چطور می‌تونم مکان‌های دیدنی رو به سفرم اضافه کنم؟", "بعد از ایجاد سفر، از طریق نقشه یا جستجو، مکان مورد نظر رو پیدا کرده و با زدن دکمه افزودن به سفر، اون رو به برنامه‌تون اضافه کنید.")
+                        FAQItem("آیا امکان اشتراک‌گذاری برنامه سفر با دیگران وجود دارد؟", "بله. در صفحه هر سفر، گزینه «اشتراک‌گذاری» وجود دارد که می‌توانید لینک سفر را برای دیگران بفرستید.")
+                        FAQItem("آیا می‌تونم سفرم رو به‌صورت آفلاین هم ببینم؟", "بله، اطلاعات سفر پس از بارگیری اولیه ذخیره می‌شود و در صورت عدم دسترسی به اینترنت هم قابل مشاهده هستند.")
+                        FAQItem("چرا نقشه برای من نمایش داده نمی‌شود؟", "لطفاً مطمئن شوید که مجوز دسترسی به موقعیت مکانی فعال است و اتصال اینترنت برقرار است.")
+                        FAQItem("حتماً. نرفته یک مکان، میشه حذفش کرد؟", "بله، از بخش ویرایش سفر می‌توانید مکان‌ها رو حذف کنید.")
+                    }
+                }
+                "راهنمای استفاده (با تصویر و ویدیو)" -> {
+                    Column {
+                        HorizontalDivider(
+                            color = Color.Gray,
+                            thickness = 1.dp,
+                            modifier = Modifier.padding(horizontal = 12.dp)
+                        )
+                        FAQItem("ساخت سفر جدید", "برای شروع، وارد بخش سفرهای من شوید و روی دکمه + کلیک کنید. عنوان سفر، مقصد و تاریخ را وارد کرده و ذخیره کنید.")
+                        FAQItem("افزودن مکان‌های دیدنی", "در صفحه سفر با استفاده از نقشه یا جستجو، مکان‌های مورد نظر را پیدا کنید و با زدن گزینه «افزودن»، آن‌ها را به برنامه سفر اضافه نمایید.")
+                        FAQItem("برنامه‌ریزی زمان‌بندی", "برای هر مکان زمان رسیدن موردنظر را مشخص کنید تا برنامه روزانه منظمی داشته باشید.")
+                        FAQItem("مسیر سفر روی نقشه", "با فعال کردن موقعیت مکانی، می‌توانید مسیرهای پیشنهادی برای رسیدن به هر مکان را روی نقشه ببینید.")
+                        FAQItem("اشتراک‌گذاری برنامه سفر", "با زدن دکمه «اشتراک‌گذاری» می‌توانید برنامه سفر خود را با دوستان یا همراهانتان به‌صورت لینک یا عکس ارسال کنید.")
+                        FAQItem("ویرایش یا حذف برنامه", "در هر زمان می‌توانید با مراجعه به صفحه سفر، مکان‌ها یا زمان‌ها را ویرایش یا حذف کنید.")
+                        Image(
+                            painter = painterResource(id = R.drawable.video),
+                            contentDescription = "ویدیو آموزشی",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(180.dp)
+                                .padding(top = 16.dp)
+                                .clip(RoundedCornerShape(12.dp))
                         )
                     }
+                }
+                "جستجوی مشکلات رایج" -> {
+                    Column {
+                        HorizontalDivider(
+                            color = Color.Gray,
+                            thickness = 1.dp,
+                            modifier = Modifier.padding(horizontal = 12.dp)
+                        )
+
+                        FAQItem("برنامه باز نمی‌شود یا هنگ می‌کند", "بررسی اتصال اینترنت، به‌روزرسانی برنامه به آخرین نسخه و در صورت ادامه مشکل، پاک‌سازی کش (Cache) یا نصب مجدد برنامه.")
+                        FAQItem("نقشه‌ها یا مکان‌ها لود نمی‌شوند", "لطفاً مطمئن شوید که دسترسی به موقعیت مکانی فعال است و اتصال اینترنت برقرار است. اگر همچنان مشکلی بود، از تنظیمات دستگاه بررسی کنید.")
+                    }
+                }
+                "راهنمای مکان‌یابی و مجوزها" -> {
+                    Column {
+                        HorizontalDivider(
+                            color = Color.Gray,
+                            thickness = 1.dp,
+                            modifier = Modifier.padding(horizontal = 12.dp)
+                        )
+                        FAQItem("برای اینکه تجربه‌ی بهتری در سفر داشته باشید، اپلیکیشن نیاز به دسترسی به موقعیت مکانی شما دارد تا بتواند:", "\n• مکان فعلی شما را روی نقشه نمایش دهد\n• مسیرهای پیشنهادی و تخمینی زمان رسیدن تا مکان‌ها را نشان دهد")
+                        FAQItem("در دستگاه‌های اندرویدی:", "\n• وارد بخش تنظیمات شوید\n• به بخش مجوزها (Permissions) کلیک کنید\n• گزینه Location را انتخاب کرده و حالت دسترسی مناسب را اعمال کنید")
+                        FAQItem("در دستگاه‌های iOS:", "\n• وارد Settings شوید\n• Privacy & Security > Location را انتخاب کنید\n• Services را فعال کنید\n• گزینه While Using the App را فعال کنید\n• اگر خواستید، گزینه Precise Location را هم روشن کنید")
+                    }
+                }
+                "بخش ارسال بازخورد یا پیشنهادات" -> {
+                    HorizontalDivider(
+                        color = Color.Gray,
+                        thickness = 1.dp,
+                        modifier = Modifier.padding(horizontal = 12.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    FeedbackForm()
+                }
+
+                "تماس با پشتیبانی" -> {
+                    HorizontalDivider(
+                        color = Color.Gray,
+                        thickness = 1.dp,
+                        modifier = Modifier.padding(horizontal = 12.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    SupportForm()
+                }
+
+                "بروزرسانی‌ها و تغییرات نسخه جدید" -> {
+                    HorizontalDivider(
+                        color = Color.Gray,
+                        thickness = 1.dp,
+                        modifier = Modifier.padding(horizontal = 12.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    UpdatesSection()
+                }
+
+
+
+                else -> {
+                    Text(
+                        text = content,
+                        fontSize = 14.sp,
+                        color = Color.Gray,
+                        textAlign = TextAlign.Right,
+                        style = LocalTextStyle.current.copy(textDirection = TextDirection.Rtl),
+                        modifier = Modifier.fillMaxWidth()
+                    )
                 }
             }
         }
     }
 }
 
+
 @Composable
 fun FAQItem(question: String, answer: String) {
     Column(modifier = Modifier.fillMaxWidth()) {
+        // سوال نارنجی
         Text(
             text = question,
             color = Color(0xFFFF7B00),
@@ -217,9 +342,10 @@ fun FAQItem(question: String, answer: String) {
             style = LocalTextStyle.current.copy(textDirection = TextDirection.Rtl),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = 20.dp, start = 24.dp)
+                .padding(end = 20.dp, start = 24.dp) // ← تورفتگی از راست
         )
 
+        // جواب مشکی
         Text(
             text = answer,
             color = Color.Black,
@@ -228,15 +354,319 @@ fun FAQItem(question: String, answer: String) {
             style = LocalTextStyle.current.copy(textDirection = TextDirection.Rtl),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = 30.dp, start = 16.dp, top = 4.dp)
+                .padding(end = 30.dp, start =16.dp, top = 4.dp) // ← کم‌تر تو رفته از بالا
         )
-
-        Spacer(modifier = Modifier.height(12.dp))
     }
 }
 
-@Preview(showBackground = true)
+
 @Composable
-fun Support1Preview() {
-    Support1()
+fun FeedbackForm() {
+    var selectedType by remember { mutableStateOf("") }
+    var fullName by remember { mutableStateOf("") }
+    var contact by remember { mutableStateOf("") }
+    var message by remember { mutableStateOf("") }
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = "ما همیشه در تلاشیم تجربه سفر شما با اپلیکیشن بهتر و راحت‌تر بشه. اگر پیشنهادی برای بهبود برنامه دارید یا مشکلی مشاهده کردید، خوشحال می‌شیم ازتون بشنویم.",
+            fontSize = 14.sp,
+            color = Color(0xFFFF7B54),
+            textAlign = TextAlign.Right,
+            style = LocalTextStyle.current.copy(textDirection = TextDirection.Rtl),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedTextField(
+            value = fullName,
+            onValueChange = { fullName = it },
+            modifier = Modifier.fillMaxWidth(),
+            placeholder = { Text("نام و نام خانوادگی (اختیاری)", textAlign = TextAlign.Right, modifier = Modifier.fillMaxWidth()) },
+            singleLine = true
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        OutlinedTextField(
+            value = contact,
+            onValueChange = { contact = it },
+            modifier = Modifier.fillMaxWidth(),
+            placeholder = { Text("ایمیل یا شماره تماس", textAlign = TextAlign.Right, modifier = Modifier.fillMaxWidth()) },
+            singleLine = true
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+        Text(
+            text = "نوع بازخورد:",
+            fontSize = 14.sp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 4.dp),
+            textAlign = TextAlign.Right,
+            style = LocalTextStyle.current.copy(textDirection = TextDirection.Rtl)
+        )
+
+        val feedbackTypes = listOf("پیشنهاد بهبود", "گزارش باگ", "نظر کلی")
+        feedbackTypes.forEach { type ->
+            val isSelected = selectedType == type
+            Button(
+                onClick = { selectedType = type },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (isSelected) Color(0xFF939B62) else Color(0xFFEFEFEF),
+                    contentColor = if (isSelected) Color.White else Color.Black
+                )
+            ) {
+                Text(type)
+            }
+        }
+
+        OutlinedTextField(
+            value = message,
+            onValueChange = { message = it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(150.dp),
+            placeholder = { Text("اینجا می‌تونید جزئیات بازخورد یا پیشنهادتون رو بنویسید", textAlign = TextAlign.Right, modifier = Modifier.fillMaxWidth()) }
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+        Button(
+            onClick = { /* ارسال بازخورد */ },
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7B54))
+        ) {
+            Text("ارسال بازخورد")
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+@Composable
+fun SupportForm() {
+    var fullName by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var subject by remember { mutableStateOf("") }
+    var message by remember { mutableStateOf("") }
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = "می‌تونید از طریق فرم زیر پیام‌تون رو ارسال کنید. ما در سریع‌ترین زمان ممکن پاسخ خواهیم داد.",
+            fontSize = 14.sp,
+            color = Color(0xFFFF7B54),
+            textAlign = TextAlign.Right,
+            style = LocalTextStyle.current.copy(textDirection = TextDirection.Rtl),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedTextField(
+            value = fullName,
+            onValueChange = { fullName = it },
+            placeholder = {
+                Text(
+                    "نام و نام خانوادگی",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Right
+                )
+            },
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 27.dp) // 👈 اضافه شد
+
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            placeholder = {
+                Text(
+                    "ایمیل یا شماره تماس",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Right
+
+                )
+            },
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 27.dp) // 👈 اضافه شد
+
+
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        OutlinedTextField(
+            value = subject,
+            onValueChange = { subject = it },
+            placeholder = {
+                Text(
+                    "موضوع مشکل",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Right
+                )
+            },
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 27.dp) // 👈 اضافه شد
+
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        OutlinedTextField(
+            value = message,
+            onValueChange = { message = it },
+            placeholder = {
+                Text(
+                    "توضیحات بیشتر...",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Right
+                )
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(150.dp)
+                .padding(horizontal = 27.dp) // 👈 اضافه شد
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = { /* ارسال */ },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 53.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7B54))
+        ) {
+            Text("ارسال")
+        }
+
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier
+                    .background(Color(0xFF939B62), RoundedCornerShape(8.dp))
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = "ایمیل پشتیبانی",
+                    fontSize = 12.sp,
+                    color = Color.White
+                )
+                Text(
+                    text = "support@safarapp.com",
+                    fontSize = 12.sp,
+                    color = Color.White
+                )
+            }
+
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 53.dp)
+
+                    .background(Color(0xFF939B62), RoundedCornerShape(8.dp))
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = "تماس تلفنی (در ساعات اداری)",
+                    fontSize = 12.sp,
+                    color = Color.White
+                )
+                Text(
+                    text = "09123456789",
+                    fontSize = 12.sp,
+                    color = Color.White
+                )
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@Composable
+fun UpdatesSection() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White, shape = RoundedCornerShape(12.dp))
+            .padding(16.dp)
+    )
+    {
+        Text(
+            text = "خوشحالیم که با شما هستیم! در این نسخه، بهبودهایی برای تجربه‌ی بهتر سفر انجام دادیم:",
+            fontSize = 14.sp,
+            color = Color.Black,
+            textAlign = TextAlign.Right,
+            style = LocalTextStyle.current.copy(textDirection = TextDirection.Rtl),
+            modifier = Modifier.padding(start = 8.dp) // ← فاصله از سمت راست (برای فارسی)
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // عناوین نارنجی با علامت ":" و فاصله از راست
+        FAQItem(
+            "ویژگی‌های جدید:",
+            "• قابلیت اشتراک‌گذاری برنامه سفر با یک کلیک\n" +
+                    "• مشاهده موقعیت مکانی من در نقشه\n" +
+                    "• پیشنهادات مسیر برای مکان‌های بازدید (رستوران‌ها، دیدنی‌ها)"
+        )
+
+        FAQItem(
+            "بهبودهای عملکرد:",
+            "• افزایش پایداری ذخیره‌سازی نقشه‌ها و مسیر سفر\n" +
+                    "• بهینه‌سازی بارگذاری لیست مکان‌ها و دسته‌بندی‌ها\n" +
+                    "• بهبود نمایش پیام پشتیبانی و ارسال گزارش خطا"
+        )
+
+        FAQItem(
+            "باک‌فیکس‌ها و رفع اشکال:",
+            "• رفع مشکل ناپدیدشدن آدرس ایمیل\n" +
+                    "• حل مشکل باز نشدن عکس‌ها در قسمت مکان"
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+
+            onClick = { /* عملیات بروزرسانی */ },
+            modifier = Modifier
+
+                .fillMaxWidth()
+                .padding(horizontal = 53.dp), // ✅ فقط این خط اضافه بشه
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7F54))
+        ) {
+            Text("بروزرسانی")
+        }
+
+
+    }
 }
