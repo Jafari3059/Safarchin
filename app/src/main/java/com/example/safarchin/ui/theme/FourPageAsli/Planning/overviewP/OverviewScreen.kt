@@ -1,11 +1,10 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP
-import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.MapTabContent
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP
 
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.Saved.SavedPlacesViewModel
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.Saved.SavedPlacesViewModel
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.compose.foundation.*
@@ -35,6 +34,9 @@ import androidx.navigation.NavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.iranSans
 import androidx.navigation.compose.rememberNavController
+import com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.OverviewTabBudget
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.PlanningTabContent
+
 
 @Composable
 fun OverviewScreen(navController: NavController) {
@@ -65,6 +67,8 @@ fun OverviewScreen(navController: NavController) {
     val fabPaddingEnd = screenWidth * 0.06f
     val fabPaddingBottom = screenHeight * 0.04f
     val iconSize = screenWidth * 0.18f
+    val showCostPopup = remember { mutableStateOf(false) }
+
 
 
     Box(modifier = Modifier.fillMaxSize().background(Color(0xFFF6F4F4))) {
@@ -135,18 +139,37 @@ fun OverviewScreen(navController: NavController) {
                 )
             }
 
+
             Spacer(modifier = Modifier.height(spacerHeight))
 
-            when (selectedTabIndex) {
-                0 -> MapTabContent(navController = navController)
-                1 -> {} // بودجه
-                2 -> {} // برنامه‌ریزی
-                3 -> OverviewTabContent(
+            if (selectedTabIndex == 2) {
+                PlanningTabContent()
+            }
+            if (selectedTabIndex == 3) {
+               // OverviewTabContent(savedPlacesViewModel = savedPlacesViewModel)
+                OverviewTabContent(
                     savedPlacesViewModel = savedPlacesViewModel,
                     selectedPlacesViewModel = selectedPlacesViewModel
                 )
             }
 
+            val currentValue = 900000 // گرفتن currentValue از DreamTripCard
+            val maxValue = 1200000
+
+            if (selectedTabIndex == 1) {
+                OverviewTabBudget(
+                    currentValue = currentValue,
+                    maxValue = maxValue,
+                    items = listOf(
+                        "خرید" to 850000,
+                        "اقامتگاه" to 500000,
+                        "خوردنی" to 10000,
+                        "تفریح" to 2000,
+                        "حمل و نقل" to 10000,
+                        "متفرقه" to 100000
+                    )
+                )
+            }
         }
 
         // 🔘 دکمه شناور
@@ -169,6 +192,46 @@ fun OverviewScreen(navController: NavController) {
             }
         }
 
+        if (selectedTabIndex == 1) {
+            FloatingActionButton(
+                onClick = { showCostPopup.value = true }, // ✅ دیگه به NavController نیاز نیست
+                shape = CircleShape,
+                containerColor = Color(0xFFFFD56B),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = fabPaddingEnd, bottom = fabPaddingBottom)
+                    .size(fabSize)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.newcost),
+                    contentDescription = "افزودن هزینه",
+                    tint = Color.Unspecified,
+                    modifier = Modifier.size(iconSize)
+                )
+            }
+        }
+
+        if (showCostPopup.value) {
+            Dialog(
+                onDismissRequest = { showCostPopup.value = false },
+                properties = DialogProperties(
+                    usePlatformDefaultWidth = false,
+                    dismissOnClickOutside = true
+                )
+            ) {
+                AddNewCostPopup(
+                    onDismiss = {
+                        showCostPopup.value = false
+                    },
+                    onSubmit = {
+                        showCostPopup.value = false
+                        navController.navigate("overview")
+                    }
+                )
+            }
+        }
+
+
         // 💬 دیالوگ راهنمایی
         if (isPopupVisible.value) {
             Dialog(
@@ -190,6 +253,7 @@ fun OverviewScreen(navController: NavController) {
         }
     }
 }
+
 
 @Composable
 fun DateBox(label: String, value: String, size: Dp, fontSize: TextUnit) {

@@ -27,6 +27,9 @@ import com.example.safarchin.ui.theme.iranSans
 
 @Composable
 fun login(navController: NavController) {
+
+
+
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
@@ -129,7 +132,7 @@ fun login(navController: NavController) {
                     Button(
                         onClick = {
                             if (isValidIranianPhone(phoneNumber.text)) {
-                                navController.navigate("codelogin")
+                                navController.navigate("codelogin/${phoneNumber.text}")
                             } else {
                                 isValid = false
                             }

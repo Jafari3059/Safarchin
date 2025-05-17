@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.Plannig.Components
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.Components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -43,8 +43,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.safarchin.R
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.Trip
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.Trip
 //import com.example.safarchin.model.Trip
 import com.example.safarchin.ui.theme.iranSans
 
@@ -55,7 +56,8 @@ fun TripCardsSection(
     selectedCardId: Int?,
     onCardMoreClick: (Int) -> Unit,
     screenWidth: Dp,
-    screenHeight: Dp
+    screenHeight: Dp,
+    navController: NavController
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         FlowRow(
@@ -71,7 +73,8 @@ fun TripCardsSection(
                     trip = trip,
                     isDeleteBoxVisible = selectedCardId == trip.id,
                     onMoreIconClick = { onCardMoreClick(trip.id) },
-                    screenWidth = screenWidth
+                    screenWidth = screenWidth,
+                    navController = navController // ✅ ارسال NavController
                 )
             }
         }
@@ -83,7 +86,8 @@ fun TripCard(
     trip: Trip,
     isDeleteBoxVisible: Boolean,
     onMoreIconClick: () -> Unit,
-    screenWidth: Dp
+    screenWidth: Dp,
+    navController: NavController
 ) {
     val cardWidth = screenWidth * 0.40f
     val config = LocalConfiguration.current
@@ -158,7 +162,7 @@ fun TripCard(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Button(
-                        onClick = { },
+                        onClick = {navController.navigate("overview")},
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7B54)),
                         shape = RoundedCornerShape(6.dp),
                         modifier = Modifier
@@ -175,7 +179,7 @@ fun TripCard(
                     }
 
                     Box {
-                        IconButton(onClick = { onMoreIconClick() }) {
+                        IconButton( onClick = { onMoreIconClick() }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.etc1),
                                 contentDescription = "آیکون حذف",

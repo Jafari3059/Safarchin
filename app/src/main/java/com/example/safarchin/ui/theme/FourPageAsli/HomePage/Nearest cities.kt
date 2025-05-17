@@ -28,9 +28,14 @@ import androidx.compose.ui.unit.sp
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.iranSans
 import com.example.safarchin.ui.theme.irgitiFont
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.pow
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 @Composable
-fun Nearest_cities(city: City) {
+fun Nearest_cities(city: City, distanceInKm: Double) {
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val cardWidth = (screenWidth * 0.33).dp
     val imageHeight = (screenWidth * 0.3).dp
@@ -98,7 +103,7 @@ fun Nearest_cities(city: City) {
             )
 
             Text(
-                text = "${city.location} کیلومتر دورتر",
+                text = "%.1f کیلومتر دورتر".format(distanceInKm),
                 fontFamily = iranSans,
                 fontWeight = FontWeight.Light,
                 fontSize = distanceFontSize,
@@ -111,52 +116,44 @@ fun Nearest_cities(city: City) {
 }
 
 @Composable
-fun Nearest_citiesCard() {
-    val cityList = listOf(
-        City(
-            name = "شیراز",
-            description = "شهر زیبای شیراز در ۲۰ کیلومتری فارس واقع شده است.",
-            imageRes = R.drawable.shiraz,
-            location = 1,
-            touristPlaces = emptyList(),
-            shoppingCenters = emptyList(),
-            souvenirs = emptyList(),
-            restaurants = emptyList()
-        ),
-        City(
-            name = "اصفهان",
-            description = "شهر تاریخی اصفهان با معماری بی‌نظیر.",
-            imageRes = R.drawable.shiraz,
-            location = 2,
-            touristPlaces = emptyList(),
-            shoppingCenters = emptyList(),
-            souvenirs = emptyList(),
-            restaurants = emptyList()
-        ),
-        City(
-            name = "تبریز",
-            description = "شهر اولین‌ها در شمال‌غرب ایران.",
-            imageRes = R.drawable.shiraz,
-            location = 3,
-            touristPlaces = emptyList(),
-            shoppingCenters = emptyList(),
-            souvenirs = emptyList(),
-            restaurants = emptyList()
-        )
-    )
+fun Nearest_citiesCard(userLat: Double, userLon: Double, cityList: List<City>) {
+    // محاسبه فاصله و مرتب‌سازی
+    val sortedCities = cityList.sortedBy {
+        calculateDistance(userLat, userLon, it.latitude, it.longitude)
+    }
 
     LazyRow(
         reverseLayout = true,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(cityList) { city ->
-            Nearest_cities(city)
+        items(sortedCities) { city ->
+            val distance = calculateDistance(userLat, userLon, city.latitude, city.longitude)
+            Nearest_cities(city, distanceInKm = distance)
         }
+
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewCitsdvyCards() {
-    Nearest_citiesCard()
+fun calculateDistance(
+    lat1: Double, lon1: Double,
+    lat2: Double, lon2: Double
+): Double {
+    val R = 6371.0 // شعاع زمین بر حسب کیلومتر
+    val dLat = Math.toRadians(lat2 - lat1)
+    val dLon = Math.toRadians(lon2 - lon1)
+
+    val a = sin(dLat / 2).pow(2.0) +
+            cos(Math.toRadians(lat1)) *
+            cos(Math.toRadians(lat2)) *
+            sin(dLon / 2).pow(2.0)
+
+    val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+    return R * c
 }
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewCitsdvyCards() {
+//    Nearest_citiesCard()
+//}

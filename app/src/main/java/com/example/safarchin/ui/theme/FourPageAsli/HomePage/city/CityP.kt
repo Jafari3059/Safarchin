@@ -1,22 +1,12 @@
 package com.example.safarchin.ui.theme.FourPageAsli.HomePage.city
 
+import android.net.Uri
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
@@ -36,76 +26,68 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.safarchin.R
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.SharedViewModel
 import com.example.safarchin.ui.theme.iranSans
 import com.example.safarchin.ui.theme.irgitiFont
 import kotlinx.coroutines.delay
-import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.Soqati
-
 
 @Composable
 fun CityP(navController: NavController) {
-
-    val images = listOf(
-        R.drawable.khajo,
-        R.drawable.shiraz,
-        R.drawable.meydan_emam
-    )
+    val sharedViewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
+    val city = sharedViewModel.selectedCity
 
     val pagerState = rememberPagerState(
         initialPage = 0,
-        pageCount = { images.size }
+        pageCount = { 1 }
     )
 
-    // ✅ تغییر خودکار عکس هر ۵ ثانیه
     LaunchedEffect(pagerState.currentPage) {
         delay(5000L)
-        val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
         pagerState.animateScrollToPage(
-            page = nextPage,
+            page = 0,
             animationSpec = tween(
-                durationMillis = 2, // مثلا 600 میلی‌ثانیه
+                durationMillis = 2,
                 easing = LinearOutSlowInEasing
             )
         )
     }
-    val scrollState = rememberScrollState()
 
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier.fillMaxSize()
             .background(Color(0xFFF6F4F4))
-            .verticalScroll(scrollState) // ✅ اسکرول‌پذیر کردن کل صفحه
+            .verticalScroll(scrollState)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(240.dp)
         ) {
-            // فقط یک HorizontalPager
             HorizontalPager(
                 state = pagerState,
-                pageSize = PageSize.Fill, // 👈 تمام عرض صفحه رو بگیره
+                pageSize = PageSize.Fill,
                 modifier = Modifier.fillMaxSize()
-
-            ) { page ->
-                Image(
-                    painter = painterResource(id = images[page]),
-                    contentDescription = "Background Image",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(RoundedCornerShape(0.dp)),
-                    contentScale = ContentScale.Crop,
-                    alpha = 0.9f // ✅ شفافیت تصویر
-                )
+            ) {
+                city?.imageRes?.let { imageRes ->
+                    Image(
+                        painter = painterResource(id = imageRes),
+                        contentDescription = "Background Image",
+                        modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(0.dp)),
+                        contentScale = ContentScale.Crop,
+                        alpha = 0.9f
+                    )
+                }
             }
 
-            // گرادینت پایین برای محو کردن
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -117,7 +99,7 @@ fun CityP(navController: NavController) {
                         )
                     )
             )
-            // ✅ دایره‌های پایین وسط
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -125,77 +107,61 @@ fun CityP(navController: NavController) {
                     .padding(bottom = 12.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
-                repeat(images.size) { index ->
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 2.dp)
-                            .size(if (pagerState.currentPage == index) 8.dp else 6.dp)
-                            .clip(CircleShape)
-                            .background(
-                                if (pagerState.currentPage == index) Color(0xFFFF9800)
-                                else Color.LightGray
-                            )
-                    )
-                }
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 2.dp)
+                        .size(8.dp)
+                        .clip(CircleShape)
+                        .background(Color(0xFFFF9800))
+                )
             }
+
             Icon(
-                painter = painterResource(id = R.drawable.back), // آیکون برگشت خودت
+                painter = painterResource(id = R.drawable.back),
                 contentDescription = "بازگشت",
                 modifier = Modifier
-                    .align(Alignment.TopStart) // یا .TopEnd برای سمت راست
+                    .align(Alignment.TopStart)
                     .padding(start = 24.dp, top = 42.dp)
                     .size(20.dp)
                     .clickable {
-                        navController.popBackStack() // رفتن به عقب
+                        navController.popBackStack()
                     },
                 tint = Color.Black
             )
         }
+
         Text(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
-            text = "شیراز",
+            text = city?.name ?: "شهر نامشخص",
             fontFamily = irgitiFont,
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
             color = Color.Black,
             textAlign = TextAlign.Right,
         )
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp)
-                .wrapContentHeight() // 👈 ارتفاع بر اساس محتوا
-                .shadow(
-                    elevation = 8.dp, // شدت سایه
-                    shape = RoundedCornerShape(8.dp),
-                    clip = false // خیلی مهم برای دیده شدن سایه بیرون از Box
-                )
-                .background(color = Color(0xFFFFFFFF) , RoundedCornerShape(8.dp))
-
-        ){
+                .wrapContentHeight()
+                .shadow(8.dp, RoundedCornerShape(8.dp), clip = false)
+                .background(Color.White, RoundedCornerShape(8.dp))
+        ) {
             Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                text = "شیراز مرکز استان فارس در جنوب غربی ایران است. این شهر در دامنه کوه\u200Cهای زاگرس قرار گرفته و از آب\u200Cوهوایی معتدل در فصل بهار برخوردار است.\n" +
-                        "وسعت شهر: حدود ۲۴۰ کیلومتر مربع\n" +
-                        "ارتفاع از سطح دریا: تقریبا ۱۵۰۰ متر\n" +
-                        "بر اساس سرشماری سال ۱۴۰۰، جمعیت کلان\u200Cشهر شیراز حدود ۱٬۹۵۵٬۰۰۰ نفر بوده و پس از تهران، مشهد و اصفهان، یکی از پرجمعیت\u200Cترین شهرهای ایران محسوب می\u200Cشود.\n" +
-                        "شیراز شهری با بیش از ۲۵۰۰ سال تاریخ مکتوب است. این شهر از دوران هخامنشیان (قرن ششم پیش از میلاد) به عنوان منطقه\u200Cای مهم شناخته می\u200Cشده و در دوره\u200Cهای مختلف، از جمله دوران آل\u200Cبویه و زندیه، پایتخت حکومت ایران بوده است. نزدیکی\u200Cاش به مراکز باستانی چون تخت جمشید و پاسارگاد نشان از جایگاه تاریخی\u200Cاش دارد.\n" +
-                        "شیراز زادگاه بسیاری از بزرگان شعر و ادب فارسی است؛ از جمله:\n" +
-                        "حافظ\n" +
-                        "سعدی\n" +
-                        "خواجوی کرمانی\n" +
-                        "همچنین شیراز به عنوان پایتخت فرهنگی ایران شناخته می\u200Cشود و میزبان جشنواره\u200Cها، نمایشگاه\u200Cها و برنامه\u200Cهای فرهنگی متعدد است.",
+                modifier = Modifier.fillMaxWidth().padding(12.dp),
+                text = city?.description ?: "بدون توضیحات",
                 fontFamily = iranSans,
                 fontWeight = FontWeight.Light,
                 fontSize = 8.sp,
                 color = Color.Black,
-                textAlign = TextAlign.Right,
+                textAlign = TextAlign.Right
             )
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
 
 
         val config = LocalConfiguration.current
@@ -234,7 +200,7 @@ fun CityP(navController: NavController) {
                             .clickable {
                                 navController.navigate("tourDetails")
                             },
-                        ) {
+                    ) {
                         Image(
                             painter = painterResource(id = R.drawable.next_icon),
                             contentDescription = "Next Icon",
@@ -248,7 +214,7 @@ fun CityP(navController: NavController) {
                             fontSize = fontSizeMore,
                             color = Color.Black,
 
-                        )
+                            )
                     }
 
                     // سمت راست (عنوان بخش)
@@ -266,7 +232,6 @@ fun CityP(navController: NavController) {
 
             }
         }
-
 
 
 //        // رستوران‌ها و کافه‌ها
@@ -310,7 +275,7 @@ fun CityP(navController: NavController) {
                             fontSize = fontSizeMore,
                             color = Color.Black,
 
-                        )
+                            )
                     }
 
                     // سمت راست (عنوان)
@@ -372,7 +337,7 @@ fun CityP(navController: NavController) {
                             fontSize = fontSizeMore,
                             color = Color.Black,
 
-                        )
+                            )
                     }
 
                     // سمت راست (عنوان بخش)
@@ -389,6 +354,7 @@ fun CityP(navController: NavController) {
 
             }
         }
+
 
 
 
@@ -414,12 +380,13 @@ fun CityP(navController: NavController) {
                     // سمت چپ (بیشتر + آیکون)
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .clickable {
+                        modifier = Modifier.clickable {
+                            city?.souvenirs?.firstOrNull()?.let { soqati ->
+                                sharedViewModel.selectedSouvenir = soqati
                                 navController.navigate("soqatiDetails")
-                            },
-
-                        ) {
+                            }
+                        }
+                    ) {
                         Image(
                             painter = painterResource(id = R.drawable.next_icon),
                             contentDescription = "Next Icon",
@@ -431,9 +398,7 @@ fun CityP(navController: NavController) {
                             fontFamily = iranSans,
                             fontWeight = FontWeight.Normal,
                             fontSize = fontSizeMore,
-                            color = Color.Black,
-
-
+                            color = Color.Black
                         )
                     }
 
@@ -447,23 +412,18 @@ fun CityP(navController: NavController) {
                     )
                 }
 
-                SoqatiList()
+                if (city != null) {
+                    SoqatiList(items = city.souvenirs, navController = navController)
+                }
 
                 Spacer(modifier = Modifier.height(12.dp))
             }
         }
 
+
     }
 }
-fun getSoqatiList(): List<Soqati> {
-    return listOf(
-        Soqati("کلوچه مسقطی", "یکی از سوغاتی‌های معروف شیراز.", listOf(R.drawable.shiraz, R.drawable.khajo)),
-        Soqati("فالوده", "دسر خنک مخصوص شیراز.", listOf()),
-        Soqati("کلوچه ddddمسقطی", "یکی از سوغاتی‌های معروف شیراز.", listOf(R.drawable.shiraz, R.drawable.khajo , R.drawable.meydan_emam)),
-        Soqati("کلوچهssss مسقطی", "یکی از سوغاتی‌های معروف شیراز.", listOf(R.drawable.shiraz, R.drawable.khajo)),
 
-        )
-}
 
 //@Preview(showBackground = true)
 //@Composable
