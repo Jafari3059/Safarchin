@@ -59,8 +59,8 @@ import androidx.compose.ui.window.PopupProperties
 import coil.compose.rememberAsyncImagePainter
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourCardList
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.Trip
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.Components.TripCard
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.Components.TripCard
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.Trip
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.DatabaseProvider
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.UserEntity
 import com.example.safarchin.ui.theme.iranSans
