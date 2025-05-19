@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.overviewT
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP
 
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -36,8 +36,8 @@ import com.example.safarchin.ui.theme.iranSans
 import androidx.navigation.compose.rememberNavController
 import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.budgetT.OverviewTabBudget
 import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.budgetT.AddNewCostPopup
-import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.DreamTripCard
-import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.GuidePopup
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.overviewT.OverviewTabContent
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.overviewT.SelectedPlacesViewModel
 import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.planingT.PlanningTabContent
 
 
