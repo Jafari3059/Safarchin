@@ -55,7 +55,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourCardList
-import com.example.safarchin.ui.theme.FourPageAsli.Planning.Components.TripCard
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.Components_planningP.TripCard
 import com.example.safarchin.ui.theme.FourPageAsli.Planning.Trip
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.DatabaseProvider
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.UserEntity

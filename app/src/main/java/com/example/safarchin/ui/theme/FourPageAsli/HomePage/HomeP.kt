@@ -29,21 +29,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HeaderSection
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.Soqati
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlace
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.SharedViewModel
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.loadCitiesFromAssets
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.toCity
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.rest_kafe
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.shopCenter
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.DatabaseProvider
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.UserEntity
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.popupfirstlogin
 import com.example.safarchin.ui.theme.FourPageAsli.SearchBar
 import com.example.safarchin.ui.theme.iranSans
-import kotlinx.coroutines.CoroutineScope
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -54,6 +61,45 @@ fun HomeP(navController: NavController, phone: String) {
     val context = LocalContext.current
     val db = DatabaseProvider.getDatabase(context)
     val isNewUser = remember { mutableStateOf(false) }
+    val cityList = remember { mutableStateOf<List<City>>(emptyList()) }
+    val sharedViewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
+
+    LaunchedEffect(Unit) {
+        withContext(Dispatchers.IO) {
+            val cityDao = db.cityDao()
+            val existing = cityDao.getAllCities()
+            if (existing.isEmpty()) {
+                Log.d("DB_INIT", "Inserting initial cities from assets...")
+                try {
+                    val initialCities = loadCitiesFromAssets(context)
+                    cityDao.insertAll(initialCities)
+                } catch (e: Exception) {
+                    Log.e("DB_INIT_ERROR", "Failed to load cities: ${e.message}", e)
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        val citiesFromDb = withContext(Dispatchers.IO) {
+            db.cityDao().getAllCities()
+        }
+
+        cityList.value = citiesFromDb.map {
+            City(
+                name = it.name,
+                description = it.description,
+                imageRes = it.imageRes,
+                latitude = it.latitude,
+                longitude = it.longitude,
+                touristPlaces = Gson().fromJson(it.touristPlacesJson, object : TypeToken<List<TourPlace>>() {}.type),
+                shoppingCenters = Gson().fromJson(it.shoppingCentersJson, object : TypeToken<List<shopCenter>>() {}.type),
+                souvenirs = Gson().fromJson(it.souvenirsJson, object : TypeToken<List<Soqati>>() {}.type),
+                restaurants = Gson().fromJson(it.restaurantsJson, object : TypeToken<List<rest_kafe>>() {}.type)
+            )
+        }
+
+    }
 
     LaunchedEffect(true) {
         val currentUser = withContext(Dispatchers.IO) {
@@ -78,12 +124,6 @@ fun HomeP(navController: NavController, phone: String) {
 
     Log.d("PHONE_CHECK", "Phone received: $phone")
 
-//    LaunchedEffect(Unit) {
-//        val currentUser = withContext(Dispatchers.IO) {
-//            db.userDao().getUserByPhone(phone)  // 👈 شماره رو از ورودی گرفته‌ای
-//        }
-//        isNewUser.value = currentUser == null
-//    }
 
 
     val configuration = LocalConfiguration.current
@@ -270,13 +310,18 @@ fun HomeP(navController: NavController, phone: String) {
                 }
 
                 // ✅ لیست کارت‌ها
-                CityCardList(navToCityScreen = { navController.navigate("cityDetail") })
+                CityCardList(
+                    cityList = cityList.value,
+                    navToCityScreen = { city ->
+                        sharedViewModel.selectedCity = city
+                        navController.navigate("cityDetail")
+
+                    }
+                )
             }
         }
 
         Spacer(modifier = Modifier.height(10.dp))
-
-
 
         Box(
             modifier = Modifier
@@ -396,9 +441,15 @@ fun HomeP(navController: NavController, phone: String) {
                         color = Color.Black
                     )
                 }
+                val userLat = 35.6892
+                val userLon = 51.3890
 
                 // ✅ لیست کارت‌ها
-                Nearest_citiesCard()
+                Nearest_citiesCard(
+                    userLat = userLat,
+                    userLon = userLon,
+                    cityList = cityList.value
+                )
 
             }
         }
@@ -432,7 +483,6 @@ fun HomeP(navController: NavController, phone: String) {
 
 
 }
-
 //@Preview(showSystemUi = true, showBackground = true, locale = "fa")
 //@Composable
 //fun PreviewHomeP() {

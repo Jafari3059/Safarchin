@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.budgetT
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween

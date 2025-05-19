@@ -1,10 +1,10 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.overviewT
 
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.Saved.SavedPlacesViewModel
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.overviewT.Saved.SavedPlacesViewModel
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.compose.foundation.*
@@ -34,8 +34,11 @@ import androidx.navigation.NavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.iranSans
 import androidx.navigation.compose.rememberNavController
-import com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.OverviewTabBudget
-import com.example.safarchin.ui.theme.FourPageAsli.Planning.PlanningTabContent
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.budgetT.OverviewTabBudget
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.budgetT.AddNewCostPopup
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.DreamTripCard
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.GuidePopup
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.planingT.PlanningTabContent
 
 
 @Composable

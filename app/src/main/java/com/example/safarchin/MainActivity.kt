@@ -21,7 +21,7 @@ import com.example.safarchin.ui.theme.login.codeLogin
 import com.example.safarchin.ui.theme.SafarchinTheme
 import kotlinx.coroutines.delay
 import androidx.compose.ui.platform.LocalContext
-import com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.OverviewScreen
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.overviewT.OverviewScreen
 import com.example.safarchin.ui.theme.FourPageAsli.Planning.planingP
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.DatabaseProvider
 import kotlinx.coroutines.Dispatchers
@@ -153,9 +153,9 @@ fun AppNavigation() {
 
                 SouvenirDetailScreen(
                     navController = navController,
-                    name = name,
-                    description = description,
-                    imageResList = imageResList
+//                    name = name,
+//                    description = description,
+//                    imageResList = imageResList
                 )
             }
         }
