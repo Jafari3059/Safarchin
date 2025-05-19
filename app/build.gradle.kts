@@ -1,15 +1,17 @@
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("org.jetbrains.kotlin.kapt") // 👈 فقط همینو اضافه کن
-
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
     namespace = "com.example.safarchin"
     compileSdk = 35
+
+    kapt {
+        correctErrorTypes = true
+    }
 
     defaultConfig {
         applicationId = "com.example.safarchin"
@@ -36,6 +38,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+        languageVersion = "1.9"
     }
     buildFeatures {
         compose = true
@@ -69,8 +72,6 @@ dependencies {
     implementation("androidx.room:room-runtime:2.7.1")
     implementation("androidx.room:room-ktx:2.7.1")
     kapt("androidx.room:room-compiler:2.7.1")
-
-
-
+    implementation("com.google.code.gson:gson:2.10.1")
 
 }

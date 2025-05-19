@@ -28,13 +28,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -48,14 +46,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupProperties
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourCardList
@@ -92,7 +88,7 @@ fun profileP( phone: String) {
     var isPopupVisible = remember { mutableStateOf(false) }
     val fontSizeMore = (screenWidth.value * 0.03).sp       // حدود 12sp روی گوشی 400dp
     val horizontalPadding = (screenWidth.value * 0.06).dp  // حدود 24dp روی گوشی 400dp
-
+    val navController = rememberNavController()
     val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     val phone = sharedPreferences.getString("current_phone", "") ?: ""
 
@@ -413,8 +409,10 @@ fun profileP( phone: String) {
                                     trip = trip,
                                     isDeleteBoxVisible = false,
                                     onMoreIconClick = { /* رویداد کلیک */ },
-                                    screenWidth = screenWidth
+                                    screenWidth = screenWidth,
+                                    navController = navController
                                 )
+
                             }
                         }
 

@@ -35,11 +35,8 @@ fun OverviewTabBudget(
     items: List<Pair<String, Long>>
 ) {
     val config = LocalConfiguration.current
-    val screenWidth = config.screenWidthDp
-    val screenHeight = config.screenHeightDp
-
-    val screenWidthDp = screenWidth.dp
-    val screenHeightDp = screenHeight.dp
+    val screenWidthDp = config.screenWidthDp.dp
+    val screenHeightDp = config.screenHeightDp.dp
 
     val percentage = currentValue.toFloat() / maxValue.toFloat()
     val animatedSweep by animateFloatAsState(
@@ -63,24 +60,22 @@ fun OverviewTabBudget(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(
-                top = screenHeightDp * 0.01f,
-                bottom = screenHeightDp * 0.12f
-            ),
+            .padding(top = screenHeightDp * 0.01f, bottom = screenHeightDp * 0.12f),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // باکس بودجه دایره‌ای
+        // باکس بودجه نیم‌دایره‌ای
         Box(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(0.9f)
+                .align(Alignment.CenterHorizontally)
                 .height(285.dp)
-                .padding(horizontal = 16.dp, vertical = 12.dp)
+                .padding(vertical = 12.dp)
                 .background(Color.White, shape = RoundedCornerShape(16.dp))
                 .border(1.dp, Color(0xFFEDEDED), shape = RoundedCornerShape(16.dp))
         ) {
             Box(
                 modifier = Modifier
-                    .size(width = (screenWidthDp * 0.9f), height = 216.dp)
+                    .size(width = screenWidthDp * 0.9f, height = 216.dp)
                     .align(Alignment.Center)
             ) {
                 Canvas(
@@ -105,16 +100,21 @@ fun OverviewTabBudget(
                     )
                 }
 
+                val formattedMaxValue = remember(maxValue) {
+                    NumberFormat.getNumberInstance(Locale("fa")).format(maxValue.toInt())
+                }
+
                 Text(
-                    text = "%,d".format(maxValue),
+                    text = formattedMaxValue,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium,
                     color = Color.Black,
                     modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .padding(start = 130.dp)
+                        .align(Alignment.Center)
                         .offset(y = (-90).dp)
                 )
+
+
 
                 Text(
                     text = "مانده",
@@ -146,7 +146,7 @@ fun OverviewTabBudget(
                 ) {
                     Text(
                         text = message,
-                        fontSize = 12.sp,
+                        fontSize = 14.sp,
                         fontWeight = FontWeight.Light,
                         color = color
                     )
@@ -154,7 +154,7 @@ fun OverviewTabBudget(
                         painter = painterResource(id = iconRes),
                         contentDescription = null,
                         modifier = Modifier
-                            .size(16.dp)
+                            .size(20.dp)
                             .padding(end = 4.dp),
                     )
                 }
@@ -163,12 +163,15 @@ fun OverviewTabBudget(
 
         // لیست آیتم‌ها
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
             items.forEach { (label, amount) ->
-                BudgetItemRow(label = label, amount = amount)
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                ) {
+                    BudgetItemRow(label = label, amount = amount)
+                }
                 Spacer(modifier = Modifier.height(12.dp))
             }
         }
@@ -178,11 +181,10 @@ fun OverviewTabBudget(
 @Composable
 fun BudgetItemRow(label: String, amount: Long) {
     val config = LocalConfiguration.current
-    val screenWidth = config.screenWidthDp
-    val screenWidthDp = screenWidth.dp
+    val screenWidthDp = config.screenWidthDp.dp
+
     val formattedAmount = remember(amount) {
         NumberFormat.getNumberInstance(Locale("fa")).format(amount)
-
     }
 
     val iconRes = when (label) {
@@ -197,8 +199,8 @@ fun BudgetItemRow(label: String, amount: Long) {
 
     Row(
         modifier = Modifier
-            .size(width = (screenWidthDp * 1.0f), height = 61.dp)
-            .padding(horizontal = 16.dp)
+            .width(screenWidthDp * 0.9f)
+            .height(61.dp)
             .background(Color.White, shape = RoundedCornerShape(8.dp))
             .border(1.dp, Color(0xFFEDEDED), shape = RoundedCornerShape(8.dp)),
         horizontalArrangement = Arrangement.SpaceBetween,

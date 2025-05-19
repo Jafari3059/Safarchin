@@ -224,126 +224,138 @@ fun PlanningTabContent() {
 
                     if (expandedStates[index]) {
                         Column(modifier = Modifier.fillMaxWidth()) {
-                            places.forEachIndexed { i, place ->
-                                val isBeingDragged = draggedPlace == place
-
-                                Box(
+                            if (places.isEmpty()) {
+                                Text(
+                                    text = "برنامه‌ای برای این روز نداری",
+                                    fontSize = fontSize,
+                                    fontFamily = iranSans,
+                                    color = Color.Gray,
                                     modifier = Modifier
-                                        .graphicsLayer {
-                                            if (isBeingDragged) alpha = 0.5f
-                                        }
-                                        .pointerInput(place) {
-                                            detectDragGesturesAfterLongPress(
-                                                onDragStart = {
-                                                    draggedPlace = place
-                                                    dragTargetDay = day
-                                                    hoveredIndex = i
-                                                },
-                                                onDrag = { change, _ ->
-                                                    change.consume()
-                                                    hoveredIndex = i
-                                                },
-                                                onDragEnd = {
-                                                    val currentList = placesByDay[draggedPlace!!.day]
-                                                    if (day == draggedPlace!!.day && currentList != null) {
-                                                        val fromIndex = currentList.indexOf(draggedPlace)
-                                                        val toIndex = hoveredIndex
-                                                        if (fromIndex != -1 && toIndex != -1 && fromIndex != toIndex) {
-                                                            currentList.removeAt(fromIndex)
-                                                            currentList.add(
-                                                                if (fromIndex < toIndex) toIndex - 1 else toIndex,
-                                                                draggedPlace!!
-                                                            )
+                                        .padding(vertical = 16.dp)
+                                        .align(Alignment.CenterHorizontally)
+                                )
+                            }
+                            else {
+                                places.forEachIndexed { i, place ->
+                                    val isBeingDragged = draggedPlace == place
+
+                                    Box(
+                                        modifier = Modifier
+                                            .graphicsLayer {
+                                                if (isBeingDragged) alpha = 0.5f
+                                            }
+                                            .pointerInput(place) {
+                                                detectDragGesturesAfterLongPress(
+                                                    onDragStart = {
+                                                        draggedPlace = place
+                                                        dragTargetDay = day
+                                                        hoveredIndex = i
+                                                    },
+                                                    onDrag = { change, _ ->
+                                                        change.consume()
+                                                        hoveredIndex = i
+                                                    },
+                                                    onDragEnd = {
+                                                        val currentList = placesByDay[draggedPlace!!.day]
+                                                        if (day == draggedPlace!!.day && currentList != null) {
+                                                            val fromIndex = currentList.indexOf(draggedPlace)
+                                                            val toIndex = hoveredIndex
+                                                            if (fromIndex != -1 && toIndex != -1 && fromIndex != toIndex) {
+                                                                currentList.removeAt(fromIndex)
+                                                                currentList.add(
+                                                                    if (fromIndex < toIndex) toIndex - 1 else toIndex,
+                                                                    draggedPlace!!
+                                                                )
+                                                            }
+                                                        } else if (dragTargetDay != null && dragTargetDay != draggedPlace!!.day) {
+                                                            placesByDay[draggedPlace!!.day]?.remove(draggedPlace)
+                                                            placesByDay[dragTargetDay!!]?.add(draggedPlace!!.copy(day = dragTargetDay!!))
                                                         }
-                                                    } else if (dragTargetDay != null && dragTargetDay != draggedPlace!!.day) {
-                                                        placesByDay[draggedPlace!!.day]?.remove(draggedPlace)
-                                                        placesByDay[dragTargetDay!!]?.add(draggedPlace!!.copy(day = dragTargetDay!!))
+
+                                                        hoveredIndex = -1
+                                                        draggedPlace = null
+                                                        dragTargetDay = null
+                                                    },
+                                                    onDragCancel = {
+                                                        hoveredIndex = -1
+                                                        draggedPlace = null
+                                                        dragTargetDay = null
                                                     }
-
-                                                    hoveredIndex = -1
-                                                    draggedPlace = null
-                                                    dragTargetDay = null
-                                                },
-                                                onDragCancel = {
-                                                    hoveredIndex = -1
-                                                    draggedPlace = null
-                                                    dragTargetDay = null
-                                                }
-                                            )
-                                        }
-                                ) {
-                                    Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        modifier = Modifier.fillMaxWidth()
+                                                )
+                                            }
                                     ) {
-                                        Text(
-                                            text = formatTimeWithPeriod(place.time),
-                                            fontSize = fontSize * 0.85f,
-                                            color = Color.Gray,
-                                            modifier = Modifier
-                                                .align(Alignment.End)
-                                                .padding(end = 4.dp, bottom = 2.dp)
-                                        )
-
-                                        Box(
-                                            modifier = Modifier
-                                                .width(324.dp)
-                                                .height(54.dp)
-                                                .clip(RoundedCornerShape(12.dp))
-                                                .background(Color(0xFFF6F4F4))
+                                        Column(
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            modifier = Modifier.fillMaxWidth()
                                         ) {
-                                            Row(
-                                                verticalAlignment = Alignment.CenterVertically,
+                                            Text(
+                                                text = formatTimeWithPeriod(place.time),
+                                                fontSize = fontSize * 0.85f,
+                                                color = Color.Gray,
                                                 modifier = Modifier
-                                                    .fillMaxSize()
-                                                    .padding(horizontal = 8.dp)
+                                                    .align(Alignment.End)
+                                                    .padding(end = 4.dp, bottom = 2.dp)
+                                            )
+
+                                            Box(
+                                                modifier = Modifier
+                                                    .width(324.dp)
+                                                    .height(54.dp)
+                                                    .clip(RoundedCornerShape(12.dp))
+                                                    .background(Color(0xFFF6F4F4))
                                             ) {
-                                                Image(
-                                                    painter = painterResource(id = place.imageRes),
-                                                    contentDescription = null,
-                                                    contentScale = ContentScale.Crop,
+                                                Row(
+                                                    verticalAlignment = Alignment.CenterVertically,
                                                     modifier = Modifier
-                                                        .size(width = 99.dp, height = 54.dp)
-                                                        .clip(RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp))
-                                                )
-
-                                                Spacer(modifier = Modifier.width(4.dp))
-
-                                                Icon(
-                                                    painter = painterResource(id = R.drawable.trashcan),
-                                                    contentDescription = "حذف",
-                                                    modifier = Modifier
-                                                        .size(20.dp)
-                                                        .offset(y = 14.dp)
-                                                        .clickable {
-                                                            places.remove(place)
-                                                            if (places.isEmpty()) expandedStates[index] = false
-                                                        }
-                                                )
-
-                                                Spacer(modifier = Modifier.weight(1f))
-
-                                                Text(
-                                                    text = place.name,
-                                                    fontSize = 14.sp,
-                                                    fontWeight = FontWeight.Bold,
-                                                    fontFamily = iranSans,
-                                                    color = Color.Black,
-                                                    modifier = Modifier.padding(end = 4.dp)
-                                                )
-
-                                                Spacer(modifier = Modifier.width(4.dp))
-
-                                                Box(
-                                                    modifier = Modifier
-                                                        .size(32.dp),
-                                                    contentAlignment = Alignment.Center
+                                                        .fillMaxSize()
+                                                        .padding(horizontal = 8.dp)
                                                 ) {
-                                                    Icon(
-                                                        painter = painterResource(id = R.drawable.menu_button),
+                                                    Image(
+                                                        painter = painterResource(id = place.imageRes),
                                                         contentDescription = null,
-                                                        modifier = Modifier.size(24.dp)
+                                                        contentScale = ContentScale.Crop,
+                                                        modifier = Modifier
+                                                            .size(width = 99.dp, height = 54.dp)
+                                                            .clip(RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp))
                                                     )
+
+                                                    Spacer(modifier = Modifier.width(4.dp))
+
+                                                    Icon(
+                                                        painter = painterResource(id = R.drawable.trashcan),
+                                                        contentDescription = "حذف",
+                                                        modifier = Modifier
+                                                            .size(20.dp)
+                                                            .offset(y = 14.dp)
+                                                            .clickable {
+                                                                places.remove(place)
+                                                                if (places.isEmpty()) expandedStates[index] = false
+                                                            }
+                                                    )
+
+                                                    Spacer(modifier = Modifier.weight(1f))
+
+                                                    Text(
+                                                        text = place.name,
+                                                        fontSize = 14.sp,
+                                                        fontWeight = FontWeight.Bold,
+                                                        fontFamily = iranSans,
+                                                        color = Color.Black,
+                                                        modifier = Modifier.padding(end = 4.dp)
+                                                    )
+
+                                                    Spacer(modifier = Modifier.width(4.dp))
+
+                                                    Box(
+                                                        modifier = Modifier.size(32.dp),
+                                                        contentAlignment = Alignment.Center
+                                                    ) {
+                                                        Icon(
+                                                            painter = painterResource(id = R.drawable.menu_button),
+                                                            contentDescription = null,
+                                                            modifier = Modifier.size(24.dp)
+                                                        )
+                                                    }
                                                 }
                                             }
                                         }
@@ -352,6 +364,7 @@ fun PlanningTabContent() {
                             }
                         }
                     }
+
                 }
             }
         }
@@ -380,8 +393,9 @@ fun PlanningTabContent() {
                     dialogTitle = currentDialogTitle
                 )
             }
-        } }
-}
+        }
+        }
+    }
 
 
 

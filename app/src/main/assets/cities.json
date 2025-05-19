@@ -1,0 +1,79 @@
+[
+  {
+    "name": "شیراز",
+    "description": "شیراز مرکز استان فارس در جنوب غربی ایران است...",
+    "imageRes": "shiraz",
+    "galleryImages": ["shiraz", "khajo", "meydan_emam"],
+    "latitude": 29.5918,
+    "longitude": 52.5836,
+    "touristPlaces": [],
+    "shoppingCenters": [],
+    "souvenirs": [
+      {
+        "name": "کلوچه مسقطی",
+        "description": "شیرینی سنتی نرم و خوش‌طعم مخصوص شیراز.",
+        "imageResList": ["shiraz", "khajo"]
+      },
+      {
+        "name": "فالوده شیرازی",
+        "description": "دسر خنک و شیرین تهیه‌شده از رشته و شربت مخصوص.",
+        "imageResList": ["shiraz"]
+      },
+      {
+        "name": "عرقیات گیاهی",
+        "description": "عرق نعنا، بیدمشک و دیگر گیاهان دارویی با کیفیت بالا.",
+        "imageResList": ["meydan_emam"]
+      }
+    ],
+    "restaurants": []
+  },
+
+  {
+    "name": "اصفهان",
+    "description": "اصفهان با معماری تاریخی و میدان نقش جهان...",
+    "imageRes": "shiraz",
+    "galleryImages": ["khajo"],
+    "latitude": 32.6546,
+    "longitude": 51.6680,
+    "touristPlaces": [],
+    "shoppingCenters": [],
+    "souvenirs": [],
+    "restaurants": []
+  },
+  {
+    "name": "تبریز",
+    "description": "تبریز یکی از شهرهای بزرگ شمال‌غرب ایران است...",
+    "imageRes": "shiraz",
+    "galleryImages": ["shiraz"],
+    "latitude": 38.0962,
+    "longitude": 46.2738,
+    "touristPlaces": [],
+    "shoppingCenters": [],
+    "souvenirs": [],
+    "restaurants": []
+  },
+  {
+    "name": "مشهد",
+    "description": "مشهد، پایتخت معنوی ایران و شهر حرم امام رضا (ع)...",
+    "imageRes": "shiraz",
+    "galleryImages": ["meydan_emam"],
+    "latitude": 36.2605,
+    "longitude": 59.6168,
+    "touristPlaces": [],
+    "shoppingCenters": [],
+    "souvenirs": [],
+    "restaurants": []
+  },
+  {
+    "name": "قم",
+    "description": "قم یکی از شهرهای زیارتی نزدیک به تهران...",
+    "imageRes": "shiraz",
+    "galleryImages": ["meydan_emam"],
+    "latitude": 34.6416,
+    "longitude": 50.8746,
+    "touristPlaces": [],
+    "shoppingCenters": [],
+    "souvenirs": [],
+    "restaurants": []
+  }
+]

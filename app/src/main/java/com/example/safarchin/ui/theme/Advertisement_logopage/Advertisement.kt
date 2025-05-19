@@ -137,7 +137,7 @@ fun AdvertisementScreen(
 @Composable
 fun AdvertisementScreenPreview() {
     AdvertisementScreen(
-        imageResId = R.drawable.gift,
+        imageResId = R.drawable.ad1,
         title ="سفر فقط رفتن نیست... یه تجربه ست!" ,
         description = "از انتخاب مقصد تا مدیریت بودجه و پیشنهاد جاذبه های دیدنی... \nهمه چیز با چند کلیک، کنارته.\n",
         indicatorState = listOf(true, false, false),

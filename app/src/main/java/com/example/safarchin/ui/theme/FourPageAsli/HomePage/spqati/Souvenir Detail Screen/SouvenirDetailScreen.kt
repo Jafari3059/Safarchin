@@ -23,60 +23,39 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.Soqati
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.SharedViewModel
 import com.example.safarchin.ui.theme.iranSans
 
 @Composable
-fun SouvenirDetailScreen(
-    navController: NavController,
-    name: String,
-    description: String,
-    imageResList: List<Int>
-)
+fun SouvenirDetailScreen(navController: NavController) {
+    val viewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
+    val souvenir = viewModel.selectedSouvenir
 
-{    val soqatiItem = Soqati(
-        name = "کلوچه مسقطی",
-        description = "شیرینی کاک یکی از سوغات خوشمزه شیراز و کرمانشاه است که از لایه‌های نازک تهیه شده و با پودر قند تزئین می‌شود. ماندگاری بالا دارد و برای دورهمی و ایام عید عالی است.شیرینی کاک یکی از سوغات خوشمزه شیراز و کرمانشاه و خرم آباد محسوب می شود به این شیرینی در شیراز نان یوخه و در کرمانشاه نان کاک یا شیرینی کاک گفته می شود. این شیرینی خوشمزه از لایه های بسیار نازک تهیه می شود که روی هم قرار گرفته و با پودر قند و پسته تزئین می شود. این شیرینی طرز تهیه راحتی دارد و ماندگاری بالایی نیز دارد و شما می توانید برای دورهمی یا ایام عید این شیرینی یوخه را تهیه کنید.\n" +
-                "\n" +
-                "مواد لازم\n" +
-                "تخم مرغ۱ عدد\n" +
-                "کره۲۰۰ گرم\n" +
-                "آب ولرم کمتر ۱/۲ پیمانه + ۱/۴ پیمانه \n" +
-                "برای خمیر مایه خمیر مایه۱ ق چای خوریوانیلنوک ق چای خوریآرد گندمحدود ۶۰۰ گرمنمک۱ ق چای خوریگلاب۱ ق غذا خوریپودر هل و پودر قندبه مقدار لازم\n" +
-                "طرز تهیه شیرینی یوخه\n" +
-                "1مرحله اول: عمل آوری خمیر مایه\n" +
-                "داخل یک لیوان ۱/۴ پیمانه آب ولرم را ریخته و خمیر مایه و ۱ ق چای خوری شکر اضافه کنید و هم بزنید سپس روی لیوان را به مدت ۲۰ دقیقه بپوشانید تا کف کند و عمل بیاد (مهم ترین نکته دمای آب است که باید در حدی باشد که انگشت را نسوزاند).\n" +
-                "2مرحله دوم: مخلوط کردن مواد\n" +
-                "داخل یک کاسه تخم مرغ ها را ریخته و با وانیل هم بزنید تا تخم مرغ ها از لختگی خارج شود سپس کره نرم شده را ریخته و هم بزنید تا مواد مخلوط شوند سپس به ترتیب مابقی آب و خمیر مایه عمل آمده را به همراه گلاب اضافه کنید و هم بزنید.\n" +
-                "3مرحله سوم: استراحت خمیر نان یوخه\n" +
-                "آرد و نمک را نمک را با هم مخلوط کنید و سه بار الک کنید، باید به تدریج شروع به اضافه کردن آرد کنید تا خمیر وسط کاسه جمع شود و بسته به آردها و جنس های مختلف آن شاید کمتر یا بیشتر آرد مصرف شود سپس خمیر را روی میز کار بیاورید و به مدت ۱۰ دقیقه خوب ورز دهید تا نرم و لطیف شود سپس داخل کاسه تمیز گذاشته و بمدت ۲ ساعت در دمای گرم قرار داده تا خمیر حجم بگیرد و پف کند.\n" +
-                "4مرحله چهارم: چونه گرفتن شیرینی کاک\n" +
-                "بعد از استراحت خمیر پف آن را با مشت بگیرید و دوباره برای چند دقیقه خمیر را ورز دهید سپس به اندازه یک نارنگی از خمیر برداشته و گرد کنید و روی دستمال تمیز قرار دهید و روی چونه ها را بپوشانید و مجدد برای ۱۰ دقیقه استراحت بدهید تا خمیر دوباره حجم بگیرد.\n" +
-                "5مرحله پنجم: تهیه شیرینی یوخه شیرازی\n" +
-                "هر کدام از چونه ها را روی سطح آرد پاشی شده وردنه بکشید به طوری که آنقدر نازک شود که دست از پشت آن دیده و یا ازش عبور کند.\n" +
-                "6مرحله ششم: پخت شیرینی یوخه یا کاک شیرازی\n" +
-                "برای تهیه شیرینی نان یوخه شما می توانید به دو روش عم",
-        imageResList = listOf(
-            R.drawable.khajo,
-            R.drawable.shiraz,
-            R.drawable.meydan_emam,
-            R.drawable.profile_image,
-            R.drawable.khajo,
-            R.drawable.khajo
-        )
-    )
-    val imageList = remember { mutableStateListOf<Int>().apply { addAll(imageResList) } }
+    if (souvenir == null) {
+        // نمایش یک پیام خطا یا بارگذاری مجدد
+        Box(
+            modifier = Modifier.fillMaxSize().background(Color.White),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("خطا: اطلاعات سوغاتی یافت نشد", color = Color.Red, fontSize = 16.sp)
+        }
+        return
+    }
 
-    var middleIndex by remember { mutableStateOf(1) }
+    val imageResList = souvenir.imageResList
     val currentIndex = remember { mutableStateOf(0) }
+
     val imageCount = imageResList.size
 
     val gestureModifier = Modifier.pointerInput(Unit) {
@@ -332,7 +311,7 @@ fun SouvenirDetailScreen(
                     .verticalScroll(scrollState)
             ) {
                 Text(
-                    text = soqatiItem.name,
+                    text = souvenir.name,
                     fontFamily = iranSans,
                     fontWeight = FontWeight.Bold,
                     fontSize = titleFontSize,
@@ -344,7 +323,7 @@ fun SouvenirDetailScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = soqatiItem.description,
+                    text = souvenir.description,
                     fontFamily = iranSans,
                     fontWeight = FontWeight.Light,
                     fontSize = 10.sp,

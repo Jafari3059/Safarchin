@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -20,7 +19,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -35,7 +33,7 @@ data class PlaceWithTime(
 )
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun PlacePickerDialog(
     onDismiss: () -> Unit,
@@ -73,7 +71,7 @@ fun PlacePickerDialog(
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-        // ❶ عنوان دیالوگ
+        //  عنوان دیالوگ
         Text(
             text = dialogTitle,
             fontWeight = FontWeight.Bold,
@@ -85,7 +83,7 @@ fun PlacePickerDialog(
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        // ❷ توضیح بالا
+        //  توضیح بالا
         Text(
             text = "از لیست زیر می‌تونی مکان‌هایی که قراره تو این تاریخ اولین بازدید داشته باشی رو انتخاب به برنامه‌ات اضافه کنی.",
             fontSize = fontSizeText,
@@ -97,7 +95,7 @@ fun PlacePickerDialog(
 
         Spacer(modifier = Modifier.height(14.dp))
 
-        // ❸ جدول لیست با ارتفاع ثابت
+        //  جدول لیست با ارتفاع ثابت
         Box(
             modifier = Modifier
                 .width(246.dp)

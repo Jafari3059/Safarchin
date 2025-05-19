@@ -1,7 +1,9 @@
 package com.example.safarchin.ui.theme.FourPageAsli.HomePage.city
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -15,6 +17,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -22,18 +25,23 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.safarchin.R
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.SharedViewModel
 import com.example.safarchin.ui.theme.iranSans
 
 // ✅ تغییر: استفاده از لیست برای نگهداری چند تصویر
 data class Soqati(
     val name: String,
     val description: String,
-    val imageResList: List<Int> // لیست از آیدی‌های عکس
+    val imageResList: List<Int>
 )
 
 @Composable
-fun SoqatiCard(soqati: Soqati) {
+fun SoqatiCard(soqati: Soqati, navController: NavController) {
+    val viewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
+
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val cardWidth = (screenWidth * 0.33).dp
     val imageHeight = (screenWidth * 0.3).dp
@@ -46,6 +54,10 @@ fun SoqatiCard(soqati: Soqati) {
             .wrapContentHeight()
             .shadow(8.dp, RoundedCornerShape(12.dp))
             .background(Color.White)
+            .clickable {
+                viewModel.selectedSouvenir = soqati
+                navController.navigate("souvenirDetail")
+            }
     ) {
         Column(
             modifier = Modifier
@@ -96,37 +108,21 @@ fun SoqatiCard(soqati: Soqati) {
 }
 
 @Composable
-fun SoqatiList() {
-    val soqatiItems = listOf(
-        Soqati(
-            "کلوچه مسقطی",
-            "یکی از سوغاتی‌های معروف و خوشمزه شیراز.",
-            imageResList = listOf(R.drawable.shiraz, R.drawable.khajo, R.drawable.meydan_emam)
-        ),
-        Soqati(
-            "عرقیات گیاهی",
-            "محصولات طبیعی با عطر بی‌نظیر.",
-            imageResList = listOf(R.drawable.shiraz, R.drawable.meydan_emam)
-        ),
-        Soqati(
-            "فالوده شیرازی",
-            "دسر سنتی خنک و محبوب مخصوص شیراز.",
-            imageResList = listOf(R.drawable.shiraz)
-        )
-    )
-
+fun SoqatiList(items: List<Soqati>, navController: NavController) {
     LazyRow(
         reverseLayout = true,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(soqatiItems) { item ->
-            SoqatiCard(item)
+        items(items) { item ->
+            SoqatiCard(soqati = item, navController = navController)
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewSoqatiCards() {
-    SoqatiList()
-}
+
+
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewSoqatiCards() {
+//    SoqatiList()
+//}

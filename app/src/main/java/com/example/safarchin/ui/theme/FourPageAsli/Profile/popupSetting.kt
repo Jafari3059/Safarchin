@@ -129,7 +129,7 @@ fun popupSettting(
                                 painter = if (selectedImageUri != null)
                                     rememberAsyncImagePainter(selectedImageUri)
                                 else
-                                    painterResource(id = R.drawable.profile_image),
+                                    painterResource(id = R.drawable.profile_pic),
                                 contentDescription = "Profile Picture",
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier

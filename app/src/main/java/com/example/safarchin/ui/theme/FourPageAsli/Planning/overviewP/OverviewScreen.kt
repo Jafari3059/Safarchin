@@ -67,6 +67,8 @@ fun OverviewScreen(navController: NavController) {
     val fabPaddingEnd = screenWidth * 0.06f
     val fabPaddingBottom = screenHeight * 0.04f
     val iconSize = screenWidth * 0.18f
+    val showCostPopup = remember { mutableStateOf(false) }
+
 
 
     Box(modifier = Modifier.fillMaxSize().background(Color(0xFFF6F4F4))) {
@@ -151,12 +153,12 @@ fun OverviewScreen(navController: NavController) {
                 )
             }
 
-            val currentValue = 300000 // گرفتن currentValue از DreamTripCard
-            val maxValue = 900000
+            val currentValue = 900000 // گرفتن currentValue از DreamTripCard
+            val maxValue = 1200000
 
             if (selectedTabIndex == 1) {
                 OverviewTabBudget(
-                    currentValue = currentValue, // استفاده از currentValue
+                    currentValue = currentValue,
                     maxValue = maxValue,
                     items = listOf(
                         "خرید" to 850000,
@@ -190,9 +192,9 @@ fun OverviewScreen(navController: NavController) {
             }
         }
 
-        if (!isPopupVisible.value && selectedTabIndex == 1) {
+        if (selectedTabIndex == 1) {
             FloatingActionButton(
-                onClick = { isPopupVisible.value = true },
+                onClick = { showCostPopup.value = true }, // ✅ دیگه به NavController نیاز نیست
                 shape = CircleShape,
                 containerColor = Color(0xFFFFD56B),
                 modifier = Modifier
@@ -208,6 +210,27 @@ fun OverviewScreen(navController: NavController) {
                 )
             }
         }
+
+        if (showCostPopup.value) {
+            Dialog(
+                onDismissRequest = { showCostPopup.value = false },
+                properties = DialogProperties(
+                    usePlatformDefaultWidth = false,
+                    dismissOnClickOutside = true
+                )
+            ) {
+                AddNewCostPopup(
+                    onDismiss = {
+                        showCostPopup.value = false
+                    },
+                    onSubmit = {
+                        showCostPopup.value = false
+                        navController.navigate("overview")
+                    }
+                )
+            }
+        }
+
 
         // 💬 دیالوگ راهنمایی
         if (isPopupVisible.value) {

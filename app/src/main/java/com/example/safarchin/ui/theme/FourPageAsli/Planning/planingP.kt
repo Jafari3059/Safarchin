@@ -71,7 +71,7 @@ fun planingP(navController: NavController) {
     Box(
         modifier = Modifier
         .fillMaxSize()
-            .wrapContentHeight()
+        .wrapContentHeight()
         .background(Color(0xFFF6F4F4)))
     {
 
@@ -147,11 +147,12 @@ fun planingP(navController: NavController) {
                     selectedCardId = if (selectedCardId == clickedId) null else clickedId
                 },
                 screenWidth = screenWidth,
-                screenHeight = screenHeight
+                screenHeight = screenHeight,
+                navController = navController
             )
         }
 
-        // 🔘 دکمه شناور
+        //  دکمه شناور
         FloatingActionButton(
             onClick = { isPopupVisible.value = true },
             shape = CircleShape,
@@ -169,9 +170,7 @@ fun planingP(navController: NavController) {
             )
         }
 
-
-
-        // 💬 دیالوگ بازشو
+        //  دیالوگ بازشو
         if (isPopupVisible.value) {
             Dialog(
                 onDismissRequest = { isPopupVisible.value = false },
