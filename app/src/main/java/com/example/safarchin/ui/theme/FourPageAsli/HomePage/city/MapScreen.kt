@@ -261,6 +261,7 @@ fun PlaceRow(
                 )
             }
 
+
             Icon(
                 painter = painterResource(id = R.drawable.menu),
                 contentDescription = null,
