@@ -1,5 +1,5 @@
 
-package com.example.safarchin.ui.theme.FourPageAsli.Planning
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.planingT
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,7 +33,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.iranSans
-import com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.PlacePickerDialog
 
 
 @Composable

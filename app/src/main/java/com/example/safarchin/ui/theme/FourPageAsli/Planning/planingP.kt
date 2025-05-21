@@ -25,8 +25,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.window.DialogProperties
 import com.example.safarchin.ui.theme.FourPageAsli.SearchBar
-import com.example.safarchin.ui.theme.FourPageAsli.Planning.Components.TripCardsSection
-import com.example.safarchin.ui.theme.FourPageAsli.Planning.Components.CreateTripDialog
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.Components_planningP.TripCardsSection
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.Components_planningP.CreateTripDialog
 import androidx.compose.ui.window.Dialog
 
 

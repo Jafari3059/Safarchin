@@ -35,13 +35,13 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HeaderSection
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.Soqati
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlace
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.SharedViewModel
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.loadCitiesFromAssets
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.toCity
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.rest_kafe
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.shopCenter
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.DatabaseProvider
@@ -51,7 +51,6 @@ import com.example.safarchin.ui.theme.FourPageAsli.SearchBar
 import com.example.safarchin.ui.theme.iranSans
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -488,8 +487,9 @@ fun HomeP(navController: NavController, phone: String) {
 //@Composable
 //fun PreviewHomeP() {
 //    val navController = rememberNavController()
-//    HomeP(navController = navController)
+//    HomeP(navController = navController, phone = "09123456789") // مقدار تستی
 //}
+
 
 //@Preview(showBackground = true)
 //@Composable

@@ -2,6 +2,7 @@ package com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.City
 
 
 @Entity(tableName = "cities")
@@ -17,3 +18,16 @@ data class CityEntity(
     val souvenirsJson: String,
     val restaurantsJson: String
 )
+fun CityEntity.toCity(): City {
+    return City(
+        name = name,
+        description = description,
+        imageRes = imageRes,
+        latitude = latitude,
+        longitude = longitude,
+        touristPlaces = emptyList(),
+        shoppingCenters = emptyList(),
+        souvenirs = emptyList(),
+        restaurants = emptyList()
+    )
+}

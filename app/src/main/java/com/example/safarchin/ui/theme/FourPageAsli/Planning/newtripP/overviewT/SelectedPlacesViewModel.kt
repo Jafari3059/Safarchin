@@ -1,8 +1,8 @@
-package com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.overviewT
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
-import com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.Saved.SavedPlace
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.overviewT.Saved.SavedPlace
 
 class SelectedPlacesViewModel : ViewModel() {
     val selectedPlaces = mutableStateListOf<SavedPlace>()

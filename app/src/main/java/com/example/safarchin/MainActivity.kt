@@ -16,20 +16,16 @@ import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsResturantCaff
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsCentershop.SoqatiDetaP
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.spqati.Souvenir.SouvenirDetailScreen
 import com.example.safarchin.ui.theme.FourPageAsli.HomeScreen
-//import com.example.safarchin.ui.theme.FourPageAsli.Plannig.overviewP.OverviewScreen
-//import com.example.safarchin.ui.theme.FourPageAsli.Plannig.planingP
 import com.example.safarchin.ui.theme.login.login
 import com.example.safarchin.ui.theme.login.codeLogin
 import com.example.safarchin.ui.theme.SafarchinTheme
 import kotlinx.coroutines.delay
 import androidx.compose.ui.platform.LocalContext
-import com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.OverviewScreen
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.OverviewScreen
 import com.example.safarchin.ui.theme.FourPageAsli.Planning.planingP
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.DatabaseProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-
-
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,9 +118,8 @@ fun AppNavigation() {
             }
 
             composable("cityDetail") {
-                CityP(navController)
+                CityP(navController = navController)
             }
-
 
             composable("tourDetails") {
                 TourPlaceDetaP(navController = navController)
@@ -142,8 +137,6 @@ fun AppNavigation() {
                 SoqatiDetaP(navController = navController)
             }
 
-
-
             composable("planing") {
                 planingP(navController = navController)
             }
@@ -152,10 +145,19 @@ fun AppNavigation() {
                 OverviewScreen(navController = navController)
             }
 
-            composable("souvenirDetail") {
-                SouvenirDetailScreen(navController = navController)
-            }
+            composable("SouvenirDetailScreen/{name}/{description}/{images}") { backStackEntry ->
+                val name = backStackEntry.arguments?.getString("name") ?: ""
+                val description = backStackEntry.arguments?.getString("description") ?: ""
+                val imageParam = backStackEntry.arguments?.getString("images") ?: ""
+                val imageResList = imageParam.split(",").mapNotNull { it.toIntOrNull() }
 
+                SouvenirDetailScreen(
+                    navController = navController,
+//                    name = name,
+//                    description = description,
+//                    imageResList = imageResList
+                )
+            }
         }
     }
 }

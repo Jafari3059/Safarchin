@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.Planning.Components
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.Components_planningP
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

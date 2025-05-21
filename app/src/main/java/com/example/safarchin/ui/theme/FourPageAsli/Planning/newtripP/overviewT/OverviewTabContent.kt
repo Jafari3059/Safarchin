@@ -1,4 +1,4 @@
-package com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP
+package com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.overviewT
 
 
 import androidx.compose.foundation.*
@@ -27,10 +27,11 @@ import androidx.compose.ui.unit.sp
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlace
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailstouristplaces.TourPlaceCard
-import com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.Saved.SavedPlace
-import com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.Saved.SavedPlacesBox
-import com.example.safarchin.ui.theme.FourPageAsli.Planning.overviewP.Saved.SavedPlacesViewModel
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.overviewT.Saved.SavedPlace
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.overviewT.Saved.SavedPlacesBox
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.overviewT.Saved.SavedPlacesViewModel
 import com.example.safarchin.ui.theme.iranSans
+
 
 @Composable
 fun OverviewTabContent(
