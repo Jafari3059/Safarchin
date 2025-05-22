@@ -72,7 +72,7 @@ fun AppNavigation() {
 
             composable("advertisement1") {
                 AdvertisementScreenPage(
-                    imageResId = R.drawable.gift,
+                    imageResId = R.drawable.ad1,
                     title = "سفر فقط رفتن نیست... یه تجربه ست!",
                     description = "با برنامه ریزی هوشمند، لحظه هات رو خاص کن.",
                     indicatorState = listOf(true, false, false),
@@ -83,7 +83,7 @@ fun AppNavigation() {
 
             composable("advertisement2") {
                 AdvertisementScreenPage(
-                    imageResId = R.drawable.gift,
+                    imageResId = R.drawable.adv2,
                     title = "برنامه ریزی ساده، سفر آسوده",
                     description = "از انتخاب مقصد تا جاذبه‌های دیدنی، همراهتم!",
                     indicatorState = listOf(false, true, false),
@@ -94,7 +94,7 @@ fun AppNavigation() {
 
             composable("advertisement3") {
                 AdvertisementScreenPage(
-                    imageResId = R.drawable.gift,
+                    imageResId = R.drawable.adv3,
                     title = "سفرتو همینجا شروع کن!",
                     description = "مقصدتو انتخاب کن، بقیش با ما!",
                     indicatorState = listOf(false, false, true),
