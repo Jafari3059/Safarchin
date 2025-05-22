@@ -38,7 +38,9 @@ import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.SharedView
 import com.example.safarchin.ui.theme.iranSans
 
 @Composable
-fun SouvenirDetailScreen(navController: NavController) {
+fun SouvenirDetailScreen(
+    navController: NavController,
+){
     val viewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
     val souvenir = viewModel.selectedSouvenir
 
