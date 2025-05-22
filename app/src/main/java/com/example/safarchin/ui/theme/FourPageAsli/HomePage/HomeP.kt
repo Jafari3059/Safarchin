@@ -1,5 +1,6 @@
 package com.example.safarchin.ui.theme.FourPageAsli.HomePage
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -13,6 +14,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -41,9 +44,11 @@ import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.Soqati
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlace
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.SharedViewModel
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.loadCitiesFromAssets
-import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.toCity
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.rest_kafe
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.shopCenter
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.Components_planningP.calculateDaysLeft
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.data.TripEntity
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.data.TripsViewModel
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.DatabaseProvider
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.UserEntity
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.popupfirstlogin
@@ -55,6 +60,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.Components_planningP.calculateDaysLeft
 
 @Composable
 fun HomeP(navController: NavController, phone: String) {
@@ -63,6 +69,22 @@ fun HomeP(navController: NavController, phone: String) {
     val isNewUser = remember { mutableStateOf(false) }
     val cityList = remember { mutableStateOf<List<City>>(emptyList()) }
     val sharedViewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
+
+    val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    val phone = sharedPreferences.getString("current_phone", "") ?: ""
+
+    val tripsViewModel: TripsViewModel = viewModel()
+    val lastTripState = produceState<TripEntity?>(initialValue = null) {
+        value = withContext(Dispatchers.IO) {
+            tripsViewModel.getLastPlannedTrip(phone)  // ✅ حالا phone مقدار داره
+        }
+    }
+
+    val lastTrip = lastTripState.value
+    val daysLeft = lastTrip?.startDate?.let { calculateDaysLeft(it) } ?: -1
+    LaunchedEffect(lastTrip) {
+        Log.d("TRIP_DEBUG", "LastTrip: $lastTrip")
+    }
 
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
@@ -327,73 +349,77 @@ fun HomeP(navController: NavController, phone: String) {
             modifier = Modifier
                 .padding(horizontal = 24.dp)
                 .fillMaxWidth()
-                .height(100.dp)
+                .height(115.dp)
                 .clip(RoundedCornerShape(16.dp))
-
         ) {
-            Box(
-                modifier = Modifier
-                    .width(130.dp)
-                    .height(115.dp)
-                    .clip(RoundedCornerShape(16))
-                    .align(alignment = Alignment.CenterEnd)
-
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.khajo),
-                    contentDescription = "Background Image",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.matchParentSize()
-                )
-
-                Column(
+            // ✅ باکس سمت راست: سفر برنامه‌ریزی‌شده یا نبود آن
+            if (lastTrip != null && daysLeft >= 0) {
+                Box(
                     modifier = Modifier
-                        .wrapContentSize()
-                        .align(Alignment.Center),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .width(123.dp)
+                        .height(115.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .align(Alignment.CenterEnd)
                 ) {
-                    Text(
-                        text = "۸",
-                        fontFamily = iranSans,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
-                        color = Color.White,
-                        maxLines = 1,
-                        style = TextStyle(
-                            lineHeight = 24.sp, // کنترل ارتفاع خط
-                            shadow = Shadow(Color.Black, Offset(0f, 0f), 8f)
-                        ),
-                        modifier = Modifier
+                    Image(
+                        painter = painterResource(id = lastTrip.imageRes),
+                        contentDescription = "Trip Image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.matchParentSize()
                     )
 
-                    val subtitle = "روز مانده به سفر اصفهان"
-                    val calculatedFontSize = when {
-                        subtitle.length < 20 -> 18.sp
-                        subtitle.length < 30 -> 16.sp
-                        else -> 14.sp
+                    Column(
+                        modifier = Modifier.align(Alignment.Center),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "$daysLeft",
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 24.sp,
+                            color = Color.White,
+                            style = TextStyle(shadow = Shadow(Color.Black, Offset(0f, 0f), 8f))
+                        )
+                        Text(
+                            text = "روز مانده به سفر ${lastTrip.city}",
+                            fontFamily = iranSans,
+                            fontSize = 16.sp,
+                            color = Color.White,
+                            textAlign = TextAlign.Center,
+                            style = TextStyle(shadow = Shadow(Color.Black, Offset(0f, 0f), 8f)),
+                            modifier = Modifier.padding(horizontal = 4.dp)
+                        )
                     }
-
-                    Text(
-                        text = subtitle,
-                        fontFamily = iranSans,
-                        fontWeight = FontWeight.Medium,
-                        fontSize = calculatedFontSize,
-                        color = Color.White,
-                        textAlign = TextAlign.Center,
-                        style = TextStyle(
-                            shadow = Shadow(Color.Black, Offset(0f, 0f), 10f)
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth())
                 }
-
-
-
+            } else {
+                Box(
+                    modifier = Modifier
+                        .width(123.dp)
+                        .height(115.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color(0xFFD8D8D8).copy(alpha = 0.3f))
+                        .align(Alignment.CenterEnd),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "برنامه‌ریزی نشده",
+                        fontFamily = iranSans,
+                        fontSize = 14.sp,
+                        color = Color.DarkGray
+                    )
+                }
             }
 
-
-            WeatherCard()
+            // ✅ باکس سمت چپ: WeatherCard همیشه در چپ
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+            ) {
+                WeatherCard()
+            }
         }
+
+
         sugestiontrip()
 
         Box(
@@ -480,8 +506,6 @@ fun HomeP(navController: NavController, phone: String) {
             )
         }
     }
-
-
 }
 //@Preview(showSystemUi = true, showBackground = true, locale = "fa")
 //@Composable

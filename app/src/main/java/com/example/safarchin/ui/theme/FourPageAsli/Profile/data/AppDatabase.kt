@@ -6,10 +6,13 @@ import androidx.room.TypeConverters
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.CityDao
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.CityEntity
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.CityTypeConverters
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.data.TripEntity
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.data.TripDao
 
-@Database(entities = [UserEntity::class, CityEntity::class], version = 5)
+@Database(entities = [UserEntity::class, CityEntity::class, TripEntity::class], version = 6)
 @TypeConverters(CityTypeConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
+    abstract fun tripDao(): TripDao
     abstract fun cityDao(): CityDao
 }

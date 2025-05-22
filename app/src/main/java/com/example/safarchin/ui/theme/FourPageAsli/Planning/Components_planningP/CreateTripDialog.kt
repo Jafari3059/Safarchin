@@ -1,5 +1,6 @@
 package com.example.safarchin.ui.theme.FourPageAsli.Planning.Components_planningP
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,17 +28,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.safarchin.R
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.data.TripEntity
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.data.TripsViewModel
 
 @Composable
-fun CreateTripDialog(onDismiss: () -> Unit, navController: NavController)
+fun CreateTripDialog(
+    onDismiss: () -> Unit,
+    navController: NavController,
+    viewModel: TripsViewModel,
+    editingTrip: TripEntity? = null
+)
 {
     var tripName by remember { mutableStateOf("") }
     var selectedCity by remember { mutableStateOf("انتخاب شهر") }
@@ -54,6 +64,11 @@ fun CreateTripDialog(onDismiss: () -> Unit, navController: NavController)
     var showBudgetDialog by remember { mutableStateOf(false) }
     var showCalendarDialog by remember { mutableStateOf(false) }
     var isSelectingStartDate by remember { mutableStateOf(true) }
+
+    val context = LocalContext.current
+    val viewModel: TripsViewModel = viewModel()
+    val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    val currentPhone = sharedPreferences.getString("current_phone", "") ?: ""
 
     Box(modifier = Modifier.zIndex(1f)) {
         Card(
@@ -181,8 +196,41 @@ fun CreateTripDialog(onDismiss: () -> Unit, navController: NavController)
 
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                         Button(
-                            onClick = { onDismiss() // بستن دیالوگ
-                                navController.navigate("overview")  },
+                            onClick = {
+                                // ابتدا عکس مربوط به شهر را تعیین کن
+                                val imageResId = when (selectedCity) {
+                                    "شیراز" -> R.drawable.shiraz
+                                    "اصفهان" -> R.drawable.meydan_emam
+                                    "قم" -> R.drawable.qom
+                                    "مشهد" -> R.drawable.mashhad
+                                    "تهران" -> R.drawable.tehran
+                                    "خوزستان" -> R.drawable.khozestan
+                                    "مازندران" -> R.drawable.mazandaran
+                                    "فارس" -> R.drawable.shiraz
+                                    "تبریز" -> R.drawable.tabriz
+                                    "زراس(دهدز)" -> R.drawable.zaras
+                                    else -> R.drawable.backprof
+                                }
+
+                                // سپس شیء سفر را بساز و ذخیره کن
+                                val newTrip = TripEntity(
+                                    userId = currentPhone,
+                                    title = tripName,
+                                    startDate = startDate,
+                                    endDate = endDate,
+                                    travelers = travelers.toIntOrNull() ?: 1,
+                                    city = selectedCity,
+                                    budget = selectedBudget.replace(",", "").trim().toIntOrNull()
+                                        ?: 0,
+                                    budgetForAll = budgetForAll,
+                                    status = "در حال برنامه‌ریزی",
+                                    date = "$startDate تا $endDate",
+                                    imageRes = imageResId
+                                )
+
+                                viewModel.insertTrip(newTrip)
+                                onDismiss()
+                            },
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7B54)),
                             modifier = Modifier
                                 .width(140.dp)

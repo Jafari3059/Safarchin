@@ -56,7 +56,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourCardList
 import com.example.safarchin.ui.theme.FourPageAsli.Planning.Components_planningP.TripCard
-import com.example.safarchin.ui.theme.FourPageAsli.Planning.Trip
+import com.example.safarchin.ui.theme.FourPageAsli.Planning.data.TripEntity
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.DatabaseProvider
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.UserEntity
 import com.example.safarchin.ui.theme.iranSans
@@ -67,11 +67,38 @@ import java.io.File
 
 @Composable
 fun profileP( phone: String) {
+    fun createSampleTrip(
+        id: Int,
+        title: String,
+        city: String,
+        startDate: String,
+        endDate: String,
+        budget: Int,
+        imageRes: Int,
+        userId: String
+    ): TripEntity {
+        return TripEntity(
+            id = id,
+            userId = userId,
+            title = title,
+            city = city,
+            startDate = startDate,
+            endDate = endDate,
+            travelers = 2,
+            budget = budget,
+            budgetForAll = true,
+            status = "در حال برنامه‌ریزی",
+            date = "$startDate تا $endDate",
+            imageRes = imageRes
+        )
+    }
+
     val sampleTrips = listOf(
-        Trip(1, "یزد", "۱۴۰۳/۰۱/۱۵", "اقامت در هتل داد", R.drawable.khajo),
-        Trip(2, "شیراز", "۱۴۰۳/۰۲/۲۰", "بازدید از تخت جمشید", R.drawable.shiraz),
-        Trip(3, "تبریز", "۱۴۰۳/۰۳/۰۵", "تور کندوان", R.drawable.profile_image)
+        createSampleTrip(1, "سفر به یزد", "یزد", "۱۴۰۳/۰۱/۱۵", "۱۴۰۳/۰۱/۲۰", 4000000, R.drawable.khajo, phone),
+        createSampleTrip(2, "سفر به شیراز", "شیراز", "۱۴۰۳/۰۲/۲۰", "۱۴۰۳/۰۲/۲۵", 5200000, R.drawable.shiraz, phone),
+        createSampleTrip(3, "سفر به تبریز", "تبریز", "۱۴۰۳/۰۳/۰۵", "۱۴۰۳/۰۳/۱۰", 3700000, R.drawable.profile_image, phone)
     )
+
     val scrollState = rememberScrollState()
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -407,12 +434,15 @@ fun profileP( phone: String) {
                             items(sampleTrips) { trip ->
                                 TripCard(
                                     trip = trip,
-                                    isDeleteBoxVisible = false,
-                                    onMoreIconClick = { /* رویداد کلیک */ },
+                                    navController = navController,
                                     screenWidth = screenWidth,
-                                    navController = navController
+                                    isDeleteBoxVisible = false,
+                                    onMoreIconClick = {},
+                                    onDeleteClick = {},
+                                    onStatusChangeClick = { id, newStatus -> /* بعداً پیاده‌سازی می‌کنی */ },
+                                    onEditClick = {},
+                                    onCardCloseMenu = {},
                                 )
-
                             }
                         }
 
