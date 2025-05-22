@@ -145,19 +145,10 @@ fun AppNavigation() {
                 OverviewScreen(navController = navController)
             }
 
-            composable("SouvenirDetailScreen/{name}/{description}/{images}") { backStackEntry ->
-                val name = backStackEntry.arguments?.getString("name") ?: ""
-                val description = backStackEntry.arguments?.getString("description") ?: ""
-                val imageParam = backStackEntry.arguments?.getString("images") ?: ""
-                val imageResList = imageParam.split(",").mapNotNull { it.toIntOrNull() }
-
-                SouvenirDetailScreen(
-                    navController = navController,
-//                    name = name,
-//                    description = description,
-//                    imageResList = imageResList
-                )
+            composable("SouvenirDetailScreen") {
+                SouvenirDetailScreen(navController = navController)
             }
+
         }
     }
 }

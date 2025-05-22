@@ -56,7 +56,7 @@ fun SoqatiCard(soqati: Soqati, navController: NavController) {
             .background(Color.White)
             .clickable {
                 viewModel.selectedSouvenir = soqati
-                navController.navigate("souvenirDetail")
+                navController.navigate("SouvenirDetailScreen")
             }
     ) {
         Column(
