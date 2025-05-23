@@ -1,4 +1,5 @@
 package com.example.safarchin.ui.theme.FourPageAsli
+import androidx.compose.foundation.clickable
 
 import android.content.Context
 import android.net.Uri
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.UserEntity
 import com.example.safarchin.ui.theme.iranSans
+import androidx.navigation.NavController
 
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -33,7 +35,8 @@ import java.io.File
 fun HeaderSection(
     onNotificationClick: () -> Unit,
     onHelpClick: () -> Unit,
-    user: UserEntity?
+    user: UserEntity?,
+    navController: NavController // ✅ فقط این خط اضافه شده
 ) {
 
     val configuration = LocalConfiguration.current
@@ -58,8 +61,13 @@ fun HeaderSection(
                 Image(
                     painter = painterResource(id = R.drawable.question_icon),
                     contentDescription = "Help Icon",
-                    modifier = Modifier.size(screenWidth * 0.07f)
+                    modifier = Modifier
+                        .size(screenWidth * 0.07f)
+                        .clickable {
+                            navController.navigate("support")
+                        }
                 )
+
             }
 
             Spacer(modifier = Modifier.width(screenWidth * 0.01f))

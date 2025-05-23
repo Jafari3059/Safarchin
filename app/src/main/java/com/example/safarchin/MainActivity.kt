@@ -1,4 +1,5 @@
 package com.example.safarchin
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.support.Support1
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -144,12 +145,18 @@ fun AppNavigation() {
             composable("overview") {
                 OverviewScreen(navController = navController)
             }
-
+            composable("support") {
+                Support1(navController = navController)
+            }
             composable("SouvenirDetailScreen/{name}/{description}/{images}") { backStackEntry ->
                 val name = backStackEntry.arguments?.getString("name") ?: ""
                 val description = backStackEntry.arguments?.getString("description") ?: ""
                 val imageParam = backStackEntry.arguments?.getString("images") ?: ""
                 val imageResList = imageParam.split(",").mapNotNull { it.toIntOrNull() }
+
+
+
+
 
                 SouvenirDetailScreen(
                     navController = navController,

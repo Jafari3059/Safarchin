@@ -20,14 +20,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDirection
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.safarchin.R
-import com.example.safarchin.ui.theme.FourPageAsli.HeaderSection
+import androidx.navigation.NavController
+
+
+
 
 @Composable
-fun Support1() {
+fun Support1(navController: NavController) {
     val helpItems = listOf(
         "سوالات متداول" to "placeholder",
         "راهنمای استفاده (با تصویر و ویدیو)" to "placeholder",
@@ -46,7 +48,7 @@ fun Support1() {
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Image(
-                painter = painterResource(id = R.drawable.khajo),
+                painter = painterResource(id = R.drawable.img),
                 contentDescription = "پل خواجو",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -57,7 +59,7 @@ fun Support1() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                    .padding(horizontal = 16.dp, vertical = 40.dp)
                     .align(Alignment.TopCenter),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -68,6 +70,9 @@ fun Support1() {
                         contentDescription = "بازگشت",
                         tint = Color(0xFFFF7B54),
                         modifier = Modifier.size(24.dp)
+                        .clickable {
+                        navController.popBackStack() // 👈 رفتن به صفحه قبل
+                    }
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Icon(
@@ -75,25 +80,6 @@ fun Support1() {
                         contentDescription = "زنگ",
                         tint = Color(0xFFFF7B54),
                         modifier = Modifier.size(24.dp)
-                    )
-                }
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Column(horizontalAlignment = Alignment.End) {
-                        Text(text = "سلام سارا :)", fontSize = 14.sp, color = Color.White)
-                        Text(
-                            text = "حاضری به ماجراجویی دیگه ای شروع کنی؟",
-                            fontSize = 12.sp,
-                            color = Color.White
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.profile_image),
-                        contentDescription = "پروفایل",
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(RoundedCornerShape(20.dp))
                     )
                 }
             }
@@ -472,7 +458,12 @@ fun SupportForm() {
         )
 
         Spacer(modifier = Modifier.height(12.dp))
-
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFFBEBAB3), shape = RoundedCornerShape(12.dp))
+                .padding(horizontal = 1.dp, vertical = 1.dp) // کمی فاصله برای زیبایی
+        )
         OutlinedTextField(
             value = fullName,
             onValueChange = { fullName = it },
@@ -485,6 +476,7 @@ fun SupportForm() {
             },
             modifier = Modifier.fillMaxWidth()
                 .padding(horizontal = 27.dp) // 👈 اضافه شد
+            
 
         )
 
@@ -559,19 +551,24 @@ fun SupportForm() {
         Spacer(modifier = Modifier.height(16.dp))
 
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 27.dp, end = 27.dp, bottom = 38.dp),
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Column(
                 modifier = Modifier
+                    .weight(1f)
                     .background(Color(0xFF939B62), RoundedCornerShape(8.dp))
                     .padding(8.dp)
             ) {
                 Text(
-                    text = "ایمیل پشتیبانی",
+                    text = "ایمیل پشتیبانی:",
                     fontSize = 12.sp,
-                    color = Color.White
-                )
+                    color = Color.White,
+                    textAlign = TextAlign.Right,
+
+                    )
                 Text(
                     text = "support@safarapp.com",
                     fontSize = 12.sp,
@@ -581,23 +578,27 @@ fun SupportForm() {
 
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 53.dp)
-
+                    .weight(1f)
                     .background(Color(0xFF939B62), RoundedCornerShape(8.dp))
                     .padding(8.dp)
             ) {
                 Text(
                     text = "تماس تلفنی (در ساعات اداری)",
-                    fontSize = 12.sp,
-                    color = Color.White
+                    fontSize = 10.sp,
+                    color = Color.White,
+                    textAlign = TextAlign.Right,
                 )
                 Text(
-                    text = "09123456789",
+                    text = "031-12345678",
                     fontSize = 12.sp,
-                    color = Color.White
+                    color = Color.White ,
+                    textAlign = TextAlign.Center,
                 )
             }
         }
+
+
+
     }
 }
 

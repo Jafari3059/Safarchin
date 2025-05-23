@@ -210,7 +210,9 @@ fun HomeP(navController: NavController, phone: String) {
             HeaderSection(
                 onNotificationClick = {},
                 onHelpClick = {},
-                user = userInfo
+                user = userInfo ,
+                navController = navController
+
             )
 
 
