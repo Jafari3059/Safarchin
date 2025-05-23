@@ -5,56 +5,59 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.safarchin.R
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-//import androidx.navigation.compose.rememberNavController
-import com.example.safarchin.ui.theme.iranSans
+import com.example.safarchin.R
+import com.example.safarchin.data.api.RetrofitInstance
+import com.example.safarchin.data.model.PhoneRequest
+import kotlinx.coroutines.launch
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun login(navController: NavController) {
-
-
-
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
     var phoneNumber by remember { mutableStateOf(TextFieldValue("")) }
     var isFocused by remember { mutableStateOf(false) }
     var isValid by remember { mutableStateOf(true) }
+    var result by remember { mutableStateOf("") }
+    val coroutineScope = rememberCoroutineScope()
+    val viewModel: LoginViewModel = viewModel()
 
     val borderColor = when {
-        phoneNumber.text.length < 2 -> Color(0xFF5F5F5F) // رنگ اولیه
-        isFocused -> Color(0xFFFFA500) // رنگ نارنجی هنگام کلیک
-        !isValid -> Color.Red // رنگ قرمز در صورت نامعتبر بودن
-        else -> Color(0xFF5F5F5F)  // رنگ پیش‌فرض
+        phoneNumber.text.length < 2 -> Color(0xFF5F5F5F)
+        isFocused -> Color(0xFFFFA500)
+        !isValid -> Color.Red
+        else -> Color(0xFF5F5F5F)
     }
+
     fun isValidIranianPhone(phone: String): Boolean {
         val regex = Regex("^09[0-9]{9}")
         return phone.matches(regex)
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.background),
-            contentDescription = "Background Image",
+            contentDescription = "Background",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
@@ -67,7 +70,7 @@ fun login(navController: NavController) {
         ) {
             Box(
                 modifier = Modifier
-                    .padding(0.dp, 0.dp, 0.dp, 60.dp)
+                    .padding(bottom = 60.dp)
                     .width(screenWidth * 0.88f)
                     .height(screenHeight * 0.28f)
                     .background(Color(0x60FFFFFF), RoundedCornerShape(16.dp)),
@@ -87,10 +90,10 @@ fun login(navController: NavController) {
                             text = "ثبت نام",
                             fontSize = (screenWidth * 0.04f).value.sp,
                             fontWeight = FontWeight.Bold,
-                            fontFamily = iranSans,
-                            color = Color.White,
+                            color = Color.White
                         )
                     }
+
                     Spacer(modifier = Modifier.height(screenHeight * 0.01f))
 
                     OutlinedTextField(
@@ -102,12 +105,10 @@ fun login(navController: NavController) {
                         placeholder = {
                             Text(
                                 text = "شماره خود را وارد کنید",
+                                modifier = Modifier.fillMaxWidth().padding(top = 3.dp),
                                 textAlign = TextAlign.Right,
-                                modifier = Modifier.fillMaxWidth()
-                                    .padding(0.dp, 3.dp, 0.dp, 0.dp),
                                 fontSize = (screenWidth * 0.04f).value.sp,
                                 color = Color(0xFFCFD1D4),
-                                fontFamily = iranSans,
                                 fontWeight = FontWeight.ExtraLight,
                             )
                         },
@@ -119,20 +120,30 @@ fun login(navController: NavController) {
                             )
                         },
                         shape = RoundedCornerShape(screenWidth * 0.03f),
-
                         modifier = Modifier
                             .fillMaxWidth(0.83f)
                             .height(screenHeight * 0.07f)
                             .background(Color(0xFF5F5F5F), RoundedCornerShape(screenWidth * 0.03f))
                             .border(2.dp, borderColor, RoundedCornerShape(screenWidth * 0.03f))
-                            .onFocusChanged { isFocused = it.isFocused }
+                            .onFocusChanged { isFocused = it.isFocused },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
                     )
+
                     Spacer(modifier = Modifier.height(screenHeight * 0.03f))
 
                     Button(
                         onClick = {
                             if (isValidIranianPhone(phoneNumber.text)) {
-                                navController.navigate("codelogin/${phoneNumber.text}")
+                                viewModel.sendCode(phoneNumber.text)
+                                coroutineScope.launch {
+                                    try {
+                                        val response = RetrofitInstance.api.sendCode(PhoneRequest(phoneNumber.text))
+                                        result = response.message
+                                        navController.navigate("codelogin/${phoneNumber.text}")
+                                    } catch (e: Exception) {
+                                        result = "خطا: ${e.message}"
+                                    }
+                                }
                             } else {
                                 isValid = false
                             }
@@ -150,6 +161,9 @@ fun login(navController: NavController) {
                             color = Color.White
                         )
                     }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = result, color = Color.White)
                 }
             }
         }
