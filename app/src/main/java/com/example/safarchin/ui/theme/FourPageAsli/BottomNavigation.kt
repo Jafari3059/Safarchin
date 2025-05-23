@@ -26,11 +26,11 @@ fun BottomNavigationBar(selectedIndex: Int, onItemSelected: (Int) -> Unit) {
     val itemBoxSize = screenWidth * 0.15f
     val navHeight = screenHeight * 0.08f
 
-    val items = listOf("پروفایل", "خرید اشتراک", "برنامه ریزی", "خانه")
+    val items = listOf("پروفایل", "برنامه ریزی", "خانه")
 
     val icons = listOf(
         R.drawable.profileicon,
-        R.drawable.almas,
+//        R.drawable.almas,
         R.drawable.taqvim,
         R.drawable.hoome,
     )

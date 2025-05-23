@@ -1,5 +1,4 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP
 
 import androidx.compose.ui.window.Dialog
@@ -42,7 +41,10 @@ import com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP.planingT.Pl
 
 
 @Composable
-fun OverviewScreen(navController: NavController) {
+fun OverviewScreen(
+    navController: NavController,
+)
+ {
     val config = LocalConfiguration.current
     val screenWidth = config.screenWidthDp.dp
     val screenHeight = config.screenHeightDp.dp
@@ -72,8 +74,6 @@ fun OverviewScreen(navController: NavController) {
     val iconSize = screenWidth * 0.18f
     val showCostPopup = remember { mutableStateOf(false) }
 
-
-
     Box(modifier = Modifier.fillMaxSize().background(Color(0xFFF6F4F4))) {
 
         Column(
@@ -97,10 +97,19 @@ fun OverviewScreen(navController: NavController) {
                         .padding(start = 28.dp, top = 44.dp)
                         .size(20.dp)
                         .clickable {
-                            navController.popBackStack()
+//                            navController.navigate("planing")
+                            navController.popBackStack("planing", inclusive = false)
                         },
                     tint = Color.Black
                 )
+//                Icon(
+//                    painter = painterResource(id = R.drawable.back),
+//                    contentDescription = "بازگشت",
+//                    modifier = Modifier
+//                        .clickable {
+//                            onBack() // 👈 تب برمی‌گرده به planing
+//                        }
+//                )
 
                 Row(
                     modifier = Modifier
@@ -493,6 +502,16 @@ fun OverviewTabBar(
 @Preview(showBackground = true, locale = "fa")
 @Composable
 fun PreviewOverviewScreen() {
-    val navController = rememberNavController() // ✅ ساخت نمونه تستی
-    OverviewScreen(navController = navController) // ✅ پاس دادن به تابع
+    val navController = rememberNavController()
+
+    OverviewScreen(
+        navController = navController,
+    )
 }
+
+//@Preview(showBackground = true, locale = "fa")
+//@Composable
+//fun PreviewOverviewScreen() {
+//    val navController = rememberNavController() //  ساخت نمونه تستی
+//    OverviewScreen(navController = navController) //  پاس دادن به تابع
+//}

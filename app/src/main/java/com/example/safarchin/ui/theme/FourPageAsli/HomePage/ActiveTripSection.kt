@@ -155,8 +155,6 @@ fun ActiveTripSection() {
                                 .padding(0.dp , 1.8.dp , 1.8.dp, 1.8.dp)
                                 .background(Color.White)
 
-
-
                         ) {
                             Column(
                                 modifier = Modifier
@@ -210,7 +208,6 @@ fun ActiveTripSection() {
                                         color = Color.White,
                                     )
                                 }
-
                             }
                         }
                     }

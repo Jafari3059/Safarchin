@@ -31,6 +31,8 @@ import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.Soqati
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.SharedViewModel
 import com.example.safarchin.ui.theme.iranSans
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 
 @Composable
@@ -38,14 +40,18 @@ fun SoqatiCard(soqati: Soqati, navController: NavController, modifier: Modifier 
     val viewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val imageHeight = (screenWidth * 0.35).dp
+    viewModel.selectedSouvenir = soqati
+
+    val encodedName = URLEncoder.encode(soqati.name, StandardCharsets.UTF_8.toString())
+    val encodedDescription = URLEncoder.encode(soqati.description, StandardCharsets.UTF_8.toString())
+    val imagesParam = soqati.imageResList.joinToString(",")
 
     Box(
         modifier = modifier
             .shadow(8.dp, RoundedCornerShape(12.dp))
             .background(Color.White)
             .clickable {
-                viewModel.selectedSouvenir = soqati
-                navController.navigate("souvenirDetail")
+                navController.navigate("SouvenirDetailScreen")
             }
 
 

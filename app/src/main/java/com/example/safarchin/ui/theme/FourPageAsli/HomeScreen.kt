@@ -32,7 +32,7 @@ import kotlinx.coroutines.withContext
 @Composable
 fun HomeScreen(navController: NavController, phone: String) {
 
-    var selectedIndex by remember { mutableStateOf(3) }
+    var selectedIndex by remember { mutableStateOf(2) }
     var showDialog by remember { mutableStateOf(false) } // ✅ اینجا کنترل پاپ‌آپ
 
     val configuration = LocalConfiguration.current
@@ -61,9 +61,9 @@ fun HomeScreen(navController: NavController, phone: String) {
                 // ⬇ صفحه‌ها
                 when (selectedIndex) {
                     0 -> profileP(phone = phone)
-                    1 -> EshterakP()
-                    2 -> planingP(navController)
-                    3 -> HomeP(navController = navController, phone = phone)
+//                    1 -> EshterakP()
+                    1 -> planingP(navController)
+                    2 -> HomeP(navController = navController, phone = phone)
 
                 }
             }
