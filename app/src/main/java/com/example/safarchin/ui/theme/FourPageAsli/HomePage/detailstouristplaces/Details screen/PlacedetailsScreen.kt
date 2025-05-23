@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -30,9 +31,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.Soqati
 import com.example.safarchin.ui.theme.iranSans
+//import com.google.android.gms.maps.model.CameraPosition
+//import com.google.maps.android.compose.*
+//import com.google.android.gms.maps.model.LatLng
 
 @Composable
 fun PlacedetailsScreen(
@@ -40,39 +45,20 @@ fun PlacedetailsScreen(
     name: String,
     description: String,
     imageResList: List<Int>
-)
-
-{    val soqatiItem = Soqati(
-    name = "کلوچه مسقطی",
-    description = "شیرینی کاک یکی از سوغات خوشمزه شیراز و کرمانشاه است که از لایه‌های نازک تهیه شده و با پودر قند تزئین می‌شود. ماندگاری بالا دارد و برای دورهمی و ایام عید عالی است.شیرینی کاک یکی از سوغات خوشمزه شیراز و کرمانشاه و خرم آباد محسوب می شود به این شیرینی در شیراز نان یوخه و در کرمانشاه نان کاک یا شیرینی کاک گفته می شود. این شیرینی خوشمزه از لایه های بسیار نازک تهیه می شود که روی هم قرار گرفته و با پودر قند و پسته تزئین می شود. این شیرینی طرز تهیه راحتی دارد و ماندگاری بالایی نیز دارد و شما می توانید برای دورهمی یا ایام عید این شیرینی یوخه را تهیه کنید.\n" +
-            "\n" +
-            "مواد لازم\n" +
-            "تخم مرغ۱ عدد\n" +
-            "کره۲۰۰ گرم\n" +
-            "آب ولرم کمتر ۱/۲ پیمانه + ۱/۴ پیمانه \n" +
-            "برای خمیر مایه خمیر مایه۱ ق چای خوریوانیلنوک ق چای خوریآرد گندمحدود ۶۰۰ گرمنمک۱ ق چای خوریگلاب۱ ق غذا خوریپودر هل و پودر قندبه مقدار لازم\n" +
-            "طرز تهیه شیرینی یوخه\n" +
-            "1مرحله اول: عمل آوری خمیر مایه\n" +
-            "داخل یک لیوان ۱/۴ پیمانه آب ولرم را ریخته و خمیر مایه و ۱ ق چای خوری شکر اضافه کنید و هم بزنید سپس روی لیوان را به مدت ۲۰ دقیقه بپوشانید تا کف کند و عمل بیاد (مهم ترین نکته دمای آب است که باید در حدی باشد که انگشت را نسوزاند).\n" +
-            "2مرحله دوم: مخلوط کردن مواد\n" +
-            "داخل یک کاسه تخم مرغ ها را ریخته و با وانیل هم بزنید تا تخم مرغ ها از لختگی خارج شود سپس کره نرم شده را ریخته و هم بزنید تا مواد مخلوط شوند سپس به ترتیب مابقی آب و خمیر مایه عمل آمده را به همراه گلاب اضافه کنید و هم بزنید.\n" +
-            "3مرحله سوم: استراحت خمیر نان یوخه\n" +
-            "آرد و نمک را نمک را با هم مخلوط کنید و سه بار الک کنید، باید به تدریج شروع به اضافه کردن آرد کنید تا خمیر وسط کاسه جمع شود و بسته به آردها و جنس های مختلف آن شاید کمتر یا بیشتر آرد مصرف شود سپس خمیر را روی میز کار بیاورید و به مدت ۱۰ دقیقه خوب ورز دهید تا نرم و لطیف شود سپس داخل کاسه تمیز گذاشته و بمدت ۲ ساعت در دمای گرم قرار داده تا خمیر حجم بگیرد و پف کند.\n" +
-            "4مرحله چهارم: چونه گرفتن شیرینی کاک\n" +
-            "بعد از استراحت خمیر پف آن را با مشت بگیرید و دوباره برای چند دقیقه خمیر را ورز دهید سپس به اندازه یک نارنگی از خمیر برداشته و گرد کنید و روی دستمال تمیز قرار دهید و روی چونه ها را بپوشانید و مجدد برای ۱۰ دقیقه استراحت بدهید تا خمیر دوباره حجم بگیرد.\n" +
-            "5مرحله پنجم: تهیه شیرینی یوخه شیرازی\n" +
-            "هر کدام از چونه ها را روی سطح آرد پاشی شده وردنه بکشید به طوری که آنقدر نازک شود که دست از پشت آن دیده و یا ازش عبور کند.\n" +
-            "6مرحله ششم: پخت شیرینی یوخه یا کاک شیرازی\n" +
-            "برای تهیه شیرینی نان یوخه شما می توانید به دو روش عم",
-    imageResList = listOf(
-        R.drawable.khajo,
-        R.drawable.shiraz,
-        R.drawable.meydan_emam,
-        R.drawable.profile_image,
-        R.drawable.khajo,
-        R.drawable.khajo
+){
+    val soqatiItem = Soqati(
+        name = "میدان نقش جهان(امام)",
+        description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است. در این میدان بسیاری دیگر از بناهای تاریخی و باستانی نیز قرار گرفته است. \u2028میدان نقش جهان اصفهان، ثبت سازمان یونسکو شده است به همین دلیل شهرت و شکوه بین المللی دارد.\n" +
+                "این میدان در شمال شهر اصفهان واقع شده است. سالانه گردشگران بسیار زیادی از این میدان دیدن می کنند. پیش از سال ۱۳۵۷، به این منطقه میدان شاه نیز گفته می شد. پس از پیروزی انقلاب اسلامی، نقش جهان به طور رسمی میدان امام اصفهان نیز نامیده شد. نقش جهان در طول تاریخ با نام های میدان اصلی، میدان بزرگ، میدان قصر، میدان سلطنتی و میدان نو نیز شناخته می شد. \u2028این میدان در ۸ بهمن ۱۳۱۳ در فهرست آثار ملی ثبت شد و در سال ۱۳۵۸ نیز در لیست میراث جهانی یونسکو به ثبت رسید. \u2028پیش از دوره صفویه، در این میدان یک باغ زیبا به نام نقش جهان وجود داشت. نقش جهان نام شهری در کشور آذربایجان بود که امروزه به نخجوان تغییر پیدا کرده است.\u2028این میدان طولی بیشتر از ۵۶۰ متر و عرضی برابر با ۱۶۰ متر دارد. محیط این میدان با ۲۰۰ حجره دو طبقه پوشانده شده است. بناهای تاریخی زیبایی هم در دل نقش جهان قرار گرفته است. در گذشته برای حفاظت از میدان و دیگر آثار تاریخی طاق هایی در اطراف آن ساخته شد که این طاق ها به حجره های امروزی تبدیل شده اند.",
+        imageResList = listOf(
+            R.drawable.khajo,
+            R.drawable.shiraz,
+            R.drawable.meydan_emam,
+            R.drawable.profile_image,
+            R.drawable.khajo,
+            R.drawable.khajo
+        )
     )
-)
     val imageList = remember { mutableStateListOf<Int>().apply { addAll(imageResList) } }
 
     var middleIndex by remember { mutableStateOf(1) }
@@ -352,6 +338,315 @@ fun PlacedetailsScreen(
                     textAlign = TextAlign.Right,
                     modifier = Modifier.fillMaxWidth()
                 )
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(15.dp)
+                        .padding(horizontal = 8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        // متن متغیر
+                        Text(
+                            text = "۵ـ۶ ساعت", // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 10.sp,
+                            color = Color.Black,
+                            textAlign = TextAlign.Right
+                        )
+
+                        Spacer(modifier = Modifier.width(4.dp))
+
+                        // متن ثابت
+                        Text(
+                            text = "مدت زمان بازدید:",
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 10.sp,
+                            color = Color.Black,
+                            textAlign = TextAlign.Right
+                        )
+
+                        Spacer(modifier = Modifier.width(6.dp))
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.clock),
+                            contentDescription = "آیکون توضیح",
+                            tint = Color(0xFFFFB26B),
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(15.dp)
+                        .padding(horizontal = 8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        // متن متغیر
+                        Text(
+                            text = "رایگان", // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 10.sp,
+                            color = Color.Black,
+                            textAlign = TextAlign.Right
+                        )
+
+                        Spacer(modifier = Modifier.width(4.dp))
+
+                        // متن ثابت
+                        Text(
+                            text = "هزینه بازدید:",
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 10.sp,
+                            color = Color.Black,
+                            textAlign = TextAlign.Right
+                        )
+
+                        Spacer(modifier = Modifier.width(6.dp))
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.ticket),
+                            contentDescription = "آیکون توضیح",
+                            tint = Color(0xFFFFB26B),
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(15.dp)
+                        .padding(horizontal = 8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        // متن متغیر
+                        Text(
+                            text = "۵ـ۶ ساعت", // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 10.sp,
+                            color = Color.Black,
+                            textAlign = TextAlign.Right
+                        )
+
+                        Spacer(modifier = Modifier.width(4.dp))
+
+                        // متن ثابت
+                        Text(
+                            text = ":آدرس ",
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 10.sp,
+                            color = Color.Black,
+                            textAlign = TextAlign.Right
+                        )
+
+                        Spacer(modifier = Modifier.width(6.dp))
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.location),
+                            contentDescription = "آیکون توضیح",
+                            tint = Color(0xFFFFB26B),
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(15.dp)
+                        .padding(horizontal = 8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        // متن متغیر
+                        Text(
+                            text = "۸ تا ۲۰", // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 10.sp,
+                            color = Color.Black,
+                            textAlign = TextAlign.Right
+                        )
+
+                        Spacer(modifier = Modifier.width(4.dp))
+
+                        // متن ثابت
+                        Text(
+                            text = ": ساعت کاری",
+
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 10.sp,
+                            color = Color.Black,
+                            textAlign = TextAlign.Right
+                        )
+
+                        Spacer(modifier = Modifier.width(6.dp))
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.clock2),
+                            contentDescription = "آیکون توضیح",
+                            tint = Color(0xFFFFB26B),
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(15.dp)
+                        .padding(horizontal = 8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        // متن متغیر
+                        Text(
+                            text = "۰۹۱۳۰۸۰۲۸۸۴", // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 10.sp,
+                            color = Color.Black,
+                            textAlign = TextAlign.Right
+                        )
+
+                        Spacer(modifier = Modifier.width(4.dp))
+
+                        // متن ثابت
+                        Text(
+                            text = ": شماره تماس ",
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 10.sp,
+                            color = Color.Black,
+                            textAlign = TextAlign.Right
+                        )
+
+                        Spacer(modifier = Modifier.width(6.dp))
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.phone),
+                            contentDescription = "آیکون توضیح",
+                            tint = Color(0xFFFFB26B),
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(15.dp)
+                        .padding(horizontal = 8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        // متن متغیر
+                        Text(
+                            text = "دارد", // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 10.sp,
+                            color = Color.Black,
+                            textAlign = TextAlign.Right
+                        )
+
+                        Spacer(modifier = Modifier.width(4.dp))
+
+                        // متن ثابت
+                        Text(
+                            text = ": پارکینگ",
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 10.sp,
+                            color = Color.Black,
+                            textAlign = TextAlign.Right
+                        )
+
+                        Spacer(modifier = Modifier.width(6.dp))
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.park),
+                            contentDescription = "آیکون توضیح",
+                            tint = Color(0xFFFFB26B),
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(15.dp)
+                        .padding(horizontal = 8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        // متن متغیر
+                        Text(
+                            text = "شهدا", // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 10.sp,
+                            color = Color.Black,
+                            textAlign = TextAlign.Right
+                        )
+
+                        Spacer(modifier = Modifier.width(4.dp))
+
+                        // متن ثابت
+                        Text(
+                            text = ": نزدیکترین ایستگاه مترو",
+                            fontFamily = iranSans,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 10.sp,
+                            color = Color.Black,
+                            textAlign = TextAlign.Right
+                        )
+
+                        Spacer(modifier = Modifier.width(6.dp))
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.tran),
+                            contentDescription = "آیکون توضیح",
+                            tint = Color(0xFFFFB26B),
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+
+
+                Text("نقشه موقعیت", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                Spacer(modifier = Modifier.height(8.dp))
+//                MapWithMarker()
             }
         }
     }
@@ -361,3 +656,45 @@ fun PlacedetailsScreen(
 //fun PreCards() {
 //    PlacedetailsScreen()
 //}
+@Preview(showBackground = true)
+@Composable
+fun PreviewPlacedetailsScreen() {
+    val fakeNavController = rememberNavController()
+
+    val fakeName = "کلوچه مسقطی"
+    val fakeDescription = "پیش‌نمایش از توضیحات تستی برای نمایش در Preview."
+    val fakeImages = listOf(
+        R.drawable.shiraz,
+        R.drawable.khajo,
+        R.drawable.meydan_emam
+    )
+
+    PlacedetailsScreen(
+        navController = fakeNavController,
+        name = fakeName,
+        description = fakeDescription,
+        imageResList = fakeImages
+    )
+}
+
+
+//@Composable
+//fun MapWithMarker() {
+//    val cameraPositionState = rememberCameraPositionState {
+//        position = CameraPosition.fromLatLngZoom(LatLng(32.6546, 51.6680), 15f)
+//    }
+//
+//    GoogleMap(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .height(300.dp),
+//        cameraPositionState = cameraPositionState
+//    ) {
+//        Marker(
+//            state = MarkerState(position = LatLng(32.6546, 51.6680)),
+//            title = "میدان نقش جهان",
+//            snippet = "اصفهان"
+//        )
+//    }
+//}
+
