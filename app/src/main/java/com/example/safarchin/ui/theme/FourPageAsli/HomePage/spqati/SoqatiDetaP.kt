@@ -45,8 +45,10 @@ fun SoqatiDetaP(navController: NavController) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
+
     val viewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
     val city = viewModel.selectedCity
+
     val soqatiList = city?.souvenirs ?: emptyList()
     val bannerItem = soqatiList.firstOrNull()
 
@@ -179,7 +181,6 @@ fun SoqatiDetaP(navController: NavController) {
                         .padding(horizontal = 24.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    val viewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
 
                     rowItems.forEach { item ->
                         SoqatiCard(
@@ -191,7 +192,6 @@ fun SoqatiDetaP(navController: NavController) {
 
                         )
                     }
-
 
                     if (rowItems.size == 1) {
                         Spacer(modifier = Modifier.width(160.dp))

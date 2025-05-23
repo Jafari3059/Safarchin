@@ -1,7 +1,5 @@
 package com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsCentershop
 
-import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -37,14 +35,11 @@ import java.nio.charset.StandardCharsets
 
 @Composable
 fun SoqatiCard(soqati: Soqati, navController: NavController, modifier: Modifier = Modifier) {
+
     val viewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val imageHeight = (screenWidth * 0.35).dp
     viewModel.selectedSouvenir = soqati
-
-    val encodedName = URLEncoder.encode(soqati.name, StandardCharsets.UTF_8.toString())
-    val encodedDescription = URLEncoder.encode(soqati.description, StandardCharsets.UTF_8.toString())
-    val imagesParam = soqati.imageResList.joinToString(",")
 
     Box(
         modifier = modifier

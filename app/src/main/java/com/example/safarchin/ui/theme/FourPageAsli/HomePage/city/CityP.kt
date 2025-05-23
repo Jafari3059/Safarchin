@@ -226,11 +226,11 @@ fun CityP(navController: NavController) {
                         color = Color.Black
                     )
                 }
-//                if (city != null) {
-//                    TourCardList(items = city.souvenirs, navController = navController)
-//                }
+                if (city != null) {
+                    TourCardList(items = city.touristPlaces, navController = navController)
+                }
                 // ✅ لیست کارت‌ها
-                TourCardList()
+//                TourCardList()
 
             }
         }

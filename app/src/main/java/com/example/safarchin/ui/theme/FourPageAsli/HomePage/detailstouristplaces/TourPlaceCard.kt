@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-//import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,10 +18,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-//import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
-//import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -35,26 +30,36 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.safarchin.R
-//import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlcCard
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.SharedViewModel
 import com.example.safarchin.ui.theme.iranSans
+
 
 @Composable
 fun TourPlaceCard(
     place: TourPlace,
+    navController: NavController,
+    modifier: Modifier = Modifier,
     showRemove: Boolean = false,
     onRemoveClick: (() -> Unit)? = null
 ) {
+
+    val viewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
+    viewModel.selectedtourolace = place
+
+
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val screenHeight = LocalConfiguration.current.screenHeightDp
 
@@ -78,14 +83,14 @@ fun TourPlaceCard(
             .background(Color.White)
     ) {
         Row(modifier = Modifier.fillMaxSize()) {
-            Image(
-                painter = painterResource(id = place.imageRes),
-                contentDescription = place.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .width(imageWidth)
-                    .fillMaxHeight()
-            )
+//            Image(
+//                painter = painterResource(id = place.imageRes),
+//                contentDescription = place.name,
+//                contentScale = ContentScale.Crop,
+//                modifier = Modifier
+//                    .width(imageWidth)
+//                    .fillMaxHeight()
+//            )
 
             Column(
                 modifier = Modifier
@@ -189,124 +194,124 @@ fun InfoRow(icon: Int, text: String, iconSize: Dp) {
 }
 
 
-@Composable
-fun TourPlaceList() {
-    val cityList = listOf(
-        TourPlace(
-            name = "حافظیه",
-            description = "آرامگاه حافظ، شاعر بزرگ ایرانی، با معماری زیبا و فضای دل‌نشین، مکانی مناسب برای علاقه‌مندان به شعر و ادب فارسی است.",
-            imageRes = R.drawable.hafezieh,
-            Visit_duration = "۱ ساعت",
-            Visit_price = "۲۰٬۰۰۰ تومان",
-            address = "شیراز، بلوار حافظ",
-            telephone = "07132270007",
-            WorkingHours = "۸ صبح تا ۱۰ شب"
-        ),
-        TourPlace(
-            name = "سعدیه",
-            description = "آرامگاه سعدی، شاعر و حکیم بزرگ ایرانی، در باغی زیبا با فضای آرامش‌بخش واقع شده و محل مناسبی برای دوستداران ادبیات است.",
-            imageRes = R.drawable.saadiyeh,
-            Visit_duration = "۱ ساعت",
-            Visit_price = "۱۵٬۰۰۰ تومان",
-            address = "شیراز، انتهای خیابان بوستان",
-            telephone = "07132270007",
-            WorkingHours = "۸ صبح تا ۸ شب"
-        ),
-        TourPlace(
-            name = "باغ دلگشا",
-            description = "یکی از قدیمی‌ترین باغ‌های شیراز با عمارت تاریخی و فضای سرسبز، مناسب برای گردش و استراحت در طبیعت.",
-            imageRes = R.drawable.bagh_delgosha,
-            Visit_duration = "۱ ساعت",
-            Visit_price = "۱۰٬۰۰۰ تومان",
-            address = "شیراز، خیابان بوستان، نزدیکی سعدیه",
-            telephone = "07132270007",
-            WorkingHours = "۸ صبح تا ۸ شب"
-        ),
-        TourPlace(
-            name = "باغ نارنجستان قوام",
-            description = "باغی زیبا با عمارت تاریخی متعلق به دوره قاجار، با کاشی‌کاری‌ها و آینه‌کاری‌های هنرمندانه.",
-            imageRes = R.drawable.narenjestan_qavam,
-            Visit_duration = "۱ ساعت",
-            Visit_price = "۱۵٬۰۰۰ تومان",
-            address = "شیراز، خیابان لطفعلی‌خان زند",
-            telephone = "07132270007",
-            WorkingHours = "۸ صبح تا ۸ شب"
-        ),
-        TourPlace(
-            name = "ارگ کریم‌خان",
-            description = "قلعه‌ای تاریخی از دوره زندیه با معماری خاص و برج‌های بلند، نماد قدرت و حکومت کریم‌خان زند.",
-            imageRes = R.drawable.arg_karimkhan,
-            Visit_duration = "۱ ساعت",
-            Visit_price = "۱۵٬۰۰۰ تومان",
-            address = "شیراز، میدان شهرداری",
-            telephone = "07132270007",
-            WorkingHours = "۸ صبح تا ۸ شب"
-        ),
-        TourPlace(
-            name = "بازار وکیل",
-            description = "بازاری سنتی با معماری زیبا و فروشگاه‌های متنوع، مناسب برای خرید سوغات و صنایع دستی.",
-            imageRes = R.drawable.bazaar_vakil,
-            Visit_duration = "۱ ساعت",
-            Visit_price = "رایگان",
-            address = "شیراز، خیابان لطفعلی‌خان زند",
-            telephone = "07132270007",
-            WorkingHours = "۹ صبح تا ۹ شب"
-        ),
-        TourPlace(
-            name = "دروازه قرآن",
-            description = "یکی از نمادهای تاریخی شیراز، دروازه‌ای قدیمی که در گذشته قرآن بر بالای آن قرار داشته است.",
-            imageRes = R.drawable.darvazeh_quran,
-            Visit_duration = "۳۰ دقیقه",
-            Visit_price = "رایگان",
-            address = "شیراز، ورودی شمال شرقی شهر",
-            telephone = "07132270007",
-            WorkingHours = "۲۴ ساعته"
-        ),
-        TourPlace(
-            name = "باغ عفیف‌آباد",
-            description = "باغی تاریخی با موزه نظامی و فضای سرسبز، مناسب برای علاقه‌مندان به تاریخ و طبیعت.",
-            imageRes = R.drawable.bagh_afifabad,
-            Visit_duration = "۱ ساعت",
-            Visit_price = "۱۵٬۰۰۰ تومان",
-            address = "شیراز، خیابان عفیف‌آباد",
-            telephone = "07132270007",
-            WorkingHours = "۸ صبح تا ۸ شب"
-        ),
-        TourPlace(
-            name = "باغ جهان‌نما",
-            description = "یکی از قدیمی‌ترین باغ‌های شیراز با فضای دل‌نشین و معماری سنتی.",
-            imageRes = R.drawable.bagh_jahannama,
-            Visit_duration = "۱ ساعت",
-            Visit_price = "۱۰٬۰۰۰ تومان",
-            address = "شیراز، خیابان حافظ، نزدیکی حافظیه",
-            telephone = "07132270007",
-            WorkingHours = "۸ صبح تا ۸ شب"
-        ),
-        TourPlace(
-            name = "عمارت شاپوری",
-            description = "عمارت تاریخی با معماری خاص دوره پهلوی اول، شامل باغ و ساختمان زیبا.",
-            imageRes = R.drawable.amarat_shapouri,
-            Visit_duration = "۱ ساعت",
-            Visit_price = "۱۰٬۰۰۰ تومان",
-            address = "شیراز، خیابان انوری",
-            telephone = "07132270007",
-            WorkingHours = "۹ صبح تا ۹ شب"
-        )
-    )
+//@Composable
+//fun TourPlaceList() {
+//    val cityList = listOf(
+//        TourPlace(
+//            name = "حافظیه",
+//            description = "آرامگاه حافظ، شاعر بزرگ ایرانی، با معماری زیبا و فضای دل‌نشین، مکانی مناسب برای علاقه‌مندان به شعر و ادب فارسی است.",
+//            imageRes = R.drawable.hafezieh,
+//            Visit_duration = "۱ ساعت",
+//            Visit_price = "۲۰٬۰۰۰ تومان",
+//            address = "شیراز، بلوار حافظ",
+//            telephone = "07132270007",
+//            WorkingHours = "۸ صبح تا ۱۰ شب"
+//        ),
+//        TourPlace(
+//            name = "سعدیه",
+//            description = "آرامگاه سعدی، شاعر و حکیم بزرگ ایرانی، در باغی زیبا با فضای آرامش‌بخش واقع شده و محل مناسبی برای دوستداران ادبیات است.",
+//            imageRes = R.drawable.saadiyeh,
+//            Visit_duration = "۱ ساعت",
+//            Visit_price = "۱۵٬۰۰۰ تومان",
+//            address = "شیراز، انتهای خیابان بوستان",
+//            telephone = "07132270007",
+//            WorkingHours = "۸ صبح تا ۸ شب"
+//        ),
+//        TourPlace(
+//            name = "باغ دلگشا",
+//            description = "یکی از قدیمی‌ترین باغ‌های شیراز با عمارت تاریخی و فضای سرسبز، مناسب برای گردش و استراحت در طبیعت.",
+//            imageRes = R.drawable.bagh_delgosha,
+//            Visit_duration = "۱ ساعت",
+//            Visit_price = "۱۰٬۰۰۰ تومان",
+//            address = "شیراز، خیابان بوستان، نزدیکی سعدیه",
+//            telephone = "07132270007",
+//            WorkingHours = "۸ صبح تا ۸ شب"
+//        ),
+//        TourPlace(
+//            name = "باغ نارنجستان قوام",
+//            description = "باغی زیبا با عمارت تاریخی متعلق به دوره قاجار، با کاشی‌کاری‌ها و آینه‌کاری‌های هنرمندانه.",
+//            imageRes = R.drawable.narenjestan_qavam,
+//            Visit_duration = "۱ ساعت",
+//            Visit_price = "۱۵٬۰۰۰ تومان",
+//            address = "شیراز، خیابان لطفعلی‌خان زند",
+//            telephone = "07132270007",
+//            WorkingHours = "۸ صبح تا ۸ شب"
+//        ),
+//        TourPlace(
+//            name = "ارگ کریم‌خان",
+//            description = "قلعه‌ای تاریخی از دوره زندیه با معماری خاص و برج‌های بلند، نماد قدرت و حکومت کریم‌خان زند.",
+//            imageRes = R.drawable.arg_karimkhan,
+//            Visit_duration = "۱ ساعت",
+//            Visit_price = "۱۵٬۰۰۰ تومان",
+//            address = "شیراز، میدان شهرداری",
+//            telephone = "07132270007",
+//            WorkingHours = "۸ صبح تا ۸ شب"
+//        ),
+//        TourPlace(
+//            name = "بازار وکیل",
+//            description = "بازاری سنتی با معماری زیبا و فروشگاه‌های متنوع، مناسب برای خرید سوغات و صنایع دستی.",
+//            imageRes = R.drawable.bazaar_vakil,
+//            Visit_duration = "۱ ساعت",
+//            Visit_price = "رایگان",
+//            address = "شیراز، خیابان لطفعلی‌خان زند",
+//            telephone = "07132270007",
+//            WorkingHours = "۹ صبح تا ۹ شب"
+//        ),
+//        TourPlace(
+//            name = "دروازه قرآن",
+//            description = "یکی از نمادهای تاریخی شیراز، دروازه‌ای قدیمی که در گذشته قرآن بر بالای آن قرار داشته است.",
+//            imageRes = R.drawable.darvazeh_quran,
+//            Visit_duration = "۳۰ دقیقه",
+//            Visit_price = "رایگان",
+//            address = "شیراز، ورودی شمال شرقی شهر",
+//            telephone = "07132270007",
+//            WorkingHours = "۲۴ ساعته"
+//        ),
+//        TourPlace(
+//            name = "باغ عفیف‌آباد",
+//            description = "باغی تاریخی با موزه نظامی و فضای سرسبز، مناسب برای علاقه‌مندان به تاریخ و طبیعت.",
+//            imageRes = R.drawable.bagh_afifabad,
+//            Visit_duration = "۱ ساعت",
+//            Visit_price = "۱۵٬۰۰۰ تومان",
+//            address = "شیراز، خیابان عفیف‌آباد",
+//            telephone = "07132270007",
+//            WorkingHours = "۸ صبح تا ۸ شب"
+//        ),
+//        TourPlace(
+//            name = "باغ جهان‌نما",
+//            description = "یکی از قدیمی‌ترین باغ‌های شیراز با فضای دل‌نشین و معماری سنتی.",
+//            imageRes = R.drawable.bagh_jahannama,
+//            Visit_duration = "۱ ساعت",
+//            Visit_price = "۱۰٬۰۰۰ تومان",
+//            address = "شیراز، خیابان حافظ، نزدیکی حافظیه",
+//            telephone = "07132270007",
+//            WorkingHours = "۸ صبح تا ۸ شب"
+//        ),
+//        TourPlace(
+//            name = "عمارت شاپوری",
+//            description = "عمارت تاریخی با معماری خاص دوره پهلوی اول، شامل باغ و ساختمان زیبا.",
+//            imageRes = R.drawable.amarat_shapouri,
+//            Visit_duration = "۱ ساعت",
+//            Visit_price = "۱۰٬۰۰۰ تومان",
+//            address = "شیراز، خیابان انوری",
+//            telephone = "07132270007",
+//            WorkingHours = "۹ صبح تا ۹ شب"
+//        )
+//    )
+//
+//    LazyColumn(
+//        verticalArrangement = Arrangement.spacedBy(12.dp),
+//        modifier = Modifier
+//            .fillMaxSize()
+//    ) {
+//        items(cityList) { place ->
+//            TourPlaceCard(place = place)
+//        }
+//    }
+//}
 
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        items(cityList) { place ->
-            TourPlaceCard(place = place)
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewsdfvSoqatiCards() {
-    TourPlaceList()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewsdfvSoqatiCards() {
+//    TourPlaceList()
+//}

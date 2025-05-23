@@ -40,15 +40,20 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 //import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlace
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourPlcCard
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.SharedViewModel
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.detailsCentershop.SoqatiCard
 import com.example.safarchin.ui.theme.FourPageAsli.TabBar
 import com.example.safarchin.ui.theme.iranSans
 //import com.example.safarchin.ui.theme.irgitiFont
@@ -61,19 +66,38 @@ fun TourPlaceDetaP(navController: NavController) {
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
 
+    val viewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
+    val city = viewModel.selectedCity
+    val tourplaceList = city?.touristPlaces ?: emptyList()
 
-    val images = listOf(
-        R.drawable.amarat_shapouri,
-        R.drawable.bagh_jahannama,
-        R.drawable.bagh_afifabad,
-        R.drawable.arg_karimkhan,
-        R.drawable.bazaar_vakil
-    )
+    val bannerItem = tourplaceList.firstOrNull()
 
     val pagerState = rememberPagerState(
         initialPage = 0,
-        pageCount = { images.size }
+        pageCount = { bannerItem?.imageResList?.size ?: 1 }
     )
+
+    LaunchedEffect(pagerState.currentPage) {
+        delay(5000L)
+        val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
+        pagerState.animateScrollToPage(
+            page = nextPage,
+            animationSpec = tween(durationMillis = 2, easing = LinearOutSlowInEasing)
+        )
+    }
+
+//    val images = listOf(
+//        R.drawable.amarat_shapouri,
+//        R.drawable.bagh_jahannama,
+//        R.drawable.bagh_afifabad,
+//        R.drawable.arg_karimkhan,
+//        R.drawable.bazaar_vakil
+//    )
+//
+//    val pagerState = rememberPagerState(
+//        initialPage = 0,
+//        pageCount = { images.size }
+//    )
 
     // ✅ تغییر خودکار عکس هر ۵ ثانیه
     LaunchedEffect(pagerState.currentPage) {
@@ -108,7 +132,7 @@ fun TourPlaceDetaP(navController: NavController) {
 
             ) { page ->
                 Image(
-                    painter = painterResource(id = images[page]),
+                    painter = painterResource(id = bannerItem?.imageResList?.getOrNull(page) ?: R.drawable.placeholder),
                     contentDescription = "Background Image",
                     modifier = Modifier
                         .fillMaxSize()
@@ -138,7 +162,7 @@ fun TourPlaceDetaP(navController: NavController) {
                     .padding(bottom = 12.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
-                repeat(images.size) { index ->
+                repeat(bannerItem?.imageResList?.size ?: 1) { index ->
                     Box(
                         modifier = Modifier
                             .padding(horizontal = 2.dp)
@@ -235,78 +259,101 @@ fun TourPlaceDetaP(navController: NavController) {
 //                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            TourPlaceCard(
-                TourPlace(
-                    name = "حافظیه",
-                    description = "آرامگاه حافظ، شاعر بزرگ ایرانی، با معماری زیبا و فضای دل‌نشین، مکانی مناسب برای علاقه‌مندان به شعر و ادب فارسی است.",
-                    imageRes = R.drawable.hafezieh,
-                    Visit_duration = "۱ ساعت",
-                    Visit_price = "۲۰٬۰۰۰ تومان",
-                    address = "شیراز، بلوار حافظ",
-                    telephone = "07132270007",
-                    WorkingHours = "۸ صبح تا ۱۰ شب"
-                ),
-            )
-            TourPlaceCard(
-                TourPlace(
-                    name = "سعدیه",
-                    description = "آرامگاه سعدی، شاعر و حکیم بزرگ ایرانی، در باغی زیبا با فضای آرامش‌بخش واقع شده و محل مناسبی برای دوستداران ادبیات است.",
-                    imageRes = R.drawable.saadiyeh,
-                    Visit_duration = "۱ ساعت",
-                    Visit_price = "۱۵٬۰۰۰ تومان",
-                    address = "شیراز، انتهای خیابان بوستان",
-                    telephone = "07132270007",
-                    WorkingHours = "۸ صبح تا ۸ شب"
-                ),
-            )
-            TourPlaceCard(
-                TourPlace(
-                    name = "باغ دلگشا",
-                    description = "یکی از قدیمی‌ترین باغ‌های شیراز با عمارت تاریخی و فضای سرسبز، مناسب برای گردش و استراحت در طبیعت.",
-                    imageRes = R.drawable.bagh_delgosha,
-                    Visit_duration = "۱ ساعت",
-                    Visit_price = "۱۰٬۰۰۰ تومان",
-                    address = "شیراز، خیابان بوستان، نزدیکی سعدیه",
-                    telephone = "07132270007",
-                    WorkingHours = "۸ صبح تا ۸ شب"
-                ),
-            )
-            TourPlaceCard(
-                TourPlace(
-                    name = "باغ نارنجستان قوام",
-                    description = "باغی زیبا با عمارت تاریخی متعلق به دوره قاجار، با کاشی‌کاری‌ها و آینه‌کاری‌های هنرمندانه.",
-                    imageRes = R.drawable.narenjestan_qavam,
-                    Visit_duration = "۱ ساعت",
-                    Visit_price = "۱۵٬۰۰۰ تومان",
-                    address = "شیراز، خیابان لطفعلی‌خان زند",
-                    telephone = "07132270007",
-                    WorkingHours = "۸ صبح تا ۸ شب"
-                ),
-            )
-            TourPlaceCard(
-                TourPlace(
-                    name = "ارگ کریم‌خان",
-                    description = "قلعه‌ای تاریخی از دوره زندیه با معماری خاص و برج‌های بلند، نماد قدرت و حکومت کریم‌خان زند.",
-                    imageRes = R.drawable.arg_karimkhan,
-                    Visit_duration = "۱ ساعت",
-                    Visit_price = "۱۵٬۰۰۰ تومان",
-                    address = "شیراز، میدان شهرداری",
-                    telephone = "07132270007",
-                    WorkingHours = "۸ صبح تا ۸ شب"
-                ),
-            )
-            TourPlaceCard(
-                TourPlace(
-                    name = "بازار وکیل",
-                    description = "بازاری سنتی با معماری زیبا و فروشگاه‌های متنوع، مناسب برای خرید سوغات و صنایع دستی.",
-                    imageRes = R.drawable.bazaar_vakil,
-                    Visit_duration = "۱ ساعت",
-                    Visit_price = "رایگان",
-                    address = "شیراز، خیابان لطفعلی‌خان زند",
-                    telephone = "07132270007",
-                    WorkingHours = "۹ صبح تا ۹ شب"
-                ),
-            )
+            tourplaceList.chunked(2).forEach { rowItems ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+
+                    rowItems.forEach { item ->
+                        TourPlcCard(
+                            place = item,
+                            navController = navController,
+                            modifier = Modifier
+                                .width(160.dp)
+                                .height(210.dp)
+                        )
+                    }
+
+                    if (rowItems.size == 1) {
+                        Spacer(modifier = Modifier.width(160.dp))
+                    }
+                }
+            }
+//            TourPlaceCard(
+//                TourPlace(
+//                    name = "حافظیه",
+//                    description = "آرامگاه حافظ، شاعر بزرگ ایرانی، با معماری زیبا و فضای دل‌نشین، مکانی مناسب برای علاقه‌مندان به شعر و ادب فارسی است.",
+//                    imageRes = R.drawable.hafezieh,
+//                    Visit_duration = "۱ ساعت",
+//                    Visit_price = "۲۰٬۰۰۰ تومان",
+//                    address = "شیراز، بلوار حافظ",
+//                    telephone = "07132270007",
+//                    WorkingHours = "۸ صبح تا ۱۰ شب"
+//                ),
+//            )
+//            TourPlaceCard(
+//                TourPlace(
+//                    name = "سعدیه",
+//                    description = "آرامگاه سعدی، شاعر و حکیم بزرگ ایرانی، در باغی زیبا با فضای آرامش‌بخش واقع شده و محل مناسبی برای دوستداران ادبیات است.",
+//                    imageRes = R.drawable.saadiyeh,
+//                    Visit_duration = "۱ ساعت",
+//                    Visit_price = "۱۵٬۰۰۰ تومان",
+//                    address = "شیراز، انتهای خیابان بوستان",
+//                    telephone = "07132270007",
+//                    WorkingHours = "۸ صبح تا ۸ شب"
+//                ),
+//            )
+//            TourPlaceCard(
+//                TourPlace(
+//                    name = "باغ دلگشا",
+//                    description = "یکی از قدیمی‌ترین باغ‌های شیراز با عمارت تاریخی و فضای سرسبز، مناسب برای گردش و استراحت در طبیعت.",
+//                    imageRes = R.drawable.bagh_delgosha,
+//                    Visit_duration = "۱ ساعت",
+//                    Visit_price = "۱۰٬۰۰۰ تومان",
+//                    address = "شیراز، خیابان بوستان، نزدیکی سعدیه",
+//                    telephone = "07132270007",
+//                    WorkingHours = "۸ صبح تا ۸ شب"
+//                ),
+//            )
+//            TourPlaceCard(
+//                TourPlace(
+//                    name = "باغ نارنجستان قوام",
+//                    description = "باغی زیبا با عمارت تاریخی متعلق به دوره قاجار، با کاشی‌کاری‌ها و آینه‌کاری‌های هنرمندانه.",
+//                    imageRes = R.drawable.narenjestan_qavam,
+//                    Visit_duration = "۱ ساعت",
+//                    Visit_price = "۱۵٬۰۰۰ تومان",
+//                    address = "شیراز، خیابان لطفعلی‌خان زند",
+//                    telephone = "07132270007",
+//                    WorkingHours = "۸ صبح تا ۸ شب"
+//                ),
+//            )
+//            TourPlaceCard(
+//                TourPlace(
+//                    name = "ارگ کریم‌خان",
+//                    description = "قلعه‌ای تاریخی از دوره زندیه با معماری خاص و برج‌های بلند، نماد قدرت و حکومت کریم‌خان زند.",
+//                    imageRes = R.drawable.arg_karimkhan,
+//                    Visit_duration = "۱ ساعت",
+//                    Visit_price = "۱۵٬۰۰۰ تومان",
+//                    address = "شیراز، میدان شهرداری",
+//                    telephone = "07132270007",
+//                    WorkingHours = "۸ صبح تا ۸ شب"
+//                ),
+//            )
+//            TourPlaceCard(
+//                TourPlace(
+//                    name = "بازار وکیل",
+//                    description = "بازاری سنتی با معماری زیبا و فروشگاه‌های متنوع، مناسب برای خرید سوغات و صنایع دستی.",
+//                    imageRes = R.drawable.bazaar_vakil,
+//                    Visit_duration = "۱ ساعت",
+//                    Visit_price = "رایگان",
+//                    address = "شیراز، خیابان لطفعلی‌خان زند",
+//                    telephone = "07132270007",
+//                    WorkingHours = "۹ صبح تا ۹ شب"
+//                ),
+//            )
 
             Spacer(modifier = Modifier.height(16.dp))
 

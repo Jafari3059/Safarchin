@@ -6,7 +6,109 @@
     "galleryImages": ["bagh_afifabad", "bazaar_vakil", "amarat_shapouri","sherzeh", "haft_khan", "fath_olmolk"],
     "latitude": 29.5918,
     "longitude": 52.5836,
-    "touristPlaces": [],
+    "touristPlaces": [
+      {
+        "name": "حافظیه",
+        "description": "آرامگاه حافظ، شاعر بزرگ ایرانی، با معماری زیبا و فضای دل‌نشین، مکانی مناسب برای علاقه‌مندان به شعر و ادب فارسی است.",
+        "imageResList": ["hafezieh", "saadiyeh"],
+        "Visit_duration": "۱ ساعت",
+        "Visit_price": "۲۰٬۰۰۰ تومان",
+        "address": "شیراز، بلوار حافظ",
+        "telephone": "07132270007",
+        "WorkingHours": "۸ صبح تا ۱۰ شب"
+      },
+      {
+        "name": "سعدیه",
+        "description": "آرامگاه سعدی، شاعر و حکیم بزرگ ایرانی، در باغی زیبا با فضای آرامش‌بخش واقع شده و محل مناسبی برای دوستداران ادبیات است.",
+        "imageResList": ["saadiyeh","saadiyeh"],
+        "Visit_duration": "۱ ساعت",
+        "Visit_price": "۱۵٬۰۰۰ تومان",
+        "address": "شیراز، انتهای خیابان بوستان",
+        "telephone": "07132270007",
+        "WorkingHours": "۸ صبح تا ۸ شب"
+      },
+      {
+        "name": "باغ دلگشا",
+        "description": "یکی از قدیمی‌ترین باغ‌های شیراز با عمارت تاریخی و فضای سرسبز، مناسب برای گردش و استراحت در طبیعت.",
+        "imageResList": ["bagh_delgosha","saadiyeh"],
+        "Visit_duration": "۱ ساعت",
+        "Visit_price": "۱۰٬۰۰۰ تومان",
+        "address": "شیراز، خیابان بوستان، نزدیکی سعدیه",
+        "telephone": "07132270007",
+        "WorkingHours": "۸ صبح تا ۸ شب"
+      },
+      {
+        "name": "باغ نارنجستان قوام",
+        "description": "باغی زیبا با عمارت تاریخی متعلق به دوره قاجار، با کاشی‌کاری‌ها و آینه‌کاری‌های هنرمندانه.",
+        "imageResList": ["narenjestan_qavam","saadiyeh"],
+        "Visit_duration": "۱ ساعت",
+        "Visit_price": "۱۵٬۰۰۰ تومان",
+        "address": "شیراز، خیابان لطفعلی‌خان زند",
+        "telephone": "07132270007",
+        "WorkingHours": "۸ صبح تا ۸ شب"
+      },
+      {
+        "name": "ارگ کریم‌خان",
+        "description": "قلعه‌ای تاریخی از دوره زندیه با معماری خاص و برج‌های بلند، نماد قدرت و حکومت کریم‌خان زند.",
+        "imageResList": ["arg_karimkhan","saadiyeh"],
+        "Visit_duration": "۱ ساعت",
+        "Visit_price": "۱۵٬۰۰۰ تومان",
+        "address": "شیراز، میدان شهرداری",
+        "telephone": "07132270007",
+        "WorkingHours": "۸ صبح تا ۸ شب"
+      },
+      {
+        "name": "بازار وکیل",
+        "description": "بازاری سنتی با معماری زیبا و فروشگاه‌های متنوع، مناسب برای خرید سوغات و صنایع دستی.",
+        "imageResList": ["bazaar_vakil","saadiyeh"],
+        "Visit_duration": "۱ ساعت",
+        "Visit_price": "رایگان",
+        "address": "شیراز، خیابان لطفعلی‌خان زند",
+        "telephone": "07132270007",
+        "WorkingHours": "۹ صبح تا ۹ شب"
+      },
+      {
+        "name": "دروازه قرآن",
+        "description": "یکی از نمادهای تاریخی شیراز، دروازه‌ای قدیمی که در گذشته قرآن بر بالای آن قرار داشته است.",
+        "imageResList": ["darvazeh_quran","saadiyeh"],
+        "Visit_duration": "۳۰ دقیقه",
+        "Visit_price": "رایگان",
+        "address": "شیراز، ورودی شمال شرقی شهر",
+        "telephone": "07132270007",
+        "WorkingHours": "۲۴ ساعته"
+      },
+      {
+        "name": "باغ عفیف‌آباد",
+        "description": "باغی تاریخی با موزه نظامی و فضای سرسبز، مناسب برای علاقه‌مندان به تاریخ و طبیعت.",
+        "imageResList": ["bagh_afifabad","saadiyeh"],
+        "Visit_duration": "۱ ساعت",
+        "Visit_price": "۱۵٬۰۰۰ تومان",
+        "address": "شیراز، خیابان عفیف‌آباد",
+        "telephone": "07132270007",
+        "WorkingHours": "۸ صبح تا ۸ شب"
+      },
+      {
+        "name": "باغ جهان‌نما",
+        "description": "یکی از قدیمی‌ترین باغ‌های شیراز با فضای دل‌نشین و معماری سنتی.",
+        "imageResList": ["bagh_jahannama","saadiyeh"],
+        "Visit_duration": "۱ ساعت",
+        "Visit_price": "۱۰٬۰۰۰ تومان",
+        "address": "شیراز، خیابان حافظ، نزدیکی حافظیه",
+        "telephone": "07132270007",
+        "WorkingHours": "۸ صبح تا ۸ شب"
+      },
+      {
+        "name": "عمارت شاپوری",
+        "description": "عمارت تاریخی با معماری خاص دوره پهلوی اول، شامل باغ و ساختمان زیبا.",
+        "imageResList": ["amarat_shapouri","saadiyeh"],
+        "Visit_duration": "۱ ساعت",
+        "Visit_price": "۱۰٬۰۰۰ تومان",
+        "address": "شیراز، خیابان انوری",
+        "telephone": "07132270007",
+        "WorkingHours": "۹ صبح تا ۹ شب"
+      }
+    ],
+
     "shoppingCenters": [],
     "souvenirs": [
       {
