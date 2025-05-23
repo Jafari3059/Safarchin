@@ -71,7 +71,7 @@ fun HomeP(navController: NavController, phone: String) {
     val sharedViewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
 
     val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-    val phone = sharedPreferences.getString("current_phone", "") ?: ""
+//    val phone = sharedPreferences.getString("current_phone", "") ?: ""
 
     val tripsViewModel: TripsViewModel = viewModel()
     val lastTripState = produceState<TripEntity?>(initialValue = null) {
@@ -476,7 +476,12 @@ fun HomeP(navController: NavController, phone: String) {
                 Nearest_citiesCard(
                     userLat = userLat,
                     userLon = userLon,
-                    cityList = cityList.value
+                    cityList = cityList.value,
+                    navToCityScreen = { city ->
+                        sharedViewModel.selectedCity = city
+                        navController.navigate("cityDetail")
+
+                    }
                 )
 
             }

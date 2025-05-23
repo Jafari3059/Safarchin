@@ -214,7 +214,7 @@ fun CityP(navController: NavController) {
                             fontSize = fontSizeMore,
                             color = Color.Black,
 
-                            )
+                        )
                     }
 
                     // سمت راست (عنوان بخش)
@@ -226,7 +226,9 @@ fun CityP(navController: NavController) {
                         color = Color.Black
                     )
                 }
-
+//                if (city != null) {
+//                    TourCardList(items = city.souvenirs, navController = navController)
+//                }
                 // ✅ لیست کارت‌ها
                 TourCardList()
 

@@ -63,9 +63,11 @@ fun ShopCenterDetaP(navController: NavController) {
 
 
     val images = listOf(
-        R.drawable.khajo,
-        R.drawable.shiraz,
-        R.drawable.meydan_emam
+        R.drawable.persian_gulf_complex,
+        R.drawable.zeytoon_fars,
+        R.drawable.setare_fars,
+        R.drawable.soltanieh,
+        R.drawable.hamoon,
     )
 
     val pagerState = rememberPagerState(
@@ -166,7 +168,7 @@ fun ShopCenterDetaP(navController: NavController) {
                     .width(220.dp)
                     .align(alignment = Alignment.BottomEnd)
                     .padding(horizontal = 24.dp, vertical = 34.dp),
-                text = "مراکز خرید اصفهان",
+                text = "مراکز خرید شیراز",
                 fontFamily = iranSans,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
@@ -234,32 +236,42 @@ fun ShopCenterDetaP(navController: NavController) {
         ) {
             shopcenterCard(
                 shopCenter(
-                    name = "مرکز خرید ستارتمعی با برندهای معتبر داخلی و خارجیه فارس",
-                    description = "یکی از بزرگ‌ترین مراکز خرید شیراز با فروشگاه‌های متنوع.",
-                    imageRes = R.drawable.khajo,
-                    address = "شیراز، بلوار تمعی با برندهای معتبر داخلی و خارجیمطهری",
-                    telephone = "12345678",
-                    WorkingHours = "۱۰ صبح تا ۱۰تمعی با برندهای معتبر داخلی و خارجی شب"
+                    "مرکز خرید ستاره فارس",
+                    "مجتمعی ۹ طبقه با بیش از ۴۰۰ فروشگاه عرضه‌کننده پوشاک، لوازم آرایشی، دیجیتال و جواهرات. دارای رستوران ملل با غذاهای بین‌المللی، فودکورت، شهربازی و پارکینگ طبقاتی. مناسب برای خرید با قیمت‌های مناسب.",
+                    R.drawable.setare_fars,
+                    "شیراز، خیابان عفیف‌آباد",
+                    "071-23456789",
+                    "۱۰ صبح تا ۱۱ شب"
                 ),
             )
             shopcenterCard(
                 shopCenter(
-                    name = "مجتمع تجاری زیتون",
-                    description = "مجتمعی با برندهای معتبر داخلی و خارجی.",
-                    imageRes = R.drawable.shiraz,
-                    address = "شیراز، خیابان کریم‌خان",
-                    telephone = "87654321",
-                    WorkingHours = "۹ صبح تا ۱۱ شب"
+                    "مرکز خرید هامون",
+                    "مرکزی لوکس با فروشگاه‌های برند، شهربازی، رستوران و فودکورت. مناسب برای خرید پوشاک، عطر، لوازم آرایشی و زیورآلات. گزینه‌ای مناسب برای خرید و تفریح در یک مکان.",
+                    R.drawable.hamoon,
+                    "شیراز، بلوار ستارخان، نرسیده به خیابان عفیف‌آباد",
+                    "071-34567890",
+                    "۹ صبح تا ۱۰ شب"
                 ),
             )
             shopcenterCard(
                 shopCenter(
-                    name = "مجتمع تجاری زیتون",
-                    description = "مجتمعی با برندهای معتبر داخلی و خارجی.",
-                    imageRes = R.drawable.shiraz,
-                    address = "شیراز، خیابان کریم‌خان",
-                    telephone = "87654321",
-                    WorkingHours = "۹ صبح تا ۱۱ شب"
+                    "مرکز خرید سلطانیه",
+                    "یکی از لوکس‌ترین مراکز خرید شیراز با ۹ طبقه و بیش از ۸۰ فروشگاه عرضه‌کننده پوشاک، عطر، لوازم آرایشی، ساعت و جواهرات. دارای رستوران، کافی‌شاپ و دسترسی آسان از طریق مترو.",
+                    R.drawable.soltanieh,
+                    "شیراز، خیابان مطهری، میدان مطهری",
+                    "071-45678901",
+                    "۱۰ صبح تا ۱۰ شب"
+                )
+            )
+            shopcenterCard(
+                shopCenter(
+                    "مرکز خرید زیتون فارس",
+                    "یکی از بزرگ‌ترین مراکز خرید شیراز با ۱۲ طبقه و نزدیک به ۴۰۰ واحد تجاری. دارای فروشگاه‌های متنوع، سینمای ۳ بعدی، شهربازی، رستوران و کافی‌شاپ. مناسب برای خرید پوشاک، لوازم دیجیتال و لوازم آرایشی.",
+                    R.drawable.zeytoon_fars,
+                    "شیراز، چهارراه ۱۵ خرداد (پارامونت)",
+                    "071-87654321",
+                    "۱۰ صبح تا ۱۰ شب"
                 ),
             )
 
