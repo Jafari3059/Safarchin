@@ -145,9 +145,6 @@ fun SouvenirDetailScreen(
 
         }
 
-        var middleIndex by remember { mutableStateOf(1) }
-        val imageList = remember { mutableStateListOf<Int>().apply { addAll(imageResList) } }
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()

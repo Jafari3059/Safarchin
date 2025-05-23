@@ -355,26 +355,26 @@ fun OverviewTabContent(
                         .padding(horizontal = 4.dp, vertical = 2.dp)
                 ) {
                     selectedPlacesViewModel.selectedPlaces.forEach { place ->
-                        val tourPlace = TourPlace(
-                            name = place.name,
-                            description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است...",
-                            imageRes = place.imageRes,
-                            Visit_duration = "۱ ساعت",
-                            Visit_price = "۲۰٬۰۰۰ تومان",
-                            address = "آدرس تستی",
-                            telephone = "12345678",
-                            WorkingHours = "۹ تا ۱۷"
-                        )
-                        TourPlaceCard(
-                            place = tourPlace,
-                            onRemoveClick = {
-                                selectedPlacesViewModel.removePlace(place.id)
-                                if (selectedPlacesViewModel.selectedPlaces.isEmpty()) {
-                                    locationsExpanded = false
-                                }
-                            },
-                            showRemove = true
-                        )
+//                        val tourPlace = TourPlace(
+//                            name = place.name,
+//                            description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است...",
+//                            imageResl = place.imageRes,
+//                            Visit_duration = "۱ ساعت",
+//                            Visit_price = "۲۰٬۰۰۰ تومان",
+//                            address = "آدرس تستی",
+//                            telephone = "12345678",
+//                            WorkingHours = "۹ تا ۱۷"
+//                        )
+//                        TourPlaceCard(
+//                            place = tourPlace,
+//                            onRemoveClick = {
+//                                selectedPlacesViewModel.removePlace(place.id)
+//                                if (selectedPlacesViewModel.selectedPlaces.isEmpty()) {
+//                                    locationsExpanded = false
+//                                }
+//                            },
+//                            showRemove = true
+//                        )
                     }
                 }
             }

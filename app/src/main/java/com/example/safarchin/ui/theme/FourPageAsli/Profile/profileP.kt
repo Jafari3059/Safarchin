@@ -51,10 +51,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.TourCardList
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.SharedViewModel
 import com.example.safarchin.ui.theme.FourPageAsli.Planning.Components_planningP.TripCard
 import com.example.safarchin.ui.theme.FourPageAsli.Planning.data.TripEntity
 import com.example.safarchin.ui.theme.FourPageAsli.Profile.data.DatabaseProvider
@@ -98,6 +100,8 @@ fun profileP( phone: String) {
         createSampleTrip(2, "سفر به شیراز", "شیراز", "۱۴۰۳/۰۲/۲۰", "۱۴۰۳/۰۲/۲۵", 5200000, R.drawable.shiraz, phone),
         createSampleTrip(3, "سفر به تبریز", "تبریز", "۱۴۰۳/۰۳/۰۵", "۱۴۰۳/۰۳/۱۰", 3700000, R.drawable.profile_image, phone)
     )
+    val sharedViewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
+    val city = sharedViewModel.selectedCity
 
     val scrollState = rememberScrollState()
     val configuration = LocalConfiguration.current
@@ -365,8 +369,10 @@ fun profileP( phone: String) {
                         }
 
                         // ✅ لیست کارت‌ها
-                        TourCardList()
-
+//                        TourCardList()
+                        if (city != null) {
+                            TourCardList(items = city.touristPlaces, navController = navController)
+                        }
                     }
                 }
 

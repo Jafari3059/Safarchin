@@ -24,16 +24,19 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.safarchin.R
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.Soqati
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.SharedViewModel
 import com.example.safarchin.ui.theme.iranSans
 //import com.google.android.gms.maps.model.CameraPosition
 //import com.google.maps.android.compose.*
@@ -42,10 +45,24 @@ import com.example.safarchin.ui.theme.iranSans
 @Composable
 fun PlacedetailsScreen(
     navController: NavController,
-    name: String,
-    description: String,
-    imageResList: List<Int>
 ){
+    val viewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
+    val tourplc = viewModel.selectedtourolace
+
+    if (tourplc == null) {
+        // نمایش یک پیام خطا یا بارگذاری مجدد
+        Box(
+            modifier = Modifier.fillMaxSize().background(Color.White),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("خطا: اطلاعات مکان ها یافت نشد", color = Color.Red, fontSize = 16.sp)
+        }
+        return
+    }
+    val imageResList = tourplc.imageResList
+
+
+
     val soqatiItem = Soqati(
         name = "میدان نقش جهان(امام)",
         description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است. در این میدان بسیاری دیگر از بناهای تاریخی و باستانی نیز قرار گرفته است. \u2028میدان نقش جهان اصفهان، ثبت سازمان یونسکو شده است به همین دلیل شهرت و شکوه بین المللی دارد.\n" +
@@ -109,8 +126,7 @@ fun PlacedetailsScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = {
-//                navController.popBackStack() // رفتن به عقب
-
+                navController.popBackStack() // رفتن به عقب
             }) {
                 Image(
                     painter = painterResource(id = R.drawable.next_icon),
@@ -318,7 +334,7 @@ fun PlacedetailsScreen(
                     .verticalScroll(scrollState)
             ) {
                 Text(
-                    text = soqatiItem.name,
+                    text = tourplc.name,
                     fontFamily = iranSans,
                     fontWeight = FontWeight.Bold,
                     fontSize = titleFontSize,
@@ -330,7 +346,7 @@ fun PlacedetailsScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = soqatiItem.description,
+                    text = tourplc.description,
                     fontFamily = iranSans,
                     fontWeight = FontWeight.Light,
                     fontSize = 10.sp,
@@ -353,7 +369,7 @@ fun PlacedetailsScreen(
                     ) {
                         // متن متغیر
                         Text(
-                            text = "۵ـ۶ ساعت", // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
+                            text = tourplc.Visit_duration, // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
                             fontFamily = iranSans,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp,
@@ -396,7 +412,7 @@ fun PlacedetailsScreen(
                     ) {
                         // متن متغیر
                         Text(
-                            text = "رایگان", // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
+                            text = tourplc.Visit_price, // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
                             fontFamily = iranSans,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp,
@@ -439,7 +455,7 @@ fun PlacedetailsScreen(
                     ) {
                         // متن متغیر
                         Text(
-                            text = "۵ـ۶ ساعت", // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
+                            text = tourplc.address, // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
                             fontFamily = iranSans,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp,
@@ -482,7 +498,7 @@ fun PlacedetailsScreen(
                     ) {
                         // متن متغیر
                         Text(
-                            text = "۸ تا ۲۰", // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
+                            text = tourplc.WorkingHours, // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
                             fontFamily = iranSans,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp,
@@ -495,7 +511,6 @@ fun PlacedetailsScreen(
                         // متن ثابت
                         Text(
                             text = ": ساعت کاری",
-
                             fontFamily = iranSans,
                             fontWeight = FontWeight.Medium,
                             fontSize = 10.sp,
@@ -526,7 +541,7 @@ fun PlacedetailsScreen(
                     ) {
                         // متن متغیر
                         Text(
-                            text = "۰۹۱۳۰۸۰۲۸۸۴", // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
+                            text = tourplc.telephone, // ← این بخش متغیره (مثلاً می‌تونی از یه متغیر بخونیش)
                             fontFamily = iranSans,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp,
@@ -644,8 +659,8 @@ fun PlacedetailsScreen(
                 }
 
 
-                Text("نقشه موقعیت", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                Spacer(modifier = Modifier.height(8.dp))
+//                Text("نقشه موقعیت", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+//                Spacer(modifier = Modifier.height(8.dp))
 //                MapWithMarker()
             }
         }
@@ -656,26 +671,26 @@ fun PlacedetailsScreen(
 //fun PreCards() {
 //    PlacedetailsScreen()
 //}
-@Preview(showBackground = true)
-@Composable
-fun PreviewPlacedetailsScreen() {
-    val fakeNavController = rememberNavController()
-
-    val fakeName = "کلوچه مسقطی"
-    val fakeDescription = "پیش‌نمایش از توضیحات تستی برای نمایش در Preview."
-    val fakeImages = listOf(
-        R.drawable.shiraz,
-        R.drawable.khajo,
-        R.drawable.meydan_emam
-    )
-
-    PlacedetailsScreen(
-        navController = fakeNavController,
-        name = fakeName,
-        description = fakeDescription,
-        imageResList = fakeImages
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewPlacedetailsScreen() {
+//    val fakeNavController = rememberNavController()
+//
+//    val fakeName = "کلوچه مسقطی"
+//    val fakeDescription = "پیش‌نمایش از توضیحات تستی برای نمایش در Preview."
+//    val fakeImages = listOf(
+//        R.drawable.shiraz,
+//        R.drawable.khajo,
+//        R.drawable.meydan_emam
+//    )
+//
+//    PlacedetailsScreen(
+//        navController = fakeNavController,
+//        name = fakeName,
+//        description = fakeDescription,
+//        imageResList = fakeImages
+//    )
+//}
 
 
 //@Composable

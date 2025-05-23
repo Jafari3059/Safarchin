@@ -2,6 +2,7 @@ package com.example.safarchin.ui.theme.FourPageAsli.HomePage.city
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -15,6 +16,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -22,8 +24,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.safarchin.R
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.data.SharedViewModel
 import com.example.safarchin.ui.theme.iranSans
 
 data class TourPlace(
@@ -45,6 +49,7 @@ fun TourPlcCard(place: TourPlace, navController: NavController, modifier: Modifi
     val imageHeight = (screenWidth * 0.3).dp       // حدود 120dp
     val titleFontSize = (screenWidth * 0.03).sp    // حدود 12sp
     val descFontSize = (screenWidth * 0.025).sp    // حدود 10sp
+    val viewModel = viewModel<SharedViewModel>(viewModelStoreOwner = LocalContext.current as androidx.lifecycle.ViewModelStoreOwner)
 
     Box(
         modifier = Modifier
@@ -52,6 +57,10 @@ fun TourPlcCard(place: TourPlace, navController: NavController, modifier: Modifi
             .wrapContentHeight()
             .shadow(8.dp, RoundedCornerShape(12.dp))
             .background(Color.White)
+            .clickable {
+                viewModel.selectedtourolace = place
+                navController.navigate("tourplaceDetailScreen")
+            }
     ) {
         Column(
             modifier = Modifier

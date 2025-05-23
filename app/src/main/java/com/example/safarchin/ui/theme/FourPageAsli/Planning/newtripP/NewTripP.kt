@@ -98,7 +98,7 @@ fun OverviewScreen(
                         .size(20.dp)
                         .clickable {
 //                            navController.navigate("planing")
-                            navController.popBackStack("planing", inclusive = false)
+                            navController.popBackStack()
                         },
                     tint = Color.Black
                 )
