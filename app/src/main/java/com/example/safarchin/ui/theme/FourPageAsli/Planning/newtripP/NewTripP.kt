@@ -1,5 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 package com.example.safarchin.ui.theme.FourPageAsli.Planning.newtripP
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.MapTabContent
 
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -153,6 +154,10 @@ fun OverviewScreen(
 
 
             Spacer(modifier = Modifier.height(spacerHeight))
+            if (selectedTabIndex == 0) {
+                MapTabContent(navController = navController)
+            }
+
 
             if (selectedTabIndex == 2) {
                 PlanningTabContent()

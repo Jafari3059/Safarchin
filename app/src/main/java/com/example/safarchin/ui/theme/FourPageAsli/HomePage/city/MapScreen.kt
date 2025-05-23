@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 
 @Composable
-fun MapTabContent(navController: NavController){
+fun MapTabContent(navController: NavController) {
     val daysWithPlaces = remember {
         mutableStateListOf(
             "سه‌شنبه 1403/6/23" to mutableStateListOf(
@@ -115,10 +115,12 @@ fun MapTabContent(navController: NavController){
                                             draggedItem = null
                                             draggedFrom = null
                                         }
-                                    }
+                                    },
+                                            navController = navController // ✅ حتماً اضافه کن
                                 )
                             }
                         }
+
                     }
                 }
             }
@@ -183,7 +185,8 @@ fun PlaceRow(
     title: String,
     timeRange: String,
     onDrag: () -> Unit,
-    onDrop: () -> Unit
+    onDrop: () -> Unit,
+    navController: NavController
 ) {
     Column(
         modifier = Modifier
@@ -226,9 +229,13 @@ fun PlaceRow(
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxSize()
-                        .offset(x = (-8).dp), // ← جابجایی به چپ
+                        .offset(x = (-8).dp) // ← جابجایی به چپ
+                        .clickable {
+                            navController.navigate("fullMap")
+                        },
                     contentScale = ContentScale.Crop
                 )
+
                 Image(
                     painter = painterResource(id = R.drawable.location),
                     contentDescription = null,
@@ -274,9 +281,4 @@ fun PlaceRow(
 
 data class PlaceItem(val name: String, val time: String)
 
-@Preview(showBackground = true, locale = "fa")
-@Composable
-fun PreviewMapTabContent() {
-    val fakeNavController = rememberNavController()
-    MapTabContent(navController = fakeNavController)
-}
+

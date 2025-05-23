@@ -1,5 +1,6 @@
 package com.example.safarchin
 import com.example.safarchin.ui.theme.FourPageAsli.HomePage.support.Support1
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.city.FullMapScreen
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -74,7 +75,7 @@ fun AppNavigation() {
 
             composable("advertisement1") {
                 AdvertisementScreenPage(
-                    imageResId = R.drawable.gift,
+                    imageResId = R.drawable.image35,
                     title = "سفر فقط رفتن نیست... یه تجربه ست!",
                     description = "با برنامه ریزی هوشمند، لحظه هات رو خاص کن.",
                     indicatorState = listOf(true, false, false),
@@ -85,7 +86,7 @@ fun AppNavigation() {
 
             composable("advertisement2") {
                 AdvertisementScreenPage(
-                    imageResId = R.drawable.gift,
+                    imageResId = R.drawable.image36,
                     title = "برنامه ریزی ساده، سفر آسوده",
                     description = "از انتخاب مقصد تا جاذبه‌های دیدنی، همراهتم!",
                     indicatorState = listOf(false, true, false),
@@ -96,7 +97,7 @@ fun AppNavigation() {
 
             composable("advertisement3") {
                 AdvertisementScreenPage(
-                    imageResId = R.drawable.gift,
+                    imageResId = R.drawable.image37,
                     title = "سفرتو همینجا شروع کن!",
                     description = "مقصدتو انتخاب کن، بقیش با ما!",
                     indicatorState = listOf(false, false, true),
@@ -154,6 +155,11 @@ fun AppNavigation() {
             }
             composable("tourplaceDetailScreen") {
                 PlacedetailsScreen(navController = navController)
+            }
+            composable("fullMap") {
+                FullMapScreen(onBack = {
+                    navController.popBackStack()
+                })
             }
         }
     }
