@@ -2,6 +2,7 @@ package com.example.safarchin.ui.theme.FourPageAsli.HomePage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -35,7 +36,8 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 @Composable
-fun Nearest_cities(city: City, distanceInKm: Double) {
+fun Nearest_cities(city: City, distanceInKm: Double, onClick: () -> Unit){
+
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val cardWidth = (screenWidth * 0.33).dp
     val imageHeight = (screenWidth * 0.3).dp
@@ -50,6 +52,8 @@ fun Nearest_cities(city: City, distanceInKm: Double) {
             .wrapContentHeight()
             .shadow(8.dp, RoundedCornerShape(12.dp))
             .background(Color.White)
+            .clickable { onClick() }  // 👈 اضافه کردن کلیک
+
     ) {
         Column(
             modifier = Modifier
@@ -116,7 +120,7 @@ fun Nearest_cities(city: City, distanceInKm: Double) {
 }
 
 @Composable
-fun Nearest_citiesCard(userLat: Double, userLon: Double, cityList: List<City>) {
+fun Nearest_citiesCard(userLat: Double, userLon: Double, cityList: List<City>, navToCityScreen: (City) -> Unit) {
     // محاسبه فاصله و مرتب‌سازی
     val sortedCities = cityList.sortedBy {
         calculateDistance(userLat, userLon, it.latitude, it.longitude)
@@ -128,10 +132,15 @@ fun Nearest_citiesCard(userLat: Double, userLon: Double, cityList: List<City>) {
     ) {
         items(sortedCities) { city ->
             val distance = calculateDistance(userLat, userLon, city.latitude, city.longitude)
-            Nearest_cities(city, distanceInKm = distance)
-        }
 
+            Nearest_cities(
+                city = city,
+                distanceInKm = distance,
+                onClick = { navToCityScreen(city) } // ✅ همین خط کلیک و ناوبری رو اضافه می‌کنه
+            )
+        }
     }
+
 }
 
 fun calculateDistance(

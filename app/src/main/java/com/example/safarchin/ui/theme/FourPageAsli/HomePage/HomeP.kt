@@ -474,7 +474,12 @@ fun HomeP(navController: NavController, phone: String) {
                 Nearest_citiesCard(
                     userLat = userLat,
                     userLon = userLon,
-                    cityList = cityList.value
+                    cityList = cityList.value,
+                    navToCityScreen = { city ->
+                        sharedViewModel.selectedCity = city
+                        navController.navigate("cityDetail")
+
+                    }
                 )
 
             }

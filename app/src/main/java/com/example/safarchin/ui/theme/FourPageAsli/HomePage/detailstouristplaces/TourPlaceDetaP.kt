@@ -63,9 +63,11 @@ fun TourPlaceDetaP(navController: NavController) {
 
 
     val images = listOf(
-        R.drawable.khajo,
-        R.drawable.shiraz,
-        R.drawable.meydan_emam
+        R.drawable.amarat_shapouri,
+        R.drawable.bagh_jahannama,
+        R.drawable.bagh_afifabad,
+        R.drawable.arg_karimkhan,
+        R.drawable.bazaar_vakil
     )
 
     val pagerState = rememberPagerState(
@@ -235,39 +237,75 @@ fun TourPlaceDetaP(navController: NavController) {
         ) {
             TourPlaceCard(
                 TourPlace(
-                    name = "باغ ارم",
-                    description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است. در این میدان بسیاری دیگر از بناهای تاریخی و باستانی نیز قرار گرفته است. \u2028میدان نقش جهان اصفهان، ثبت سازمان یونسکو شده است به همین دلیل شهرت و شکوه بین المللی دارد همچنین میدان نقش جهان گنجینه شهر اصفهان است که سالانه  ",
-                    imageRes = R.drawable.khajo,
+                    name = "حافظیه",
+                    description = "آرامگاه حافظ، شاعر بزرگ ایرانی، با معماری زیبا و فضای دل‌نشین، مکانی مناسب برای علاقه‌مندان به شعر و ادب فارسی است.",
+                    imageRes = R.drawable.hafezieh,
                     Visit_duration = "۱ ساعت",
                     Visit_price = "۲۰٬۰۰۰ تومان",
-                    address = "شیراز، خیابان ارم",
-                    telephone = 12345678,
+                    address = "شیراز، بلوار حافظ",
+                    telephone = "07132270007",
+                    WorkingHours = "۸ صبح تا ۱۰ شب"
+                ),
+            )
+            TourPlaceCard(
+                TourPlace(
+                    name = "سعدیه",
+                    description = "آرامگاه سعدی، شاعر و حکیم بزرگ ایرانی، در باغی زیبا با فضای آرامش‌بخش واقع شده و محل مناسبی برای دوستداران ادبیات است.",
+                    imageRes = R.drawable.saadiyeh,
+                    Visit_duration = "۱ ساعت",
+                    Visit_price = "۱۵٬۰۰۰ تومان",
+                    address = "شیراز، انتهای خیابان بوستان",
+                    telephone = "07132270007",
                     WorkingHours = "۸ صبح تا ۸ شب"
                 ),
             )
             TourPlaceCard(
                 TourPlace(
-                    name = "مسجد نصیرالملک",
-                    description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است. در این میدان بسیاری دیگر از بناهای تاریخی و باستانی نیز قرار گرفته است. \u2028میدان نقش جهان اصفهان، ثبت سازمان یونسکو شده است به همین دلیل شهرت و شکوه بین المللی دارد همچنین میدان نقش جهان گنجینه شهر اصفهان است که سالانه  ",
-                    imageRes = R.drawable.shiraz,
-                    Visit_duration = "۴۵ دقیقه",
-                    Visit_price = "۱۵٬۰۰۰ تومان",
-                    address = "شیراز، خیابان لطفعلی‌خان زند",
-                    telephone = 87654321,
-                    WorkingHours = "۹ صبح تا ۵ عصر"
+                    name = "باغ دلگشا",
+                    description = "یکی از قدیمی‌ترین باغ‌های شیراز با عمارت تاریخی و فضای سرسبز، مناسب برای گردش و استراحت در طبیعت.",
+                    imageRes = R.drawable.bagh_delgosha,
+                    Visit_duration = "۱ ساعت",
+                    Visit_price = "۱۰٬۰۰۰ تومان",
+                    address = "شیراز، خیابان بوستان، نزدیکی سعدیه",
+                    telephone = "07132270007",
+                    WorkingHours = "۸ صبح تا ۸ شب"
                 ),
             )
             TourPlaceCard(
                 TourPlace(
-                    name = "تبریز",
-                    description = "میدان نقش جهان یا میدان امام اصفهان، یکی از مهم ترین جاذبه های گردشگری و میدان مرکزی شهراصفهان است. در این میدان بسیاری دیگر از بناهای تاریخی و باستانی نیز قرار گرفته است. \u2028میدان نقش جهان اصفهان، ثبت سازمان یونسکو شده است به همین دلیل شهرت و شکوه بین المللی دارد همچنین میدان نقش جهان گنجینه شهر اصفهان است که سالانه  ",
-                    imageRes = R.drawable.khajo,
-                    Visit_duration = "۲ ساعت",
+                    name = "باغ نارنجستان قوام",
+                    description = "باغی زیبا با عمارت تاریخی متعلق به دوره قاجار، با کاشی‌کاری‌ها و آینه‌کاری‌های هنرمندانه.",
+                    imageRes = R.drawable.narenjestan_qavam,
+                    Visit_duration = "۱ ساعت",
+                    Visit_price = "۱۵٬۰۰۰ تومان",
+                    address = "شیراز، خیابان لطفعلی‌خان زند",
+                    telephone = "07132270007",
+                    WorkingHours = "۸ صبح تا ۸ شب"
+                ),
+            )
+            TourPlaceCard(
+                TourPlace(
+                    name = "ارگ کریم‌خان",
+                    description = "قلعه‌ای تاریخی از دوره زندیه با معماری خاص و برج‌های بلند، نماد قدرت و حکومت کریم‌خان زند.",
+                    imageRes = R.drawable.arg_karimkhan,
+                    Visit_duration = "۱ ساعت",
+                    Visit_price = "۱۵٬۰۰۰ تومان",
+                    address = "شیراز، میدان شهرداری",
+                    telephone = "07132270007",
+                    WorkingHours = "۸ صبح تا ۸ شب"
+                ),
+            )
+            TourPlaceCard(
+                TourPlace(
+                    name = "بازار وکیل",
+                    description = "بازاری سنتی با معماری زیبا و فروشگاه‌های متنوع، مناسب برای خرید سوغات و صنایع دستی.",
+                    imageRes = R.drawable.bazaar_vakil,
+                    Visit_duration = "۱ ساعت",
                     Visit_price = "رایگان",
-                    address = "تبریز، مرکز شهر",
-                    telephone = 11223344,
-                    WorkingHours = "۲۴ ساعته"
-                )
+                    address = "شیراز، خیابان لطفعلی‌خان زند",
+                    telephone = "07132270007",
+                    WorkingHours = "۹ صبح تا ۹ شب"
+                ),
             )
 
             Spacer(modifier = Modifier.height(16.dp))

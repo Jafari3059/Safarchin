@@ -362,7 +362,7 @@ fun OverviewTabContent(
                             Visit_duration = "۱ ساعت",
                             Visit_price = "۲۰٬۰۰۰ تومان",
                             address = "آدرس تستی",
-                            telephone = 12345678,
+                            telephone = "12345678",
                             WorkingHours = "۹ تا ۱۷"
                         )
                         TourPlaceCard(

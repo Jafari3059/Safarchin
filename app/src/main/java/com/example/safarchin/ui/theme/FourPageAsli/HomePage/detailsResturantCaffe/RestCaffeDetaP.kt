@@ -63,9 +63,9 @@ fun RestCaffeDetaP(navController: NavController) {
 
 
     val images = listOf(
-        R.drawable.khajo,
-        R.drawable.shiraz,
-        R.drawable.meydan_emam
+        R.drawable.fath_olmolk,
+        R.drawable.haft_khan,
+        R.drawable.sherzeh
     )
 
     val pagerState = rememberPagerState(
@@ -166,7 +166,7 @@ fun RestCaffeDetaP(navController: NavController) {
                     .width(220.dp)
                     .align(alignment = Alignment.BottomEnd)
                     .padding(horizontal = 24.dp, vertical = 34.dp),
-                text = "رستوران ها و کافه های اصفهان",
+                text = "رستوران ها و کافه های شیراز",
                 fontFamily = iranSans,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
@@ -234,36 +234,58 @@ fun RestCaffeDetaP(navController: NavController) {
         ) {
             RestCaffeCard(
                 rest_kafe(
-                    title = "باغ ارم",
-                    description = "وی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالیوی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالیوی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالیوی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالیوی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالی",
+                    title = "رستوران هفت‌خوان",
+                    description = "مجموعه‌ای لوکس با چند رستوران و کافی‌شاپ در طبقات مختلف که هرکدام غذاهایی خاص ارائه می‌دهند؛ شامل غذاهای ایرانی، فرنگی، فست‌فود و صبحانه. فضای مدرن و خدمات حرفه‌ای، این رستوران را به یکی از محبوب‌ترین مقاصد غذایی در شیراز تبدیل کرده است.",
                     rating = 5,
-                    imageResId = R.drawable.khajo,
-                    address = "شیراز، خیابان ارم",
-                    telephone = 12345678,
-                    WorkingHours = "۸ صبح تا ۸ شب"
+                    imageResId = R.drawable.haft_khan,
+                    address = "شیراز، بلوار جدید قرآن، نبش کوچه هفدهم",
+                    telephone = "07132270000",
+                    WorkingHours = "۷ صبح تا ۱۱:۳۰ شب"
                 ),
             )
             RestCaffeCard(
                 rest_kafe(
-                    title = "باغ ارم",
-                    description = "وی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالیوی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالیوی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالیوی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالیوی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالی",
-                    rating = 5,
-                    imageResId = R.drawable.khajo,
-                    address = "شیراز، خیابان ارم",
-                    telephone = 12345678,
-                    WorkingHours = "۸ صبح تا ۸ شب"
+                    title = "کافه عمارت فتح‌الملوکی",
+                    description = "کافه‌ای با طراحی سنتی و فضای دل‌نشین در عمارت تاریخی، با منویی متنوع شامل نوشیدنی‌های سنتی، قهوه، دسر و غذاهای سبک. مکان مناسبی برای تجربه‌ای آرامش‌بخش در دل بافت تاریخی شیراز.",
+                    rating = 4,
+                    imageResId = R.drawable.fath_olmolk,
+                    address = "شیراز، پشت ارگ کریم‌خانی، خیابان ۲۲ بهمن، کوچه پارکینگ اتحاد",
+                    telephone = "09173131542",
+                    WorkingHours = "۱۰ صبح تا ۱۲ شب"
                 ),
             )
             RestCaffeCard(
                 rest_kafe(
-                    title = "باغ ارم",
-                    description = "وی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالیوی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالیوی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالیوی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالیوی غذاها بیشتر روی غذاهای ایرانی تمرکز داره؛ از باقالی",
-                    rating = 5,
-                    imageResId = R.drawable.khajo,
-                    address = "شیراز، خیابان ارم",
-                    telephone = 12345678,
-                    WorkingHours = "۸ صبح تا ۸ شب"
+                    title = "کافه موزه زرنگار",
+                    description = "کافه‌ای هنری در فضای موزه‌ای با حال و هوای سنتی و محیطی آرامش‌بخش. مناسب برای صرف صبحانه، میان‌وعده و نوشیدنی‌های سنتی و مدرن در فضایی فرهنگی.",
+                    rating = 4,
+                    imageResId = R.drawable.zar_negar,
+                    address = "شیراز، خیابان لطفعلی‌خان زند، کوچه ۳۳، پلاک ۱۴",
+                    telephone = "09179355003",
+                    WorkingHours = "۸ صبح تا ۵:۳۰ عصر"
+                )
+            )
+            RestCaffeCard(
+                rest_kafe(
+                    title = "رستوران سنتی شرزه",
+                    description = "یکی از قدیمی‌ترین و محبوب‌ترین رستوران‌های سنتی شیراز با فضای دل‌نشین ایرانی و موسیقی زنده. منوی متنوع شامل کباب، خورشت‌های سنتی و غذاهای محلی مثل کلم‌پلو.",
+                    rating = 4,
+                    imageResId = R.drawable.sherzeh,
+                    address = "شیراز، خیابان لطفعلی‌خان زند، کنار مجموعه بازار وکیل",
+                    telephone = "07132241963",
+                    WorkingHours = "۱۲ ظهر تا ۱۱ شب"
                 ),
+            )
+            RestCaffeCard(
+                rest_kafe(
+                    title = "رستوران کته ماس",
+                    description = "رستورانی با حال و هوای صمیمی و غذاهای سنتی ایرانی با تمرکز ویژه بر غذاهای محلی شیراز مانند کلم‌پلو، شیرازی‌پلو و خورشت قورمه‌سبزی. کیفیت بالا و قیمت مناسب.",
+                    rating = 4,
+                    imageResId = R.drawable.kateh_mass,
+                    address = "شیراز، سه‌راه نمازی، کوچه ۷",
+                    telephone = "07132231818",
+                    WorkingHours = "۸ صبح تا ۱۱ شب"
+                )
             )
 
             Spacer(modifier = Modifier.height(16.dp))

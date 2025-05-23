@@ -32,7 +32,7 @@ data class TourPlace(
     val Visit_duration: String,
     val Visit_price: String,
     val address: String,
-    val telephone: Int,
+    val telephone: String,
     val WorkingHours: String,
 )
 
@@ -104,36 +104,108 @@ fun TourPlcCard(place: TourPlace) {
 fun TourCardList() {
     val cityList = listOf(
         TourPlace(
-            name = "باغ ارم",
-            description = "شهر زیبای شیراز در ۲۰ کیلشهر تاریخی اصفهان با معماریومتری فارس واقع شده است.",
-            imageRes = R.drawable.khajo,
+            name = "حافظیه",
+            description = "آرامگاه حافظ، شاعر بزرگ ایرانی، با معماری زیبا و فضای دل‌نشین، مکانی مناسب برای علاقه‌مندان به شعر و ادب فارسی است.",
+            imageRes = R.drawable.hafezieh,
             Visit_duration = "۱ ساعت",
             Visit_price = "۲۰٬۰۰۰ تومان",
-            address = "شیراز، خیابان ارم",
-            telephone = 12345678,
+            address = "شیراز، بلوار حافظ",
+            telephone = "07132270007",
+            WorkingHours = "۸ صبح تا ۱۰ شب"
+        ),
+        TourPlace(
+            name = "سعدیه",
+            description = "آرامگاه سعدی، شاعر و حکیم بزرگ ایرانی، در باغی زیبا با فضای آرامش‌بخش واقع شده و محل مناسبی برای دوستداران ادبیات است.",
+            imageRes = R.drawable.saadiyeh,
+            Visit_duration = "۱ ساعت",
+            Visit_price = "۱۵٬۰۰۰ تومان",
+            address = "شیراز، انتهای خیابان بوستان",
+            telephone = "07132270007",
             WorkingHours = "۸ صبح تا ۸ شب"
         ),
         TourPlace(
-            name = "مسجد نصیرالملک",
-            description = "معماری بی‌نظیر شهر تاریخی اصفهان با معماریبا پنجره‌های رنگی جذاب.",
-            imageRes = R.drawable.shiraz,
-            Visit_duration = "۴۵ دقیقه",
-            Visit_price = "۱۵٬۰۰۰ تومان",
-            address = "شیراز، خیابان لطفعلی‌خان زند",
-            telephone = 87654321,
-            WorkingHours = "۹ صبح تا ۵ عصر"
+            name = "باغ دلگشا",
+            description = "یکی از قدیمی‌ترین باغ‌های شیراز با عمارت تاریخی و فضای سرسبز، مناسب برای گردش و استراحت در طبیعت.",
+            imageRes = R.drawable.bagh_delgosha,
+            Visit_duration = "۱ ساعت",
+            Visit_price = "۱۰٬۰۰۰ تومان",
+            address = "شیراز، خیابان بوستان، نزدیکی سعدیه",
+            telephone = "07132270007",
+            WorkingHours = "۸ صبح تا ۸ شب"
         ),
         TourPlace(
-            name = "تبریز",
-            description = "شهر اولین‌ها دشهر تاریخی اصفهان با معماریشهر تاریخی اصفهان با معماریر شمال‌غرب ایران.",
-            imageRes = R.drawable.khajo,
-            Visit_duration = "۲ ساعت",
+            name = "باغ نارنجستان قوام",
+            description = "باغی زیبا با عمارت تاریخی متعلق به دوره قاجار، با کاشی‌کاری‌ها و آینه‌کاری‌های هنرمندانه.",
+            imageRes = R.drawable.narenjestan_qavam,
+            Visit_duration = "۱ ساعت",
+            Visit_price = "۱۵٬۰۰۰ تومان",
+            address = "شیراز، خیابان لطفعلی‌خان زند",
+            telephone = "07132270007",
+            WorkingHours = "۸ صبح تا ۸ شب"
+        ),
+        TourPlace(
+            name = "ارگ کریم‌خان",
+            description = "قلعه‌ای تاریخی از دوره زندیه با معماری خاص و برج‌های بلند، نماد قدرت و حکومت کریم‌خان زند.",
+            imageRes = R.drawable.arg_karimkhan,
+            Visit_duration = "۱ ساعت",
+            Visit_price = "۱۵٬۰۰۰ تومان",
+            address = "شیراز، میدان شهرداری",
+            telephone = "07132270007",
+            WorkingHours = "۸ صبح تا ۸ شب"
+        ),
+        TourPlace(
+            name = "بازار وکیل",
+            description = "بازاری سنتی با معماری زیبا و فروشگاه‌های متنوع، مناسب برای خرید سوغات و صنایع دستی.",
+            imageRes = R.drawable.bazaar_vakil,
+            Visit_duration = "۱ ساعت",
             Visit_price = "رایگان",
-            address = "تبریز، مرکز شهر",
-            telephone = 11223344,
+            address = "شیراز، خیابان لطفعلی‌خان زند",
+            telephone = "07132270007",
+            WorkingHours = "۹ صبح تا ۹ شب"
+        ),
+        TourPlace(
+            name = "دروازه قرآن",
+            description = "یکی از نمادهای تاریخی شیراز، دروازه‌ای قدیمی که در گذشته قرآن بر بالای آن قرار داشته است.",
+            imageRes = R.drawable.darvazeh_quran,
+            Visit_duration = "۳۰ دقیقه",
+            Visit_price = "رایگان",
+            address = "شیراز، ورودی شمال شرقی شهر",
+            telephone = "07132270007",
             WorkingHours = "۲۴ ساعته"
+        ),
+        TourPlace(
+            name = "باغ عفیف‌آباد",
+            description = "باغی تاریخی با موزه نظامی و فضای سرسبز، مناسب برای علاقه‌مندان به تاریخ و طبیعت.",
+            imageRes = R.drawable.bagh_afifabad,
+            Visit_duration = "۱ ساعت",
+            Visit_price = "۱۵٬۰۰۰ تومان",
+            address = "شیراز، خیابان عفیف‌آباد",
+            telephone = "07132270007",
+            WorkingHours = "۸ صبح تا ۸ شب"
+        ),
+        TourPlace(
+            name = "باغ جهان‌نما",
+            description = "یکی از قدیمی‌ترین باغ‌های شیراز با فضای دل‌نشین و معماری سنتی.",
+            imageRes = R.drawable.bagh_jahannama,
+            Visit_duration = "۱ ساعت",
+            Visit_price = "۱۰٬۰۰۰ تومان",
+            address = "شیراز، خیابان حافظ، نزدیکی حافظیه",
+            telephone = "07132270007",
+            WorkingHours = "۸ صبح تا ۸ شب"
+        ),
+        TourPlace(
+            name = "عمارت شاپوری",
+            description = "عمارت تاریخی با معماری خاص دوره پهلوی اول، شامل باغ و ساختمان زیبا.",
+            imageRes = R.drawable.amarat_shapouri,
+            Visit_duration = "۱ ساعت",
+            Visit_price = "۱۰٬۰۰۰ تومان",
+            address = "شیراز، خیابان انوری",
+            telephone = "07132270007",
+            WorkingHours = "۹ صبح تا ۹ شب"
         )
     )
+
+
 
     LazyRow(
         reverseLayout = true,
