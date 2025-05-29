@@ -157,13 +157,16 @@ fun AppNavigation() {
                 PlacedetailsScreen(navController = navController)
             }
             composable("fullMap") {
-                FullMapScreen(onBack = {
-                    navController.popBackStack()
-                })
+                FullMapScreen(
+                    onBack = { navController.popBackStack()
+                    } // ← برای برگشت
+                )
+            }
+
             }
         }
     }
-}
+
 
 @Composable
 fun FirstLogoPage(onNavigate: () -> Unit) {

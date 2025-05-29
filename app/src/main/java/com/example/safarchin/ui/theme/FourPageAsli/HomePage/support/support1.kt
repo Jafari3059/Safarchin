@@ -1,3 +1,4 @@
+
 package com.example.safarchin.ui.theme.FourPageAsli.HomePage.support
 
 import androidx.compose.animation.core.animateFloatAsState
@@ -24,12 +25,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.safarchin.R
 import androidx.navigation.NavController
+import androidx.compose.ui.platform.LocalContext
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.support.data.SupportDatabaseProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.safarchin.ui.theme.FourPageAsli.HomePage.support.data.SupportMessage
 
 
 
 
 @Composable
 fun Support1(navController: NavController) {
+
+    val context = LocalContext.current
+    val db = SupportDatabaseProvider.getDatabase(context)
+    val dao = db.supportMessageDao()
+    val viewModel: SupportViewModel = viewModel(factory = SupportViewModelFactory(context))
+
     val helpItems = listOf(
         "سوالات متداول" to "placeholder",
         "راهنمای استفاده (با تصویر و ویدیو)" to "placeholder",
@@ -70,9 +81,9 @@ fun Support1(navController: NavController) {
                         contentDescription = "بازگشت",
                         tint = Color(0xFFFF7B54),
                         modifier = Modifier.size(24.dp)
-                        .clickable {
-                        navController.popBackStack() // 👈 رفتن به صفحه قبل
-                    }
+                            .clickable {
+                                navController.popBackStack() // 👈 رفتن به صفحه قبل
+                            }
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Icon(
@@ -100,7 +111,7 @@ fun Support1(navController: NavController) {
         Spacer(modifier = Modifier.height(24.dp))
 
         helpItems.forEach { (title, content) ->
-            ExpandableHelpItem(title = title, content = content)
+            ExpandableHelpItem(title = title, content = content ,    viewModel = viewModel )
         }
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -141,12 +152,19 @@ fun Support1(navController: NavController) {
 }
 
 @Composable
-fun ExpandableHelpItem(title: String, content: String) {
+fun ExpandableHelpItem(
+    title: String,
+    content: String,
+    viewModel: SupportViewModel
+) {
     var expanded by remember { mutableStateOf(false) }
     val rotation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f,
         label = "arrowRotation"
     )
+
+
+
 
     Card(
         modifier = Modifier
@@ -285,8 +303,9 @@ fun ExpandableHelpItem(title: String, content: String) {
                         modifier = Modifier.padding(horizontal = 12.dp)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    SupportForm()
+                    SupportForm(viewModel = viewModel)
                 }
+
 
                 "بروزرسانی‌ها و تغییرات نسخه جدید" -> {
                     HorizontalDivider(
@@ -441,63 +460,50 @@ fun FeedbackForm() {
 
 
 @Composable
-fun SupportForm() {
+fun SupportForm(viewModel: SupportViewModel) {
     var fullName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var subject by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }
 
+    // گرفتن پیام‌های ذخیره‌شده از ViewModel
+    val messages by viewModel.allMessages.collectAsState(initial = emptyList())
+
     Column(modifier = Modifier.fillMaxWidth()) {
+
+        // متن توضیحی بالای فرم
         Text(
-            text = "می‌تونید از طریق فرم زیر پیام‌تون رو ارسال کنید. ما در سریع‌ترین زمان ممکن پاسخ خواهیم داد.",
+            text = "می‌تونید از طریق فرم زیر پیام‌تون رو ارسال کنید...",
             fontSize = 14.sp,
             color = Color(0xFFFF7B54),
             textAlign = TextAlign.Right,
             style = LocalTextStyle.current.copy(textDirection = TextDirection.Rtl),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 27.dp)
         )
 
         Spacer(modifier = Modifier.height(12.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFFBEBAB3), shape = RoundedCornerShape(12.dp))
-                .padding(horizontal = 1.dp, vertical = 1.dp) // کمی فاصله برای زیبایی
-        )
+
+        // فیلدهای ورودی
         OutlinedTextField(
             value = fullName,
             onValueChange = { fullName = it },
-            placeholder = {
-                Text(
-                    "نام و نام خانوادگی",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Right
-                )
-            },
-            modifier = Modifier.fillMaxWidth()
-                .padding(horizontal = 27.dp) // 👈 اضافه شد
-            
-
+            placeholder = { Text("نام و نام خانوادگی", textAlign = TextAlign.Right, modifier = Modifier.fillMaxWidth()) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 27.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            placeholder = {
-                Text(
-                    "ایمیل یا شماره تماس",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Right
-
-                )
-            },
-            modifier = Modifier.fillMaxWidth()
-                .padding(horizontal = 27.dp) // 👈 اضافه شد
-
-
+            placeholder = { Text("ایمیل یا شماره تماس", textAlign = TextAlign.Right, modifier = Modifier.fillMaxWidth()) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 27.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -505,16 +511,10 @@ fun SupportForm() {
         OutlinedTextField(
             value = subject,
             onValueChange = { subject = it },
-            placeholder = {
-                Text(
-                    "موضوع مشکل",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Right
-                )
-            },
-            modifier = Modifier.fillMaxWidth()
-                .padding(horizontal = 27.dp) // 👈 اضافه شد
-
+            placeholder = { Text("موضوع مشکل", textAlign = TextAlign.Right, modifier = Modifier.fillMaxWidth()) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 27.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -522,23 +522,33 @@ fun SupportForm() {
         OutlinedTextField(
             value = message,
             onValueChange = { message = it },
-            placeholder = {
-                Text(
-                    "توضیحات بیشتر...",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Right
-                )
-            },
+            placeholder = { Text("توضیحات بیشتر...", textAlign = TextAlign.Right, modifier = Modifier.fillMaxWidth()) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(150.dp)
-                .padding(horizontal = 27.dp) // 👈 اضافه شد
+                .padding(horizontal = 27.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // دکمه ارسال
         Button(
-            onClick = { /* ارسال */ },
+            onClick = {
+                if (fullName.isNotBlank() && email.isNotBlank() && subject.isNotBlank() && message.isNotBlank()) {
+                    viewModel.insertMessage(
+                        SupportMessage(
+                            fullName = fullName,
+                            email = email,
+                            subject = subject,
+                            message = message
+                        )
+                    )
+                    fullName = ""
+                    email = ""
+                    subject = ""
+                    message = ""
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 53.dp),
@@ -547,61 +557,34 @@ fun SupportForm() {
             Text("ارسال")
         }
 
+        Spacer(modifier = Modifier.height(24.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
+        // نمایش پیام‌های ذخیره‌شده
+        if (messages.isNotEmpty()) {
+            Text(
+                "پیام‌های ثبت‌شده:",
+                fontSize = 14.sp,
+                modifier = Modifier.padding(start = 27.dp, bottom = 8.dp)
+            )
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 27.dp, end = 27.dp, bottom = 38.dp),
-            horizontalArrangement = Arrangement.spacedBy(20.dp)
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .background(Color(0xFF939B62), RoundedCornerShape(8.dp))
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = "ایمیل پشتیبانی:",
-                    fontSize = 12.sp,
-                    color = Color.White,
-                    textAlign = TextAlign.Right,
-
-                    )
-                Text(
-                    text = "support@safarapp.com",
-                    fontSize = 12.sp,
-                    color = Color.White
-                )
-            }
-
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .background(Color(0xFF939B62), RoundedCornerShape(8.dp))
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = "تماس تلفنی (در ساعات اداری)",
-                    fontSize = 10.sp,
-                    color = Color.White,
-                    textAlign = TextAlign.Right,
-                )
-                Text(
-                    text = "031-12345678",
-                    fontSize = 12.sp,
-                    color = Color.White ,
-                    textAlign = TextAlign.Center,
-                )
+            messages.forEach { msg ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 27.dp, vertical = 4.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFEFEFEF))
+                ) {
+                    Column(modifier = Modifier.padding(12.dp)) {
+                        Text("نام: ${msg.fullName}", fontSize = 13.sp)
+                        Text("ایمیل: ${msg.email}", fontSize = 13.sp)
+                        Text("موضوع: ${msg.subject}", fontSize = 13.sp)
+                        Text("پیام: ${msg.message}", fontSize = 13.sp)
+                    }
+                }
             }
         }
-
-
-
     }
 }
-
 
 
 
